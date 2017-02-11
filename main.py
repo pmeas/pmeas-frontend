@@ -5,7 +5,10 @@ from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.slider import  Slider
 from kivy.lang import Builder
+from kivy.uix.scrollview import ScrollView
+from kivy.core.window import Window
 
 
 # This is basically our version of CSS, all of the color changes the property modifications, like
@@ -16,6 +19,11 @@ Builder.load_string( """
 <EffectsParameterColumn@BoxLayout>:
 
     orientation: 'vertical'
+    size: root.size
+    size_hint: self.size_hint
+    padding: 100
+
+    spacing: 48
 
     canvas.before:
         Color:
@@ -36,12 +44,51 @@ Builder.load_string( """
             size: self.size
             pos: self.pos
 
+
+
+<EffectParameterBox@BoxLayout>:
+
+    orientation: 'vertical'
+    #size: 0, 75
+    #size_hint: 1, None
+
+
+    canvas.before:
+        Color:
+            rgb:  1, .3, .3, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
 """)
+
+
+class EffectParameterBox(BoxLayout):
+    def __init__(self, **kwargs):
+        super(EffectParameterBox, self).__init__(**kwargs)
+
+        name_label = Label( text=kwargs.get( "text", "" ) )
+
+        level_slider = Slider( min=0, max=100, value=50 )
+        level_slider.orientation = "horizontal"
+
+        column_layout = BoxLayout(orientation="vertical")
+
+        column_layout.add_widget( name_label )
+        column_layout.add_widget( level_slider )
+
+        self.add_widget( column_layout )
 
 
 class EffectsParameterColumn(BoxLayout):
     def __init__(self, **kwargs):
         super(EffectsParameterColumn, self).__init__(**kwargs)
+
+        labels = [ "Effect Level", "Distortion", "Feedback" ]
+        for i in labels:
+            c = EffectParameterBox( text=i )
+            self.add_widget( c )
+
 
 
 class EffectsColumn(BoxLayout):
@@ -116,4 +163,48 @@ class PMEASGui(App):
 
 if __name__ == '__main__':
     PMEASGui().run()
+
+
+"""
+import kivy
+kivy.require('1.0.8')
+
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
+
+
+class ScrollViewApp(App):
+
+    def build(self):
+
+        # create a default grid layout with custom width/height
+        layout = GridLayout(cols=1, padding=10, spacing=10,
+                size_hint=(None, None), width=500)
+
+        # when we add children to the grid layout, its size doesn't change at
+        # all. we need to ensure that the height will be the minimum required
+        # to contain all the childs. (otherwise, we'll child outside the
+        # bounding box of the childs)
+        layout.bind(minimum_height=layout.setter('height'))
+
+        # add button into that grid
+        for i in range(30):
+            btn = Button(text=str(i), size=(480, 40),
+                         size_hint=(None, None))
+            layout.add_widget(btn)
+
+        # create a scroll view, with a size < size of the grid
+        root = ScrollView(size_hint=(None, None), size=(500, 320),
+                pos_hint={'center_x': .5, 'center_y': .5}, do_scroll_x=False)
+        root.add_widget(layout)
+
+        return root
+
+
+if __name__ == '__main__':
+
+    ScrollViewApp().run()
+"""
 
