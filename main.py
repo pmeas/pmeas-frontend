@@ -7,6 +7,9 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.slider import  Slider
 from kivy.lang import Builder
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.relativelayout import RelativeLayout
+
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 
@@ -16,18 +19,25 @@ from kivy.core.window import Window
 
 Builder.load_string( """
 
-<EffectsParameterColumn@BoxLayout>:
+<EffectsParameterColumn@GridLayout>:
 
     orientation: 'vertical'
-    size: root.size
-    size_hint: self.size_hint
-    padding: 100
+    padding: 10
+    spacing: 10
+    cols: 1
 
-    spacing: 48
+    size: 500, 500
+
+    size_hint: None, None
+
+    pos_hint: {'center_x': .5, 'center_y': .5 }
+
+    #row_force_default: True
+    #row_default_height: '75dp'
 
     canvas.before:
         Color:
-            rgb:  1, 1, 1, 1
+            rgb:  0.2, 0.2, 1, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -49,9 +59,6 @@ Builder.load_string( """
 <EffectParameterBox@BoxLayout>:
 
     orientation: 'vertical'
-    #size: 0, 75
-    #size_hint: 1, None
-
 
     canvas.before:
         Color:
@@ -80,7 +87,7 @@ class EffectParameterBox(BoxLayout):
         self.add_widget( column_layout )
 
 
-class EffectsParameterColumn(BoxLayout):
+class EffectsParameterColumn(GridLayout):
     def __init__(self, **kwargs):
         super(EffectsParameterColumn, self).__init__(**kwargs)
 
@@ -150,8 +157,12 @@ class MainScreen(BoxLayout):
         self.effects_column = EffectsColumn()
         self.effects_parameter_column = EffectsParameterColumn()
 
+        relative_layout = RelativeLayout()
+
+        relative_layout.add_widget( self.effects_parameter_column )
+
         self.add_widget( self.effects_column )
-        self.add_widget( self.effects_parameter_column)
+        self.add_widget( relative_layout )
 
 class PMEASGui(App):
 
