@@ -164,6 +164,11 @@ class MainScreen(BoxLayout):
         self.add_widget( self.effects_column )
         self.add_widget( relative_layout )
 
+        relative_layout.add_widget( self.effects_parameter_column )
+
+        self.add_widget( self.effects_column )
+        self.add_widget( relative_layout )
+
 class PMEASGui(App):
 
     def build(self):
