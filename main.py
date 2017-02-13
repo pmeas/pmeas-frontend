@@ -158,12 +158,6 @@ class MainScreen(BoxLayout):
         self.effects_parameter_column = EffectsParameterColumn()
 
         relative_layout = RelativeLayout()
-
-        relative_layout.add_widget( self.effects_parameter_column )
-
-        self.add_widget( self.effects_column )
-        self.add_widget( relative_layout )
-
         relative_layout.add_widget( self.effects_parameter_column )
 
         self.add_widget( self.effects_column )
