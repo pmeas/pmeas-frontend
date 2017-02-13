@@ -18,12 +18,20 @@ from kivy.core.window import Window
 # height and width, go in here.
 
 Builder.load_string( """
+<MainScreen@BoxLayout>:
+    canvas.before:
+        Color:
+            rgba: .8, .8, .8, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
 
 <EffectsParameterColumn@GridLayout>:
-
+    
     orientation: 'vertical'
     padding: 10
-    spacing: 10
+    spacing: 20
     cols: 1
 
     size: 500, 500
@@ -37,10 +45,11 @@ Builder.load_string( """
 
     canvas.before:
         Color:
-            rgb:  0.2, 0.2, 1, 1
+            rgba:  0, 0, 0, 0
         Rectangle:
             size: self.size
             pos: self.pos
+	
 
 <EffectsColumn@BoxLayout>:
 
@@ -49,7 +58,7 @@ Builder.load_string( """
     size_hint: None, 1
     canvas.before:
         Color:
-            rgb:  0, 0, 0, 1
+            rgba:  0, 0, 0, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -57,15 +66,16 @@ Builder.load_string( """
 
 
 <EffectParameterBox@BoxLayout>:
-
+ 
     orientation: 'vertical'
 
     canvas.before:
         Color:
-            rgb:  1, .3, .3, 1
+            rgba:  .6, .6, .6, 1
         Rectangle:
             size: self.size
             pos: self.pos
+
 
 """)
 
@@ -76,11 +86,10 @@ class EffectParameterBox(BoxLayout):
 
         name_label = Label( text=kwargs.get( "text", "" ) )
 
-        level_slider = Slider( min=0, max=100, value=50 )
-        level_slider.orientation = "horizontal"
+        level_slider = Slider( min=0, max=100, value=50, orientation="horizontal") 
 
         column_layout = BoxLayout(orientation="vertical")
-
+	
         column_layout.add_widget( name_label )
         column_layout.add_widget( level_slider )
 
@@ -158,11 +167,6 @@ class MainScreen(BoxLayout):
         self.effects_parameter_column = EffectsParameterColumn()
 
         relative_layout = RelativeLayout()
-
-        relative_layout.add_widget( self.effects_parameter_column )
-
-        self.add_widget( self.effects_column )
-        self.add_widget( relative_layout )
 
         relative_layout.add_widget( self.effects_parameter_column )
 
