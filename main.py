@@ -139,22 +139,22 @@ class EffectsColumn(BoxLayout):
     # Event Handler Methods
     #
     def distortion_clicked(self, obj):
-        print("enable Distortion!!!")
+        print("enable Distortion")
 
     def delay_clicked(self, obj):
-        print("enable Delay!!!")
+        print("enable Delay")
 
     def reverb_clicked(self, obj):
-        print("enable Reverb!!!")
+        print("enable Reverb")
 
     def chorus_clicked(self, obj):
-        print("enable Chorus!!!")
+        print("enable Chorus")
 
     def frequency_shift_clicked(self, obj):
-        print("enable Frequency Shift!!!")
+        print("enable Frequency Shift")
 
     def harmonizer_clicked(self, obj):
-        print("enable Harmonizer!!!")
+        print("enable Harmonizer")
 
 
 
