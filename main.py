@@ -4,6 +4,7 @@ kivy.require('1.9.1')
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.slider import  Slider
 from kivy.lang import Builder
@@ -165,13 +166,15 @@ class EffectsColumn(BoxLayout):
 class SettingsPopup(FloatLayout):
     def __init__(self, **kwargs):
         super(SettingsPopup, self).__init__(**kwargs)
-	self.settings_button = Button(text="Settings", size_hint=(.25,.05), 
-					pos_hint={'x': .75, 'y': .95})
+	self.settings_button = Button(text="Settings", 
+		size_hint=(.25,.05), pos_hint={'x': .75, 'y': .95})
 	self.settings_button.bind(on_press=self.settings_clicked)
 	self.add_widget(self.settings_button)
 
     def settings_clicked(self, obj):
-        print("enable Settings!")
+        popup = Popup(title='PMEAS - Settings', 
+		content=Label(text='Here is where the settings will go'),auto_dismiss=False)
+	popup.open()
 
 
 class MainScreen(BoxLayout):
