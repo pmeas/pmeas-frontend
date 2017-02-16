@@ -9,10 +9,11 @@ from kivy.uix.slider import  Slider
 from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
-
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 
+Window.size = (800,600)
 
 # This is basically our version of CSS, all of the color changes the property modifications, like
 # height and width, go in here.
@@ -38,7 +39,7 @@ Builder.load_string( """
 
     size_hint: None, None
 
-    pos_hint: {'center_x': .5, 'center_y': .5 }
+    pos_hint: {'center_x': 1, 'center_y': .5 }
 
     #row_force_default: True
     #row_default_height: '75dp'
@@ -68,7 +69,6 @@ Builder.load_string( """
 <EffectParameterBox@BoxLayout>:
  
     orientation: 'vertical'
-
     canvas.before:
         Color:
             rgba:  .6, .6, .6, 1
@@ -76,6 +76,10 @@ Builder.load_string( """
             size: self.size
             pos: self.pos
 
+
+        	
+<SettingsPopup@FloatLayout>:
+	
 
 """)
 
@@ -158,6 +162,18 @@ class EffectsColumn(BoxLayout):
 
 
 
+class SettingsPopup(FloatLayout):
+    def __init__(self, **kwargs):
+        super(SettingsPopup, self).__init__(**kwargs)
+	self.settings_button = Button(text="Settings", size_hint=(.25,.05), 
+					pos_hint={'x': .75, 'y': .95})
+	self.settings_button.bind(on_press=self.settings_clicked)
+	self.add_widget(self.settings_button)
+
+    def settings_clicked(self, obj):
+        print("enable Settings!")
+
+
 class MainScreen(BoxLayout):
 
     def __init__(self, **kwargs):
@@ -165,13 +181,17 @@ class MainScreen(BoxLayout):
 
         self.effects_column = EffectsColumn()
         self.effects_parameter_column = EffectsParameterColumn()
+	self.settings_popup = SettingsPopup()	
 
         relative_layout = RelativeLayout()
+	settings_layout = RelativeLayout()
 
         relative_layout.add_widget( self.effects_parameter_column )
+	settings_layout.add_widget( self.settings_popup )
 
         self.add_widget( self.effects_column )
         self.add_widget( relative_layout )
+	self.add_widget( settings_layout )
 
 class PMEASGui(App):
 
