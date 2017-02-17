@@ -168,12 +168,13 @@ class SettingsPopup(FloatLayout):
         super(SettingsPopup, self).__init__(**kwargs)
 	self.settings_button = Button(text="Settings", 
 		size_hint=(.25,.05), pos_hint={'x': .75, 'y': .95})
+
 	self.settings_button.bind(on_press=self.settings_clicked)
 	self.add_widget(self.settings_button)
 
     def settings_clicked(self, obj):
         popup = Popup(title='PMEAS - Settings', 
-		content=Label(text='Here is where the settings will go'),auto_dismiss=False)
+		content=Label(text='Here is where the settings will go'),auto_dismiss=True)
 	popup.open()
 
 
