@@ -8,11 +8,16 @@ Rectangle {
     property string currentModelKey: "Distortion";
 
     ColumnLayout {
+        id: effectsColumn;
         anchors {
             fill: parent;
         }
 
+        spacing: 3;
+
         ExclusiveGroup { id: effectsExclusiveGroup; }
+
+        property bool dragInProgress: false;
 
         ListView {
             id: enabledEffetsListView;
@@ -21,10 +26,18 @@ Rectangle {
             height: 150;
             spacing: 6;
 
-            model: ListModel {
-                ListElement { effectName: "Distortion"; }
-                ListElement { effectName: "Chorus"; }
+            property int dragItemIndex: -1
+
+            DropArea {
+                id: enabledDropArea;
+                anchors { fill: parent; }
+                onDropped: {
+                    effectsColumn.dragInProgress = false;
+                    enabledEffetsListView.model.append( { "effectName": drop.source.text } );
+                }
             }
+
+            model: ListModel {}
 
             header: Rectangle {
                 color: "green";
@@ -110,7 +123,13 @@ Rectangle {
             Layout.fillWidth: true;
             spacing: 6;
 
-            model: [ "Distortion", "Delay", "Frequency Shift", "Chorus", "Harmonize" ];
+            model: ListModel {
+                ListElement { effectName: "Distortion"; }
+                ListElement { effectName: "Delay"; }
+                ListElement { effectName: "Frequency Shift"; }
+                ListElement { effectName: "Chorus"; }
+                ListElement { effectName: "Harmonize"; }
+            }
 
             header: Rectangle {
                 color: "green";
@@ -137,15 +156,15 @@ Rectangle {
                 id: allEffectItem;
                 height: 35;
                 width: parent.width;
-                property bool checked: false;
 
+                property bool checked: false;
                 property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup;
+
                 onExclusiveGroupChanged: {
                     if (exclusiveGroup) {
                         exclusiveGroup.bindCheckable(allEffectItem);
                     }
                 }
-
 
                 onCheckedChanged: {
                     effectsListView.currentIndex = index;
@@ -153,26 +172,54 @@ Rectangle {
 
                 Rectangle {
                     id: effectButtonBackground;
-                    anchors.fill: parent;
+                    width: parent.width;
+                    height: parent.height;
                     color: parent.checked ? "white" : "white";
 
+                    property alias text: effectButtonText.text;
+
                     Text {
+                        id: effectButtonText;
                         anchors {
                             verticalCenter: parent.verticalCenter;
                             left: parent.left;
                             leftMargin: 12 * 2;
                         }
 
-                        text: modelData;
+                        text: effectName;
                     }
 
                     MouseArea {
+                        id: effectButtonMouseArea;
                         anchors.fill: parent;
+
+                        drag.target: parent;
+                        drag.onActiveChanged: {
+                            if (drag.active) {
+                                effectsColumn.dragInProgress = true;
+                                enabledEffetsListView.dragItemIndex = index;
+                            } else {
+                                var oldIndex = index;
+                                var oldEffectName = effectName;
+                                effectsListView.model.remove( oldIndex, 1 );
+                                effectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                            }
+
+                            effectButtonBackground.Drag.drop();
+                        }
+
                         onClicked: {
                             currentModelKey = modelData;
                             console.log("Clicked 'All Effects' " + modelData + " button" );
                             allEffectItem.checked = true;
                         }
+
+                    }
+
+                    Drag.active: effectButtonMouseArea.drag.active;
+                    Drag.hotSpot {
+                        x: width / 2;
+                        y: height / 2;
                     }
                 }
 
