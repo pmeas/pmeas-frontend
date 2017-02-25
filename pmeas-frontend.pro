@@ -3,9 +3,9 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
-SOURCES += main.cpp
-
 RESOURCES += qml.qrc
+
+INCLUDEPATH += cpp/include
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -18,6 +18,14 @@ QML_DESIGNER_IMPORT_PATH =
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+
+
+HEADERS += \
+    cpp/include/socketserver.h
+
+SOURCES += main.cpp \
+    cpp/src/socketserver.cpp
+
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

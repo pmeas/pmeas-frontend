@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
+import LocalServer 1.0
+
 ApplicationWindow {
     visible: true;
     width: 640;
@@ -13,6 +15,10 @@ ApplicationWindow {
     minimumHeight: 480;
 
     title: qsTr("PMEAS");
+
+    SocketServer {
+        id: socketServer;
+    }
 
     RowLayout {
 
