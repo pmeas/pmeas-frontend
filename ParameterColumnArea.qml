@@ -5,6 +5,17 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
+    id: effectsColumnArea;
+
+    property string currentModelKey: "chorusEffect";
+
+    property var parameterMapModel: {
+        "Distortion": [ "Effect Level", "Distortion", "Feedback"],
+        "Delay": [ "Orange Juice", "Bro", "Sleep"],
+        "Chorus": [ "Stuff", "Pop", "Soda" ],
+        "Harmonize": [ "Harmon Me", "So", "Flo" ],
+        "Frequency Shift": [ "Antonio", "Giraffe", "Honor" ],
+    }
 
     Rectangle  {
         color: "blue";
@@ -30,11 +41,8 @@ Rectangle {
             }
 
 
-            model: ListModel {
-                ListElement { effectName: "Effect Level" }
-                ListElement { effectName: "Distorion" }
-                ListElement { effectName: "Feedback" }
-            }
+
+            model: parameterMapModel[ currentModelKey ];
 
             spacing: 12;
 
@@ -69,7 +77,7 @@ Rectangle {
                                 horizontalCenter: parent.horizontalCenter;
                             }
 
-                            text: effectName;
+                            text: modelData;
                             font {
                                 pixelSize: 18;
                             }

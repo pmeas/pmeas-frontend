@@ -67,6 +67,8 @@ ApplicationWindow {
             Layout.fillWidth: true;
 
             color: "green";
+
+            currentModelKey: effectsColumnArea.currentModelKey;
         }
 
     }

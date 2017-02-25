@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
+    property string currentModelKey: "Distortion";
 
     ColumnLayout {
         anchors {
@@ -83,6 +84,7 @@ Rectangle {
                         anchors.fill: parent;
                         onClicked: {
                             console.log("Clicked 'Enabled' " + effectName + " button" );
+                            currentModelKey = effectName;
                             enabledEffectItem.checked = true;
                         }
                     }
@@ -167,6 +169,7 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
+                            currentModelKey = modelData;
                             console.log("Clicked 'All Effects' " + modelData + " button" );
                             allEffectItem.checked = true;
                         }
