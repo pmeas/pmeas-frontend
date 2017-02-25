@@ -1,4 +1,5 @@
 import QtQuick 2.3
+import QtQuick.Window 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
@@ -279,6 +280,17 @@ Rectangle {
             Text {
                 anchors { centerIn: parent; }
                 text: qsTr( "Settings" );
+            }
+
+            SettingsWindow {
+                id: settingsWindow;
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    settingsWindow.show();
+                }
             }
         }
     }

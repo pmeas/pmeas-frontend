@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>EffectsColumnArea.qml</file>
         <file>ParameterColumnArea.qml</file>
+        <file>SettingsWindow.qml</file>
     </qresource>
 </RCC>
