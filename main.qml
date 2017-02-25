@@ -31,13 +31,13 @@ import LocalServer 1.0
 ApplicationWindow {
     id: root;
     visible: true;
-    width: 640;
-    height: 480;
+    width: 800;
+    height: 600;
+    color: "#111111"
+    minimumWidth: 680;
+    minimumHeight: 520;
 
-    minimumWidth: 640;
-    minimumHeight: 480;
-
-    title: qsTr("Portable Multi-Effects Software");
+    title: qsTr("Portable Multi-Effects Audio Software");
 
     // This is defined in the cpp code and is then exposed to this QML enviroment
     SocketServer {
@@ -48,10 +48,10 @@ ApplicationWindow {
 
         anchors {
             fill: parent;
-            margins: 12;
+            margins: 1;
         }
 
-        spacing: 4;
+        spacing: 1;
 
         RowLayout {
 
@@ -65,7 +65,7 @@ ApplicationWindow {
                 Layout.fillHeight: true;
                 width: 150;
 
-                color: "orange";
+                color: "#4B4C4E";
             }
 
             // This is defined in the QML file of the same name.
@@ -74,7 +74,7 @@ ApplicationWindow {
                 Layout.fillHeight: true;
                 Layout.fillWidth: true;
 
-                color: "green";
+                color: "#E1DDDC";
 
                 currentModelKey: effectsColumnArea.currentModelKey;
             }
@@ -92,12 +92,12 @@ ApplicationWindow {
 
             height: 25;
 
-            color: "black";
+            color: "#E39A53";
 
             Text {
                 anchors { centerIn: parent; }
                 text: qsTr( "Submit Me, Pls :(" );
-                color: "white";
+                color: "#ffffff";
             }
 
             MouseArea {

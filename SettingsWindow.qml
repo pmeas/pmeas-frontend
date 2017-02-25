@@ -14,5 +14,5 @@ Window {
     modality: Qt.WindowModal;
     flags: Qt.WindowStaysOnTopHint;
 
-    color: "purple";
+    color: "#E3E3E5";
 }

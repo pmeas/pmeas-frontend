@@ -10,15 +10,16 @@ Rectangle {
     property string currentModelKey: "chorusEffect";
 
     property var parameterMapModel: {
-        "Distortion": [ "Effect Level", "Distortion", "Feedback"],
-        "Delay": [ "Orange Juice", "Bro", "Sleep"],
-        "Chorus": [ "Stuff", "Pop", "Soda" ],
-        "Harmonize": [ "Harmon Me", "So", "Flo" ],
-        "Frequency Shift": [ "Antonio", "Giraffe", "Honor" ],
+        "Distortion": [ "Distortion", "Tone"],
+        "Delay": [ "Feed Back", "Delay Time"],
+        "Chorus": [ "Effect Level", "Rate", "Depth" ],
+        "Harmonizer": [ "Balance", "Shift" ],
+        "Frequency Shift": [ "Balance", "Pitch" ],
+        "Reverb": [ "Effect Level", "Tone", "Delay", "Room Size"],
     }
 
     Rectangle  {
-        color: "blue";
+        color: "#E1DDDC";
 
         anchors {
             top: parent.top;
@@ -49,7 +50,7 @@ Rectangle {
             delegate: Rectangle {
                 id: parameterBlock;
                 height: 100;
-                color: "yellow";
+                color: "#7CA3D0";
                 radius: 6;
 
                 anchors {
@@ -99,6 +100,7 @@ Rectangle {
                     Rectangle {
                         height: 25;
                         width: height;
+                        color: "#7CA3D0";
                         radius: 3;
                         anchors {
                             horizontalCenter: parent.horizontalCenter;

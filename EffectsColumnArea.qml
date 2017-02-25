@@ -14,7 +14,7 @@ Rectangle {
             fill: parent;
         }
 
-        spacing: 3;
+        spacing: 0;
 
         ExclusiveGroup { id: effectsExclusiveGroup; }
 
@@ -41,7 +41,7 @@ Rectangle {
             model: ListModel {}
 
             header: Rectangle {
-                color: "green";
+                color: "#333333";
                 height: 25;
                 width: parent.width;
 
@@ -58,6 +58,7 @@ Rectangle {
                     }
 
                     text: qsTr( "Enabled" );
+                    color: "#ffffff";
                 }
             }
 
@@ -82,7 +83,7 @@ Rectangle {
                 Rectangle {
                     id: enabledEffectBackground;
                     anchors.fill: parent;
-                    color: "white";
+                    color: parent.checked ? "#E19854" : "#ffffff";
 
                     Rectangle {
                         id: removeEnableEffectButton;
@@ -90,7 +91,7 @@ Rectangle {
                         width: 16;
                         height: width;
                         radius: width / 2;
-                        color: "red";
+                        color: "#222222";
                         anchors {
                             verticalCenter: parent.verticalCenter;
                             left: parent.left;
@@ -101,7 +102,7 @@ Rectangle {
                             anchors { centerIn: parent; }
                             text: qsTr( "X" );
                             font { bold: true; }
-                            color: "white";
+                            color: "#ffffff";
                         }
 
                         MouseArea {
@@ -141,7 +142,7 @@ Rectangle {
                     verticalOffset: 0;
                     radius: 16.0
                     samples: radius * 2;
-                    color: "black";
+                    color: "#000000";
                 }
             }
         }
@@ -156,13 +157,14 @@ Rectangle {
             model: ListModel {
                 ListElement { effectName: "Distortion"; }
                 ListElement { effectName: "Delay"; }
-                ListElement { effectName: "Frequency Shift"; }
+                ListElement { effectName: "Reverb"; }
                 ListElement { effectName: "Chorus"; }
-                ListElement { effectName: "Harmonize"; }
+                ListElement { effectName: "Frequency Shift"; }
+                ListElement { effectName: "Harmonizer"; }
             }
 
             header: Rectangle {
-                color: "green";
+                color: "#333333";
                 height: 25;
                 width: parent.width;
 
@@ -179,6 +181,7 @@ Rectangle {
                     }
 
                     text: qsTr( "All Effects" );
+                    color: "#ffffff"
                 }
             }
 
@@ -204,7 +207,7 @@ Rectangle {
                     id: effectButtonBackground;
                     width: parent.width;
                     height: parent.height;
-                    color: parent.checked ? "white" : "white";
+                    color: parent.checked ? "#E19854" : "#ffffff";
 
                     property alias text: effectButtonText.text;
 
@@ -262,7 +265,7 @@ Rectangle {
                     verticalOffset: 0;
                     radius: 16.0
                     samples: radius * 2;
-                    color: "black";
+                    color: "#000000";
                 }
             }
         }
@@ -275,7 +278,9 @@ Rectangle {
                 bottom: parent.bottom;
             }
 
-            color: "silver";
+            color: "#777";
+            border.color: "#000000";
+            border.width: 1;
 
             Text {
                 anchors { centerIn: parent; }
