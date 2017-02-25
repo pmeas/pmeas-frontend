@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>EffectsColumnArea.qml</file>
+        <file>ParameterColumnArea.qml</file>
     </qresource>
 </RCC>
