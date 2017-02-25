@@ -11,6 +11,8 @@ Rectangle {
             fill: parent;
         }
 
+        ExclusiveGroup { id: effectsExclusiveGroup; }
+
         ListView {
             id: enabledEffetsListView;
             interactive: false;
@@ -45,12 +47,27 @@ Rectangle {
             }
 
             delegate: Item {
+                id: enabledEffectItem;
                 height: 35;
                 width: parent.width;
 
+                property bool checked: false;
+                property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup
+                onExclusiveGroupChanged: {
+                    if (exclusiveGroup) {
+                        exclusiveGroup.bindCheckable(enabledEffectItem)
+                    }
+                }
+
+
+                onCheckedChanged: {
+                    enabledEffetsListView.currentIndex = index;
+                }
+
                 Rectangle {
+                    id: enabledEffectBackground;
                     anchors.fill: parent;
-                    color: "pink";
+                    color: "white";
 
                     Text {
                         anchors {
@@ -61,6 +78,25 @@ Rectangle {
                         text: effectName;
 
                     }
+
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("Clicked 'Enabled' " + effectName + " button" );
+                            enabledEffectItem.checked = true;
+                        }
+                    }
+                }
+
+                DropShadow {
+                    visible: parent.checked;
+                    source: enabledEffectBackground;
+                    anchors.fill: source;
+                    horizontalOffset: 0;
+                    verticalOffset: 0;
+                    radius: 16.0
+                    samples: radius * 2;
+                    color: "black";
                 }
             }
         }
@@ -96,9 +132,22 @@ Rectangle {
             }
 
             delegate: Item {
+                id: allEffectItem;
                 height: 35;
                 width: parent.width;
-                property bool checked: index === effectsListView.currentIndex;
+                property bool checked: false;
+
+                property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup;
+                onExclusiveGroupChanged: {
+                    if (exclusiveGroup) {
+                        exclusiveGroup.bindCheckable(allEffectItem);
+                    }
+                }
+
+
+                onCheckedChanged: {
+                    effectsListView.currentIndex = index;
+                }
 
                 Rectangle {
                     id: effectButtonBackground;
@@ -118,8 +167,8 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
-                            console.log("enabled " + modelData );
-                            effectsListView.currentIndex = index;
+                            console.log("Clicked 'All Effects' " + modelData + " button" );
+                            allEffectItem.checked = true;
                         }
                     }
                 }
@@ -135,6 +184,22 @@ Rectangle {
                     samples: radius * 2;
                     color: "black";
                 }
+            }
+        }
+
+        Rectangle {
+            id: settingsArea;
+            Layout.fillWidth: true;
+            height: 50;
+            anchors {
+                bottom: parent.bottom;
+            }
+
+            color: "silver";
+
+            Text {
+                anchors { centerIn: parent; }
+                text: qsTr( "Settings" );
             }
         }
     }
