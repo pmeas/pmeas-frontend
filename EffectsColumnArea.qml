@@ -83,10 +83,39 @@ Rectangle {
                     anchors.fill: parent;
                     color: "white";
 
+                    Rectangle {
+                        id: removeEnableEffectButton;
+                        z: parent.z + 1;
+                        width: 16;
+                        height: width;
+                        radius: width / 2;
+                        color: "red";
+                        anchors {
+                            verticalCenter: parent.verticalCenter;
+                            left: parent.left;
+                            leftMargin: 12;
+                        }
+
+                        Text {
+                            anchors { centerIn: parent; }
+                            text: qsTr( "X" );
+                            font { bold: true; }
+                            color: "white";
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent;
+                            onClicked: {
+                                console.log("click")
+                                enabledEffetsListView.model.remove( index, 1 );
+                            }
+                        }
+                    }
+
                     Text {
                         anchors {
-                            left: parent.left;
-                            leftMargin: 12 * 2;
+                            left: removeEnableEffectButton.right;
+                            leftMargin: 12;
                             verticalCenter: parent.verticalCenter;
                         }
                         text: effectName;
