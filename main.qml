@@ -44,31 +44,67 @@ ApplicationWindow {
         id: socketServer;
     }
 
-    RowLayout {
-
+    ColumnLayout {
         anchors {
             fill: parent;
             margins: 12;
         }
 
-        // This is defined in the QML file of the same name.
-        EffectsColumnArea {
-            id: effectsColumnArea;
-            Layout.fillHeight: true;
-            width: 150;
+        spacing: 4;
 
-            color: "orange";
+        RowLayout {
+
+            Layout.fillWidth: true;
+            Layout.fillHeight: true;
+
+
+            // This is defined in the QML file of the same name.
+            EffectsColumnArea {
+                id: effectsColumnArea;
+                Layout.fillHeight: true;
+                width: 150;
+
+                color: "orange";
+            }
+
+            // This is defined in the QML file of the same name.
+            ParameterColumnArea {
+                id: parameterColumnArea;
+                Layout.fillHeight: true;
+                Layout.fillWidth: true;
+
+                color: "green";
+
+                currentModelKey: effectsColumnArea.currentModelKey;
+            }
+
         }
 
-        // This is defined in the QML file of the same name.
-        ParameterColumnArea {
-            id: parameterColumnArea;
-            Layout.fillHeight: true;
+        Rectangle {
+
             Layout.fillWidth: true;
 
-            color: "green";
+            anchors {
 
-            currentModelKey: effectsColumnArea.currentModelKey;
+                bottom: parent.bottom;
+            }
+
+            height: 25;
+
+            color: "black";
+
+            Text {
+                anchors { centerIn: parent; }
+                text: qsTr( "Submit Me, Pls :(" );
+                color: "white";
+            }
+
+            MouseArea {
+                anchors { fill: parent; }
+                onClicked: {
+                    console.log( "Clicked the submit button" );
+                }
+            }
         }
 
     }
