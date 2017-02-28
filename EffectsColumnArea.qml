@@ -21,7 +21,7 @@ Rectangle {
         property bool dragInProgress: false;
 
         ListView {
-            id: enabledEffetsListView;
+            id: enabledEffectsListView;
             interactive: false;
             Layout.fillWidth: true;
             height: 150;
@@ -29,12 +29,19 @@ Rectangle {
 
             property int dragItemIndex: -1
 
+            property int indexToMoveTo: -1;
+
             DropArea {
                 id: enabledDropArea;
                 anchors { fill: parent; }
                 onDropped: {
                     effectsColumn.dragInProgress = false;
-                    enabledEffetsListView.model.append( { "effectName": drop.source.text } );
+                    if ( drop.source.category === "allEffects" ) {
+                        enabledEffectsListView.model.append( { "effectName": drop.source.text } );
+                    } else if ( drop.source.category === "enabledEffects" ) {
+                        console.log("dropped enabled");
+                        enabledEffectsListView.model.move( )
+                    }
                 }
             }
 
@@ -77,13 +84,17 @@ Rectangle {
 
 
                 onCheckedChanged: {
-                    enabledEffetsListView.currentIndex = index;
+                    enabledEffectsListView.currentIndex = index;
                 }
 
                 Rectangle {
                     id: enabledEffectBackground;
-                    anchors.fill: parent;
+                    height: parent.height;
+                    width: parent.width;
+                    //anchors.fill: parent;
                     color: parent.checked ? "#E19854" : "#ffffff";
+
+                    property string category: "enabledEffects";
 
                     Rectangle {
                         id: removeEnableEffectButton;
@@ -109,7 +120,7 @@ Rectangle {
                             anchors.fill: parent;
                             onClicked: {
                                 console.log("click")
-                                enabledEffetsListView.model.remove( index, 1 );
+                                enabledEffectsListView.model.remove( index, 1 );
                             }
                         }
                     }
@@ -124,14 +135,41 @@ Rectangle {
 
                     }
 
+                    Drag.active: enabledEffectBackgroundMouseArea.drag.active;
+                    Drag.hotSpot {
+                        x: width / 2;
+                        y: height / 2;
+                    }
+
                     MouseArea {
+                        id: enabledEffectBackgroundMouseArea;
                         anchors.fill: parent;
+                        drag.target: parent;
                         onClicked: {
                             console.log("Clicked 'Enabled' " + effectName + " button" );
                             currentModelKey = effectName;
                             enabledEffectItem.checked = true;
+
+
+                        }
+                        drag.onActiveChanged: {
+                            if (drag.active) {
+                                effectsColumn.dragInProgress = true;
+                                enabledEffectsListView.dragItemIndex = index;
+                            } else {
+                                var oldIndex = index;
+                                var oldEffectName = effectName;
+
+                                console.log( oldIndex, oldEffectName)
+                                //enabledEffectsListView.model.remove( oldIndex, 1 );
+                                //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                            }
+
+                            enabledEffectBackground.Drag.drop();
                         }
                     }
+
+
                 }
 
                 DropShadow {
@@ -210,6 +248,7 @@ Rectangle {
                     color: parent.checked ? "#E19854" : "#ffffff";
 
                     property alias text: effectButtonText.text;
+                    property string category: "allEffects";
 
                     Text {
                         id: effectButtonText;
@@ -230,7 +269,7 @@ Rectangle {
                         drag.onActiveChanged: {
                             if (drag.active) {
                                 effectsColumn.dragInProgress = true;
-                                enabledEffetsListView.dragItemIndex = index;
+                                enabledEffectsListView.dragItemIndex = index;
                             } else {
                                 var oldIndex = index;
                                 var oldEffectName = effectName;
