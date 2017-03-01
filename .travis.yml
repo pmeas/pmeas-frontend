@@ -12,7 +12,6 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 script:
   - source /opt/qt57/bin/qt57-env.sh
-  - mkdir pmeas-build
-  - cd pmeas-build
+  - cd pmeas/pmeas-frontend
   - qmake pmeas-frontend.pro
   - make -j2
