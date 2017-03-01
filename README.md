@@ -1,4 +1,4 @@
-# Portable Modulation Audio System
+# Portable Modulation Audio System - *Frontend*
 
 ## Description
 
