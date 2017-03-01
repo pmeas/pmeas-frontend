@@ -12,5 +12,6 @@ This is the companion application to the [PMEAS backend application](https://git
 ## Usage
 
 ## Screenshots
+![Mainview](/screenies/mainview.png "Main View Screenshot")
 
 ## License
