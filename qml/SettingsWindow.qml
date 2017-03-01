@@ -42,6 +42,38 @@ Window {
                 model: [ "Speakers", "Surround Sound" ];
                 implicitWidth: 150;
             }
+
+            Rectangle {
+                id: sendSettings;
+                width: 200;
+                height: 50;
+                color: "#FFFFFF";
+                border.color: "#000000";
+                border.width: 1;
+                radius: 4;
+
+                Text {
+                    anchors.centerIn: parent;
+                    text: qsTr("Update");
+                }
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        console.log("Update server ports here :^)");
+                    }
+
+                    onPressed: {
+                        parent.color = "#E19854";
+                    }
+
+                    onReleased: {
+                        parent.color = "#FFFFFF";
+                    }
+
+                }
+            }
+
         //}
     }
 }
