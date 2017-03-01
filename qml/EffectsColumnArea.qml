@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 
@@ -19,177 +20,200 @@ Rectangle {
         ExclusiveGroup { id: effectsExclusiveGroup; }
 
         property bool dragInProgress: false;
-
-        ListView {
-            id: enabledEffectsListView;
-            interactive: false;
+        ScrollView {
             Layout.fillWidth: true;
-            height: 150;
-            spacing: 6;
-
-            property int dragItemIndex: -1
-
-            property int indexToMoveTo: -1;
-
-            DropArea {
-                id: enabledDropArea;
-                anchors { fill: parent; }
-                onDropped: {
-                    effectsColumn.dragInProgress = false;
-                    if ( drop.source.category === "allEffects" ) {
-                        enabledEffectsListView.model.append( { "effectName": drop.source.text } );
-                    } else if ( drop.source.category === "enabledEffects" ) {
-                        console.log("dropped enabled");
-                        enabledEffectsListView.model.move( )
+            style: ScrollViewStyle {
+                    handle: Rectangle {
+                        implicitWidth: 4
+                        implicitHeight: 5
+                        color: "#E1DDDC"
                     }
-                }
+                    scrollBarBackground: Rectangle {
+                        implicitWidth: 4
+                        implicitHeight: 5
+                        color: "#777777"
+                    }
+                    decrementControl: Rectangle {
+                        implicitWidth: 4
+                        implicitHeight: 0
+                        color: "#E1DDDC"
+                    }
+                    incrementControl: Rectangle {
+                        implicitWidth: 4
+                        implicitHeight: 0
+                        color: "#E1DDDC"
+                    }
             }
-
-            model: ListModel {}
-
-            header: Rectangle {
-                color: "#333333";
-                height: 25;
+            ListView {
+                id: enabledEffectsListView;
+                interactive: false;
                 width: parent.width;
+                height: 150;
+                spacing: 6;
 
-                Text {
-                    anchors {
-                        left: parent.left;
-                        verticalCenter: parent.verticalCenter;
-                        leftMargin: 12;
-                    }
+                property int dragItemIndex: -1
 
-                    font {
-                        bold: true;
-                        pixelSize: 13;
-                    }
+                property int indexToMoveTo: -1;
 
-                    text: qsTr( "Enabled" );
-                    color: "#ffffff";
-                }
-            }
-
-            delegate: Item {
-                id: enabledEffectItem;
-                height: 35;
-                width: parent.width;
-
-                property bool checked: false;
-                property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup
-                onExclusiveGroupChanged: {
-                    if (exclusiveGroup) {
-                        exclusiveGroup.bindCheckable(enabledEffectItem)
+                DropArea {
+                    id: enabledDropArea;
+                    anchors { fill: parent; }
+                    onDropped: {
+                        effectsColumn.dragInProgress = false;
+                        if ( drop.source.category === "allEffects" ) {
+                            enabledEffectsListView.model.append( { "effectName": drop.source.text } );
+                        } else if ( drop.source.category === "enabledEffects" ) {
+                            console.log("dropped enabled");
+                            enabledEffectsListView.model.move( )
+                        }
                     }
                 }
 
+                model: ListModel {}
 
-                onCheckedChanged: {
-                    enabledEffectsListView.currentIndex = index;
-                }
-
-                Rectangle {
-                    id: enabledEffectBackground;
-                    height: parent.height;
+                header: Rectangle {
+                    color: "#333333";
+                    height: 25;
                     width: parent.width;
-                    //anchors.fill: parent;
-                    color: parent.checked ? "#E19854" : "#ffffff";
-
-                    property string category: "enabledEffects";
-
-                    Rectangle {
-                        id: removeEnableEffectButton;
-                        z: parent.z + 1;
-                        width: 16;
-                        height: width;
-                        radius: width / 2;
-                        color: "#222222";
-                        anchors {
-                            verticalCenter: parent.verticalCenter;
-                            left: parent.left;
-                            leftMargin: 12;
-                        }
-
-                        Text {
-                            anchors { centerIn: parent; }
-                            text: qsTr( "X" );
-                            font { bold: true; }
-                            color: "#ffffff";
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent;
-                            onClicked: {
-                                console.log("click")
-                                enabledEffectsListView.model.remove( index, 1 );
-                            }
-                        }
-                    }
 
                     Text {
                         anchors {
-                            left: removeEnableEffectButton.right;
-                            leftMargin: 12;
+                            left: parent.left;
                             verticalCenter: parent.verticalCenter;
+                            leftMargin: 12;
                         }
-                        text: effectName;
 
-                    }
-
-                    Drag.active: enabledEffectBackgroundMouseArea.drag.active;
-                    Drag.hotSpot {
-                        x: width / 2;
-                        y: height / 2;
-                    }
-
-                    MouseArea {
-                        id: enabledEffectBackgroundMouseArea;
-                        anchors.fill: parent;
-                        drag.target: parent;
-                        onClicked: {
-                            console.log("Clicked 'Enabled' " + effectName + " button" );
-                            currentModelKey = effectName;
-                            enabledEffectItem.checked = true;
-
-
+                        font {
+                            bold: true;
+                            pixelSize: 13;
                         }
-                        drag.onActiveChanged: {
-                            if (drag.active) {
-                                effectsColumn.dragInProgress = true;
-                                enabledEffectsListView.dragItemIndex = index;
-                            } else {
-                                var oldIndex = index;
-                                var oldEffectName = effectName;
 
-                                console.log( oldIndex, oldEffectName)
-                                //enabledEffectsListView.model.remove( oldIndex, 1 );
-                                //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
-                            }
-
-                            enabledEffectBackground.Drag.drop();
-                        }
+                        text: qsTr( "Enabled" );
+                        color: "#ffffff";
                     }
-
-
                 }
 
-                DropShadow {
-                    visible: parent.checked;
-                    source: enabledEffectBackground;
-                    anchors.fill: source;
-                    horizontalOffset: 0;
-                    verticalOffset: 0;
-                    radius: 16.0
-                    samples: radius * 2;
-                    color: "#000000";
+                delegate: Item {
+                    id: enabledEffectItem;
+                    height: 35;
+                    width: parent.width;
+
+                    property bool checked: false;
+                    property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup
+                    onExclusiveGroupChanged: {
+                        if (exclusiveGroup) {
+                            exclusiveGroup.bindCheckable(enabledEffectItem)
+                        }
+                    }
+
+
+                    onCheckedChanged: {
+                        enabledEffectsListView.currentIndex = index;
+                    }
+
+                    Rectangle {
+                        id: enabledEffectBackground;
+                        height: parent.height;
+                        width: parent.width;
+                        //anchors.fill: parent;
+                        color: parent.checked ? "#E19854" : "#ffffff";
+
+                        property string category: "enabledEffects";
+
+                        Rectangle {
+                            id: removeEnableEffectButton;
+                            z: parent.z + 1;
+                            width: 16;
+                            height: width;
+                            radius: width / 2;
+                            color: "#222222";
+                            anchors {
+                                verticalCenter: parent.verticalCenter;
+                                left: parent.left;
+                                leftMargin: 12;
+                            }
+
+                            Text {
+                                anchors { centerIn: parent; }
+                                text: qsTr( "X" );
+                                font { bold: true; }
+                                color: "#ffffff";
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent;
+                                onClicked: {
+                                    console.log("click")
+                                    enabledEffectsListView.model.remove( index, 1 );
+                                }
+                            }
+                        }
+
+                        Text {
+                            anchors {
+                                left: removeEnableEffectButton.right;
+                                leftMargin: 12;
+                                verticalCenter: parent.verticalCenter;
+                            }
+                            text: effectName;
+
+                        }
+
+                        Drag.active: enabledEffectBackgroundMouseArea.drag.active;
+                        Drag.hotSpot {
+                            x: width / 2;
+                            y: height / 2;
+                        }
+
+                        MouseArea {
+                            id: enabledEffectBackgroundMouseArea;
+                            anchors.fill: parent;
+                            drag.target: parent;
+                            onClicked: {
+                                console.log("Clicked 'Enabled' " + effectName + " button" );
+                                currentModelKey = effectName;
+                                enabledEffectItem.checked = true;
+
+
+                            }
+                            drag.onActiveChanged: {
+                                if (drag.active) {
+                                    effectsColumn.dragInProgress = true;
+                                    enabledEffectsListView.dragItemIndex = index;
+                                } else {
+                                    var oldIndex = index;
+                                    var oldEffectName = effectName;
+
+                                    console.log( oldIndex, oldEffectName)
+                                    //enabledEffectsListView.model.remove( oldIndex, 1 );
+                                    //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                                }
+
+                                enabledEffectBackground.Drag.drop();
+                            }
+                        }
+
+
+                    }
+
+                    DropShadow {
+                        visible: parent.checked;
+                        source: enabledEffectBackground;
+                        anchors.fill: source;
+                        horizontalOffset: 0;
+                        verticalOffset: 0;
+                        radius: 16.0
+                        samples: radius * 2;
+                        color: "#000000";
+                    }
                 }
             }
         }
-
         ListView {
             id: effectsListView;
             interactive: false;
             Layout.fillHeight: true;
-            Layout.fillWidth: true;
+            width: parent.width;
             spacing: 6;
 
             model: ListModel {
