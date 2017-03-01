@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
-RESOURCES += qml.qrc
+RESOURCES += qml/qml.qrc
 
 INCLUDEPATH += cpp/include
 
@@ -23,7 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     cpp/include/socketserver.h
 
-SOURCES += main.cpp \
+SOURCES += cpp/src/main.cpp \
     cpp/src/socketserver.cpp
 
 
