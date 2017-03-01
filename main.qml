@@ -105,6 +105,12 @@ ApplicationWindow {
                 onClicked: {
                     console.log( "Clicked the submit button" );
                 }
+                onEntered: {
+                    parent.color = "#01891e";
+                }
+                onExited: {
+                    parent.color = "#E39A53";
+                }
             }
         }
 
