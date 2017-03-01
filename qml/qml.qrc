@@ -4,5 +4,7 @@
         <file>EffectsColumnArea.qml</file>
         <file>ParameterColumnArea.qml</file>
         <file>SettingsWindow.qml</file>
+        <file>Splash.qml</file>
+        <file>images/logo.png</file>
     </qresource>
 </RCC>

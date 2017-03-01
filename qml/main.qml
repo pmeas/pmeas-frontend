@@ -30,7 +30,7 @@ import LocalServer 1.0
 // This is the root level of the GUI, hence why the 'id: root' exists.
 ApplicationWindow {
     id: root;
-    visible: true;
+    visible: false;
     width: 800;
     height: 600;
     color: "#111111"
@@ -114,5 +114,9 @@ ApplicationWindow {
             }
         }
 
+    }
+
+    property var splashWindow: Splash {
+        onTimeout: root.visible = true;
     }
 }
