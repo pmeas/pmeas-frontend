@@ -317,7 +317,8 @@ Rectangle {
                 bottom: parent.bottom;
             }
 
-            color: "#777";
+            property bool checked: false;
+            color: checked ? "#E19854" : "#777777";
             border.color: "#000000";
             border.width: 1;
 
@@ -334,6 +335,12 @@ Rectangle {
                 anchors.fill: parent;
                 onClicked: {
                     settingsWindow.show();
+                }
+                onPressed: {
+                    settingsArea.color = "#E19854"
+                }
+                onReleased: {
+                    settingsArea.color = "#777777"
                 }
             }
         }
