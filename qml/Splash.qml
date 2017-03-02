@@ -4,14 +4,15 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
 Window {
-    id: splash;
-    title: "Splash Window";
+    id: splashScreen;
+    title: "PMEAS Splash Screen";
     modality: Qt.ApplicationModal;
     flags: Qt.SplashScreen;
-    property int timeoutInterval: 3000;
+    color: "transparent";
+    property int durationOfSplash: 3000;
     signal timeout;
-    x: (Screen.width - splashImage.width) / 2
-    y: (Screen.height - splashImage.height) / 2
+    x: (Screen.width - splashImage.width) / 2;
+    y: (Screen.height - splashImage.height) / 2;
     width: splashImage.width;
     height: splashImage.height;
 
@@ -22,10 +23,12 @@ Window {
     }
 
     Timer {
-        interval: timeoutInterval; running: true; repeat: false;
+        interval: durationOfSplash;
+        running: true;
+        repeat: false;
         onTriggered: {
             visible = false;
-            splash.timeout();
+            splashScreen.timeout();
         }
     }
 
