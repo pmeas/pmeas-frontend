@@ -8,7 +8,6 @@ Window {
     title: "PMEAS Splash Screen";
     modality: Qt.ApplicationModal;
     flags: Qt.SplashScreen;
-    color: "transparent";
     property int durationOfSplash: 3000;
     signal timeout;
     x: (Screen.width - splashImage.width) / 2;
