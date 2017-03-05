@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // Sets up the GUI environment, this is required to a GUI application.
     QGuiApplication app(argc, argv);
 

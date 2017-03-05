@@ -33,10 +33,10 @@ ApplicationWindow {
     visible: true;
     width: 800;
     height: 600;
-    color: "#111111"
     minimumWidth: 680;
     minimumHeight: 520;
 
+    color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
 
     // This is defined in the cpp code and is then exposed to this QML enviroment
@@ -57,15 +57,29 @@ ApplicationWindow {
 
             Layout.fillWidth: true;
             Layout.fillHeight: true;
-
+            spacing: 2;
 
             // This is defined in the QML file of the same name.
             EffectsColumnArea {
                 id: effectsColumnArea;
                 Layout.fillHeight: true;
-                width: 150;
+                width: 170;
 
-                color: "#4B4C4E";
+                color: "#332f2f";
+                z: parameterColumnArea.z + 1;
+            }
+
+            Rectangle {
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    margins: 32;
+                }
+
+                radius: 6;
+                width: 3;
+                opacity: 0.25;
+                color: "black";
             }
 
             // This is defined in the QML file of the same name.
@@ -74,7 +88,7 @@ ApplicationWindow {
                 Layout.fillHeight: true;
                 Layout.fillWidth: true;
 
-                color: "#E1DDDC";
+                color: "#332f2f";
 
                 currentModelKey: effectsColumnArea.currentModelKey;
             }

@@ -12,36 +12,91 @@ Window {
     width: 300;
     height: 200;
 
-    //modality: Qt.WindowModal;
-    flags: Qt.WindowStaysOnTopHint | Qt.Window;
+    modality: Qt.ApplicationModal;
+    flags: Qt.FramelessWindowHint | Qt.Window;
 
-    color: "#E3E3E5";
+    Rectangle {
+        anchors {
+            left: parent.left;
+            top: parent.top;
+            margins: 12;
+        }
+
+        opacity: 0.50;
+        color: "black";
+        height: 19;
+        width: height;
+        radius: width / 2;
+
+        Text {
+            anchors.centerIn: parent;
+            text: "x";
+            font {
+                bold: true;
+                pixelSize: 13;
+            }
+
+            color: "white";
+
+        }
+        MouseArea {
+            anchors.fill: parent;
+            onClicked: {
+                settingsWindow.close();
+            }
+        }
+    }
 
     ColumnLayout {
-
+        id: devicesColumn;
 
         anchors { centerIn: parent; }
-        //RowLayout {
-        //    anchors.centerIn: parent;
-            spacing: 12;
+        spacing: 12;
 
-            Text {
-                text: "Audio Input";
-            }
+        Text {
+            text: "Audio Input";
+        }
 
-            ComboBox {
-                model: [ "Microphone", "Guitar" ];
-                implicitWidth: 150;
-            }
+        ComboBox {
+            model: [ "Microphone", "Guitar" ];
+            implicitWidth: 150;
+        }
 
-            Text {
-                text: "Audio Output";
-            }
+        Text {
+            text: "Audio Output";
+        }
 
-            ComboBox {
-                model: [ "Speakers", "Surround Sound" ];
-                implicitWidth: 150;
+        ComboBox {
+            model: [ "Speakers", "Surround Sound" ];
+            implicitWidth: 150;
+        }
+
+    }
+
+    Rectangle {
+
+        anchors {
+            top: devicesColumn.bottom;
+            horizontalCenter: parent.horizontalCenter;
+            margins: 12;
+        }
+
+        color: "blue";
+        height: 25;
+        width: 135;
+
+        MouseArea {
+            anchors.fill: parent;
+            onClicked: {
+                settingsWindow.close();
             }
-        //}
+        }
+
+        Text {
+            anchors { centerIn: parent; }
+            text: qsTr( "Accept" );
+            color: "white";
+        }
+
     }
 }

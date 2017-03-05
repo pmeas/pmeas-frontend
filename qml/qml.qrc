@@ -4,5 +4,6 @@
         <file>EffectsColumnArea.qml</file>
         <file>ParameterColumnArea.qml</file>
         <file>SettingsWindow.qml</file>
+        <file>ScrollBar.qml</file>
     </qresource>
 </RCC>
