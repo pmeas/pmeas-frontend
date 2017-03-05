@@ -43,35 +43,70 @@ Window {
                 implicitWidth: 150;
             }
 
-            Rectangle {
-                id: sendSettings;
-                width: 200;
-                height: 50;
-                color: "#FFFFFF";
-                border.color: "#000000";
-                border.width: 1;
-                radius: 4;
+            RowLayout {
 
-                Text {
-                    anchors.centerIn: parent;
-                    text: qsTr("Update");
+                Rectangle {
+                    id: cancelSettings;
+                    anchors.right: sendSettings;
+                    width: 75;
+                    height: 50;
+                    color: "#FFFFFF";
+                    border.color: "#000000";
+                    border.width: 1;
+                    radius: 4;
+
+                    Text {
+                        anchors.centerIn: parent;
+                        text: qsTr("Cancel");
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("Cancel settings page");
+                        }
+
+                        onPressed: {
+                            parent.color = "#E19854";
+                        }
+
+                        onReleased: {
+                            parent.color = "#FFFFFF";
+                        }
+                    }
                 }
 
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        console.log("Update server ports here :^)");
+                Rectangle {
+                    id: sendSettings;
+                    width: 75;
+                    height: 50;
+                    color: "#FFFFFF";
+                    border.color: "#000000";
+                    border.width: 1;
+                    radius: 4;
+
+                    Text {
+                        anchors.centerIn: parent;
+                        text: qsTr("Update");
                     }
 
-                    onPressed: {
-                        parent.color = "#E19854";
-                    }
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("Update server ports here :^)");
+                        }
 
-                    onReleased: {
-                        parent.color = "#FFFFFF";
-                    }
+                        onPressed: {
+                            parent.color = "#E19854";
+                        }
 
+                        onReleased: {
+                            parent.color = "#FFFFFF";
+                        }
+
+                    }
                 }
+
             }
 
         //}
