@@ -51,7 +51,7 @@ ApplicationWindow {
             margins: 1;
         }
 
-        spacing: 1;
+        spacing: 10;
 
         RowLayout {
 
@@ -127,6 +127,5 @@ ApplicationWindow {
                 }
             }
         }
-
     }
 }

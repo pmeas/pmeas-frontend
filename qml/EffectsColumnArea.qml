@@ -278,8 +278,8 @@ Rectangle {
                     source: enabledEffectBackground;
                     anchors.fill: source;
                     horizontalOffset: 0;
-                    verticalOffset: 0;
-                    radius: 16.0
+                    verticalOffset: 1;
+                    radius: 8.0
                     samples: radius * 2;
                     color: "#000000";
                 }
@@ -336,6 +336,7 @@ Rectangle {
 
                 property bool checked: false;
                 property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup;
+                property bool mouseEntered: false;
 
                 onExclusiveGroupChanged: {
                     if (exclusiveGroup) {
@@ -359,13 +360,25 @@ Rectangle {
 
                     border {
                         width: parent.checked ? 0 : 2;
-                        color: "#5a5a5a";
+                        color: mouseEntered ? "#6ff7c9" : "#5a5a5a";
                     }
 
                     anchors { horizontalCenter: effectButtonMouseArea.drag.active ? undefined : parent.horizontalCenter; }
                     radius: 4;
 
-                    //rotation: -90;
+                    Behavior on color {
+                        PropertyAnimation {
+                            duration: 350;
+                            easing.type: Easing.OutCubic;
+                        }
+                    }
+
+                    Behavior on border.color {
+                        PropertyAnimation {
+                            duration: 350;
+                            easing.type: Easing.OutCubic;
+                        }
+                    }
 
                     property alias text: effectButtonText.text;
                     property string category: "allEffects";
@@ -384,13 +397,32 @@ Rectangle {
                         }
 
                         text: effectName;
-                        color: allEffectItem.checked ? "black" : "#8a8a8a";
-                        opacity: 0.55;
+                        color: {
+                            if ( allEffectItem.checked ) {
+                                return "#346f66";
+                            } else {
+                                if ( mouseEntered ) {
+                                    return "#6ff7c9";
+                                }
+                                return "#5d6161";
+                            }
+                        }
+
+                        Behavior on color {
+                            PropertyAnimation {
+                                duration: 1200;
+                                easing.type: Easing.OutCubic;
+                            }
+                        }
                     }
 
                     MouseArea {
                         id: effectButtonMouseArea;
                         anchors.fill: parent;
+                        hoverEnabled: true;
+
+                        onEntered: mouseEntered = true;
+                        onExited: mouseEntered = false;
 
                         drag.target: parent;
                         drag.onActiveChanged: {
@@ -423,15 +455,14 @@ Rectangle {
                     }
                 }
 
-
                 DropShadow {
                     id: blackDropShadow;
                     visible: parent.checked;
                     source: effectButtonBackground;
                     anchors.fill: source;
                     horizontalOffset: 0;
-                    verticalOffset: 0;
-                    radius: 32.0
+                    verticalOffset: 1;
+                    radius: 8.0
                     samples: radius * 2;
                     color: "black";
                 }
@@ -441,20 +472,43 @@ Rectangle {
 
         Rectangle {
             id: settingsArea;
-            Layout.fillWidth: true;
-            height: 50;
+            height: 24;
             anchors {
                 bottom: parent.bottom;
+                left: parent.left;
+                right: parent.right;
+                leftMargin: 12;
+                rightMargin: 12;
             }
 
-            property bool checked: false;
-            color: checked ? "#E19854" : "#777777";
-            border.color: "#000000";
-            border.width: 1;
+            color: "#3e3a3a";
+            radius: 6;
 
-            Text {
-                anchors { centerIn: parent; }
-                text: qsTr( "Settings" );
+            RowLayout {
+                anchors.centerIn: parent;
+
+                spacing: 12;
+
+                Image {
+                    id: settingsIcon;
+                    source: "./icons/cog-2x.png";
+                    height: 14;
+                    width: height;
+                    sourceSize {
+                        width: 14;
+                        height: 14;
+                    }
+                }
+
+                Text {
+
+                    text: qsTr( "Settings" );
+                    font {
+                        bold: true;
+                        pixelSize: 12;
+                    }
+                    color: "#f1f1f1";
+                }
             }
 
             SettingsWindow {
@@ -466,13 +520,18 @@ Rectangle {
                 onClicked: {
                     settingsWindow.show();
                 }
-                onPressed: {
-                    settingsArea.color = "#E19854"
-                }
-                onReleased: {
-                    settingsArea.color = "#777777"
-                }
+
             }
+        }
+
+        DropShadow {
+            anchors.fill: source;
+            horizontalOffset: 0;
+            verticalOffset: 1;
+            radius: 4.0
+            samples: radius * 2;
+            color: "black"
+            source: settingsArea;
         }
     }
 }
