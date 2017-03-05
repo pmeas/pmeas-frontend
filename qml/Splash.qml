@@ -4,6 +4,8 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
 Window {
+    // Responsible for the splash screen upon loading of application.
+
     id: splashScreen;
     title: "PMEAS Splash Screen";
     modality: Qt.ApplicationModal;
