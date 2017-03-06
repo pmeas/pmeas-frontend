@@ -95,6 +95,7 @@ Item {
 
             drag.target: parent;
             drag.onActiveChanged: {
+                enabledEffectsListView.draggedItemEntered = true;
                 if (drag.active) {
                     allEffectItem.checked = true;
                     effectsColumn.dragInProgress = true;
@@ -104,6 +105,7 @@ Item {
                     var oldEffectName = effectName;
                     effectsListView.model.remove( oldIndex, 1 );
                     effectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                    enabledEffectsListView.draggedItemEntered = false;
                 }
 
                 effectButtonBackground.Drag.drop();
