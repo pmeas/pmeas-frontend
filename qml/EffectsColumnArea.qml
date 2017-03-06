@@ -41,7 +41,7 @@ Rectangle {
 
         AllEffectsList {
             id: effectsListView;
-            height: 240;
+            height: 280;
 
             width: parent.width;
 

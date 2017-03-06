@@ -18,6 +18,7 @@ Rectangle {
         "Harmonizer": [ "Balance", "Shift" ],
         "Frequency Shift": [ "Balance", "Pitch" ],
         "Reverb": [ "Effect Level", "Tone", "Delay", "Room Size"],
+        "Flanger": [ "Depth", "Lfo Freq", "Feedback"],
     }
 
     Rectangle  {
