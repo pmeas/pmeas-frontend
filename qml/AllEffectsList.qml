@@ -19,6 +19,7 @@ ListView {
         ListElement { effectName: "Chorus"; }
         ListElement { effectName: "Frequency Shift"; }
         ListElement { effectName: "Harmonizer"; }
+        ListElement { effectName: "Flanger"; }
     }
 
     header: Rectangle {
