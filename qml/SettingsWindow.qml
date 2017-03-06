@@ -10,42 +10,10 @@ Window {
     x: root.x + ( ( root.width / 2 ) - ( width / 2 ) );
     y: root.y + ( ( root.height / 2 ) - ( height / 2 ) );
     width: 300;
-    height: 200;
+    height: 250;
 
     modality: Qt.ApplicationModal;
     flags: Qt.Window;
-
-    Rectangle {
-        anchors {
-            left: parent.left;
-            top: parent.top;
-            margins: 12;
-        }
-
-        opacity: 0.50;
-        color: "black";
-        height: 19;
-        width: height;
-        radius: width / 2;
-
-        Text {
-            anchors.centerIn: parent;
-            text: "x";
-            font {
-                bold: true;
-                pixelSize: 13;
-            }
-
-            color: "white";
-
-        }
-        MouseArea {
-            anchors.fill: parent;
-            onClicked: {
-                settingsWindow.close();
-            }
-        }
-    }
 
     ColumnLayout {
         id: devicesColumn;
@@ -73,31 +41,22 @@ Window {
 
     }
 
-    Rectangle {
-
-        anchors {
-            top: devicesColumn.bottom;
-            horizontalCenter: parent.horizontalCenter;
-            margins: 12;
-        }
-
-        color: "blue";
-        height: 25;
-        width: 135;
-
-        MouseArea {
-            anchors.fill: parent;
-            onClicked: {
-                settingsWindow.close();
-            }
-
             RowLayout {
+
+                anchors {
+                    top: devicesColumn.bottom;
+                    horizontalCenter: parent.horizontalCenter;
+                    margins: 12;
+                }
 
                 Rectangle {
                     id: cancelSettings;
-                    anchors.right: sendSettings.left;
+                    anchors {
+                        right: sendSettings.left;
+                        rightMargin: 20;
+                    }
                     width: 75;
-                    height: 50;
+                    height: 35;
                     color: "#FFFFFF";
                     border.color: "#000000";
                     border.width: 1;
@@ -112,6 +71,7 @@ Window {
                         anchors.fill: parent;
                         onClicked: {
                             console.log("Cancel settings page");
+                            settingsWindow.close();
                         }
 
                         onPressed: {
@@ -127,7 +87,7 @@ Window {
                 Rectangle {
                     id: sendSettings;
                     width: 75;
-                    height: 50;
+                    height: 35;
                     color: "#FFFFFF";
                     border.color: "#000000";
                     border.width: 1;
@@ -135,7 +95,7 @@ Window {
 
                     Text {
                         anchors.centerIn: parent;
-                        text: qsTr("Update");
+                        text: qsTr("Accept");
                     }
 
                     MouseArea {
@@ -156,7 +116,4 @@ Window {
                 }
 
             }
-
-        }
-    }
 }
