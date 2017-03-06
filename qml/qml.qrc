@@ -4,7 +4,6 @@
         <file>EffectsColumnArea.qml</file>
         <file>ParameterColumnArea.qml</file>
         <file>SettingsWindow.qml</file>
-        <file>ScrollBar.qml</file>
         <file>Splash.qml</file>
         <file>images/logo.png</file>
         <file>icons/cog-2x.png</file>
