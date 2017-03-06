@@ -7,5 +7,11 @@
         <file>ScrollBar.qml</file>
         <file>Splash.qml</file>
         <file>images/logo.png</file>
+        <file>icons/cog-2x.png</file>
+        <file>Theme.qml</file>
+        <file>EffectButton.qml</file>
+        <file>EnabledEffectsList.qml</file>
+        <file>AllEffectsList.qml</file>
+        <file>ParameterBlock.qml</file>
     </qresource>
 </RCC>
