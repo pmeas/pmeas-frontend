@@ -33,8 +33,8 @@ ApplicationWindow {
     visible: true;
     width: 800;
     height: 600;
-    minimumWidth: 680;
-    minimumHeight: 520;
+    minimumWidth: 800;
+    minimumHeight: 600;
 
     color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
@@ -82,15 +82,57 @@ ApplicationWindow {
                 color: "black";
             }
 
+            DirectionalBlur {
+                anchors.fill: source;
+                source: parameterColumnArea
+                angle: 90
+                length: 32
+                samples: 24
+                visible: inOutAnimation.running;
+                cached: true;
+            }
+
             // This is defined in the QML file of the same name.
             ParameterColumnArea {
                 id: parameterColumnArea;
                 Layout.fillHeight: true;
                 Layout.fillWidth: true;
-
                 color: "#332f2f";
 
                 currentModelKey: effectsColumnArea.currentModelKey;
+                visible: !inOutAnimation.running;
+
+                SequentialAnimation {
+                    id: inOutAnimation;
+                    running: false;
+                    alwaysRunToEnd: true;
+                    NumberAnimation {
+                        target: parameterColumnArea;
+                        property: "x";
+                        to: root.width;
+                        duration: 150;
+
+                    }
+                    NumberAnimation {
+                        target: parameterColumnArea;
+                        property: "x";
+                        to: 175;
+                        duration: 250;
+                        easing.type: Easing.OutCirc
+                    }
+                }
+
+                property bool ranOnce: false;
+
+
+                onCurrentModelKeyChanged: {
+                    if ( !ranOnce ) {
+                        ranOnce = true;
+                    } else {
+
+                        inOutAnimation.running = true;
+                    }
+                }
             }
 
         }

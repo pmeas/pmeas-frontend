@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<SocketServer>( "LocalServer", 1, 0, "SocketServer" );
 
+    qmlRegisterSingletonType( QUrl( "qrc:///Theme.qml" ), "Theme", 1, 0, "Theme" );
+
     // Loads the starting point file of the GUI.
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

@@ -4,7 +4,11 @@
         <file>EffectsColumnArea.qml</file>
         <file>ParameterColumnArea.qml</file>
         <file>SettingsWindow.qml</file>
-        <file>ScrollBar.qml</file>
         <file>icons/cog-2x.png</file>
+        <file>Theme.qml</file>
+        <file>EffectButton.qml</file>
+        <file>EnabledEffectsList.qml</file>
+        <file>AllEffectsList.qml</file>
+        <file>ParameterBlock.qml</file>
     </qresource>
 </RCC>

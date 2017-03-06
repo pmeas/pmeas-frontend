@@ -13,7 +13,7 @@ Window {
     height: 200;
 
     modality: Qt.ApplicationModal;
-    flags: Qt.FramelessWindowHint | Qt.Window;
+    flags: Qt.Window;
 
     Rectangle {
         anchors {
