@@ -46,8 +46,8 @@ ListView {
             enabledEffectsListView.draggedItemEntered = false;
         }
 
-        onEntered: enabledEffectsListView.draggedItemEntered = true
-        onExited: enabledEffectsListView.draggedItemEntered = false;
+        //onEntered: enabledEffectsListView.draggedItemEntered = true
+        //onExited: enabledEffectsListView.draggedItemEntered = false;
 
         Rectangle {
             id: enabledEffectsDropHighlighter;
