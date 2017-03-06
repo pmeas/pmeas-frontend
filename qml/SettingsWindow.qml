@@ -90,13 +90,73 @@ Window {
             onClicked: {
                 settingsWindow.close();
             }
-        }
 
-        Text {
-            anchors { centerIn: parent; }
-            text: qsTr( "Accept" );
-            color: "white";
-        }
+            RowLayout {
 
+                Rectangle {
+                    id: cancelSettings;
+                    anchors.right: sendSettings.left;
+                    width: 75;
+                    height: 50;
+                    color: "#FFFFFF";
+                    border.color: "#000000";
+                    border.width: 1;
+                    radius: 4;
+
+                    Text {
+                        anchors.centerIn: parent;
+                        text: qsTr("Cancel");
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("Cancel settings page");
+                        }
+
+                        onPressed: {
+                            parent.color = "#E19854";
+                        }
+
+                        onReleased: {
+                            parent.color = "#FFFFFF";
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: sendSettings;
+                    width: 75;
+                    height: 50;
+                    color: "#FFFFFF";
+                    border.color: "#000000";
+                    border.width: 1;
+                    radius: 4;
+
+                    Text {
+                        anchors.centerIn: parent;
+                        text: qsTr("Update");
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("Update server ports here :^)");
+                        }
+
+                        onPressed: {
+                            parent.color = "#E19854";
+                        }
+
+                        onReleased: {
+                            parent.color = "#FFFFFF";
+                        }
+
+                    }
+                }
+
+            }
+
+        }
     }
 }

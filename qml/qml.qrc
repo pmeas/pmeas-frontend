@@ -5,5 +5,7 @@
         <file>ParameterColumnArea.qml</file>
         <file>SettingsWindow.qml</file>
         <file>ScrollBar.qml</file>
+        <file>Splash.qml</file>
+        <file>images/logo.png</file>
     </qresource>
 </RCC>
