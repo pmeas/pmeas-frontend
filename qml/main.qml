@@ -160,6 +160,7 @@ ApplicationWindow {
                 anchors { fill: parent; }
                 onClicked: {
                     console.log( "Clicked the submit button" );
+                    socketServer.broadcastDatagram();
                 }
                 onEntered: {
                     parent.color = "#01891e";
