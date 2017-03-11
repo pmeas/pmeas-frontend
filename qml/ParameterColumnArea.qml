@@ -69,6 +69,8 @@ Rectangle {
             spacing: 12;
 
             ScrollBar.vertical: ScrollBar {
+                width: 12;
+                opacity: 0.3;
             }
 
 

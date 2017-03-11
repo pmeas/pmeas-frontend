@@ -1,6 +1,7 @@
-import QtQuick 2.3
+import QtQuick 2.7
 import QtQuick.Window 2.0
-import QtQuick.Controls 1.1
+import QtQuick.Controls 2.1
+import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
@@ -12,6 +13,11 @@ ListView {
 
     Layout.fillHeight: true;
     Layout.fillWidth: true;
+
+    ScrollBar.vertical: ScrollBar {
+        width: 8;
+        opacity: 0.3;
+    }
 
     remove: Transition {
         NumberAnimation {
