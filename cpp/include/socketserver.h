@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void broadcastDatagram();
+    void readDatagram();
 
 private:
     QUdpSocket *udpSocket;

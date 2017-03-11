@@ -9,6 +9,9 @@ const QString SERVER_NAME = "ListenHereBOI!";
 SocketServer::SocketServer(QObject *parent) : QObject(parent)
 {
     udpSocket = new QUdpSocket(this);
+
+    connect(udpSocket, SIGNAL(readyRead()),
+            this, SLOT(readDatagram()));
 }
 
 void SocketServer::broadcastDatagram() {
@@ -20,7 +23,13 @@ void SocketServer::broadcastDatagram() {
     QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
-    QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
-    QByteArray receivedData = networkDatagram.data();
-    qInfo() << QString(receivedData);
+}
+
+void SocketServer::readDatagram() {
+
+    while(udpSocket->hasPendingDatagrams()) {
+        QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
+        QByteArray receivedData = networkDatagram.data();
+        qInfo() << QString(receivedData);
+    }
 }
