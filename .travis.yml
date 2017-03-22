@@ -7,9 +7,9 @@ before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-qt571-trusty
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
-  - sudo apt-get install -qq g++-4.9
+  - sudo apt-get install -qq g++-5.0
   - sudo apt-get install -qq -y qt57base qt57declarative qt57imageformats qt57location qt57multimedia qt57quickcontrols qt57svg qt57tools qt57translations
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 90
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5.0 90
 script:
   - source /opt/qt57/bin/qt57-env.sh
   - qmake pmeas-frontend.pro
