@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 
 #include "socketserver.h"
+#include "effectsmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,8 @@ int main(int argc, char *argv[])
 
     // Loads up the the QML javascript engine
     QQmlApplicationEngine engine;
+
+    EffectsModel::registerTypes();
 
     qmlRegisterType<SocketServer>( "LocalServer", 1, 0, "SocketServer" );
 

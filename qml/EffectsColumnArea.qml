@@ -7,7 +7,9 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
-    property string currentModelKey: "Distortion";
+    property alias effectsListView: enabledEffectsListView;
+
+    property var currentParameterModel: effectsExclusiveGroup.current === null ? undefined : effectsExclusiveGroup.current.model;
 
     ColumnLayout {
         id: effectsColumn;
@@ -17,7 +19,9 @@ Rectangle {
 
         spacing: 6;
 
-        ExclusiveGroup { id: effectsExclusiveGroup; }
+        ExclusiveGroup {
+            id: effectsExclusiveGroup;
+        }
 
         property bool dragInProgress: false;
 
@@ -41,7 +45,7 @@ Rectangle {
 
         AllEffectsList {
             id: effectsListView;
-            height: 280;
+            height: 315;
 
             width: parent.width;
 
