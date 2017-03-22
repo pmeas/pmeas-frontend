@@ -9,6 +9,8 @@ Item {
     height: 24;
     width: parent.width;
 
+    property var model: parameterModel;
+
     property bool checked: false;
     property ExclusiveGroup exclusiveGroup;
     property bool mouseEntered: false;
@@ -51,6 +53,8 @@ Item {
 
         property alias text: effectButtonText.text;
         property string category: "allEffects";
+        property int type: effectType;
+
 
         Text {
             id: effectButtonText;
@@ -102,9 +106,10 @@ Item {
                     enabledEffectsListView.dragItemIndex = index;
                 } else {
                     var oldIndex = index;
-                    var oldEffectName = effectName;
-                    effectsListView.model.remove( oldIndex, 1 );
-                    effectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                    var oldEffectType = effectType;
+
+                    effectsListView.model.remove( oldIndex );
+                    effectsListView.model.insert( oldIndex, oldEffectType );
                     enabledEffectsListView.draggedItemEntered = false;
                 }
 
@@ -112,8 +117,6 @@ Item {
             }
 
             onClicked: {
-                currentModelKey = modelData;
-                console.log("Clicked 'All Effects' " + modelData + " button" );
                 allEffectItem.checked = true;
             }
 

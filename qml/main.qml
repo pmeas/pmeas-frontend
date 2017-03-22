@@ -99,17 +99,42 @@ ApplicationWindow {
                 Layout.fillWidth: true;
                 color: "#332f2f";
 
-                currentModelKey: effectsColumnArea.currentModelKey;
                 visible: !inOutAnimation.running;
+
+                property bool modelWasUndefined;
+
+                Component.onCompleted: modelWasUndefined = ( effectsColumnArea.currentParameterModel === undefined );
+
+                onModelWasUndefinedChanged: console.log( "Model", modelWasUndefined )
+
+                Connections {
+                    target: effectsColumnArea;
+                    onCurrentParameterModelChanged: {
+                        if ( effectsColumnArea.currentParameterModel === undefined ) {
+                            parameterColumnArea.modelWasUndefined = true;
+                            console.log( parameterColumnArea.modelWasUndefined)
+                        }
+
+                        if ( parameterColumnArea.modelWasUndefined ) {
+                            parameterColumnArea.modelWasUndefined = false;
+                        } else {
+                            inOutAnimation = true;
+                        }
+
+                        //console.log("CHANGEd", effectsColumnArea.currentParameterModel)
+                    }
+                }
+
 
                 SequentialAnimation {
                     id: inOutAnimation;
-                    running: false;
+                    running: false; //effectsColumnArea.currentParameterModel !== undefined;
                     alwaysRunToEnd: true;
+
                     NumberAnimation {
                         target: parameterColumnArea;
                         property: "x";
-                        to: root.width;
+                        to: root.width + 100;
                         duration: 150;
 
                     }
@@ -122,17 +147,6 @@ ApplicationWindow {
                     }
                 }
 
-                property bool ranOnce: false;
-
-
-                onCurrentModelKeyChanged: {
-                    if ( !ranOnce ) {
-                        ranOnce = true;
-                    } else {
-
-                        inOutAnimation.running = true;
-                    }
-                }
             }
 
         }
