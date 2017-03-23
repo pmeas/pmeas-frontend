@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QDebug>
 
 // The SocketServer class will allow us to listen to and
 // send messages to the backend server.
@@ -11,6 +12,8 @@
 // Forward declares
 class QTimer;
 class QUdpSocket;
+class QTcpSocket;
+class QTcpServer;
 
 class SocketServer : public QObject
 {
@@ -24,8 +27,11 @@ signals:
 
 public slots:
     void broadcastDatagram();
+    void nextPendingConnection();
     void readDatagram();
 
 private:
     QUdpSocket *udpSocket;
+    QTcpSocket *tcpSocket;
+    QTcpServer *server;
 };

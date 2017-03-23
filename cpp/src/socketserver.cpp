@@ -8,10 +8,19 @@ const QString SERVER_NAME = "ListenHereBOI!";
 
 SocketServer::SocketServer(QObject *parent) : QObject(parent)
 {
+    server = new QTcpServer(this);
     udpSocket = new QUdpSocket(this);
-
+    connect(server, SIGNAL(nextPendingConnection()),
+            this,SLOT(nextPendingConnection()));
     connect(udpSocket, SIGNAL(readyRead()),
             this, SLOT(readDatagram()));
+
+    if(!server->listen(QHostAddress::Any,10000)){
+        qDebug() << "TCP Server could not start.";
+    }
+    else{
+        qDebug() << "TCP Server started";
+    }
 }
 
 void SocketServer::broadcastDatagram() {
@@ -20,16 +29,27 @@ void SocketServer::broadcastDatagram() {
      * connection after like Younes suggests to send data over reliably. This can be done
      * of course but before we start work on it we gotta make sure its what we want to do.
      */
-    QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
+    QByteArray datagram = "{\"distortion\": {\"drive\": 1,\"slope\": 0.5},\"intent\": \"EFFECT\"}";
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
+}
+
+void SocketServer::nextPendingConnection() {
+    QTcpSocket *socket = server->nextPendingConnection();
+    //address = QTcpSocket::peerAddress();
+    //qDebug() << QString(address);
+    //socket->write("Hello Client");
+    //socket->flush();
+    //socket->waitForBytesWritten(3000);
+    //socket->close();
 }
 
 void SocketServer::readDatagram() {
 
     while(udpSocket->hasPendingDatagrams()) {
+        SocketServer::nextPendingConnection();
         QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
-        qInfo() << QString(receivedData);
+        qDebug() << QString(receivedData);
     }
 }
