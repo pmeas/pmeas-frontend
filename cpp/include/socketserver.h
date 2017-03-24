@@ -13,7 +13,7 @@
 class QTimer;
 class QUdpSocket;
 class QTcpSocket;
-class QTcpServer;
+class QAbstractSocket;
 
 class SocketServer : public QObject
 {
@@ -27,11 +27,9 @@ signals:
 
 public slots:
     void broadcastDatagram();
-    void nextPendingConnection();
     void readDatagram();
 
 private:
     QUdpSocket *udpSocket;
-    QTcpSocket *tcpSocket;
-    QTcpServer *server;
+    QAbstractSocket *tcpSocket;
 };
