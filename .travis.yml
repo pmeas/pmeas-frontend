@@ -11,6 +11,6 @@ before_install:
   - sudo apt-get install -qq -y qt58base qt58declarative qt58imageformats qt58location qt58multimedia qt58quickcontrols qt58svg qt58tools qt58translations
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
 script:
-  - source /opt/qt57/bin/qt58-env.sh
+  - source /opt/qt58/bin/qt58-env.sh
   - qmake pmeas-frontend.pro
   - make -j2
