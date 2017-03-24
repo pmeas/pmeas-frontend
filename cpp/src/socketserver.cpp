@@ -20,7 +20,7 @@ void SocketServer::broadcastDatagram() {
      * connection after like Younes suggests to send data over reliably. This can be done
      * of course but before we start work on it we gotta make sure its what we want to do.
      */
-    QByteArray datagram = "{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}";
+    QByteArray datagram = "1";
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
 }
@@ -29,16 +29,24 @@ void SocketServer::tcpConnection(QHostAddress address,int port){
     tcpSocket->connectToHost(address,port);
 
     if(tcpSocket->waitForConnected(3000)){
-        qDebug() << "Connected!";
+        qDebug() << "Connected to Host:" << address << "Port:" << port;
+
+        //HERE IS WHERE THE JSON WILL BE SENT
+        tcpSocket->write("{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
+        //SEND
+        tcpSocket->waitForBytesWritten(1000);
+        //WAIT FOR RESPONSE
+        tcpSocket->waitForReadyRead(1000);
+        //HOW MANY BYTES COMMING FROM SERVER
+        qDebug() << "Reading: " << tcpSocket->bytesAvailable();
+        //READ ENTIRE BUFFER
+        qDebug() << tcpSocket->readAll();
+        //CLOSE SOCKET
+        tcpSocket->close();
     }
     else{
-        qDebug() << "Not Connected :(";
+        qDebug() << "Not Connected";
     }
-    qDebug() << "Host Address:" << (address);
-    qDebug() << "Port:" << (port);
-//    tcpSocket->write("Here is where the tcp socket will send JSON");
-//    tcpSocket->flush();
-//    tcpSocket->close();
 }
 
 void SocketServer::readDatagram() {
@@ -46,9 +54,14 @@ void SocketServer::readDatagram() {
     while(udpSocket->hasPendingDatagrams()) {
         QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
-        qDebug() << QString(receivedData);
-        QHostAddress address = networkDatagram.destinationAddress();
-        int port = networkDatagram.destinationPort();
-        tcpConnection(address,port);
+        if (receivedData == "1"){
+            qDebug() << "Received data:" << QString(receivedData);
+            QHostAddress address = networkDatagram.destinationAddress();
+            int port = networkDatagram.destinationPort();
+            tcpConnection(address,port);
+        }
+        else{
+            qDebug() << "No Data Received";
+        }
     }
 }
