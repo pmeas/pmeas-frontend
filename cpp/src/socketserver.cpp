@@ -1,5 +1,4 @@
 #include <QtNetwork>
-
 #include "socketserver.h"
 
 // This is the name we give to the server to listen to.
@@ -21,7 +20,7 @@ void SocketServer::broadcastDatagram() {
      * connection after like Younes suggests to send data over reliably. This can be done
      * of course but before we start work on it we gotta make sure its what we want to do.
      */
-    QByteArray datagram = "{\"distortion\": {\"drive\": 1,\"slope\": 0.5},\"intent\": \"EFFECT\"}";
+    QByteArray datagram = "{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}";
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
 }
@@ -36,10 +35,11 @@ void SocketServer::readDatagram() {
         QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
         qDebug() << QString(receivedData);
-        qDebug() << networkDatagram.destinationAddress();
-        qDebug() << networkDatagram.destinationPort();
-        //address = networkDatagram.destinationAddress();
-        //port = networkDatagram.destinationPort();
+        QHostAddress address = networkDatagram.destinationAddress();
+        int port = networkDatagram.destinationPort();
+        qDebug() << "Host Address:" << (address);
+        qDebug() << "Port:" << (port);
+        tcpSocket->connectToHost(address,port);
         //newConnection(address,port);
     }
 }

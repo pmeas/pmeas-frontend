@@ -34,6 +34,4 @@ public slots:
 private:
     QUdpSocket *udpSocket;
     QAbstractSocket *tcpSocket;
-    //QHostAddress *address;
-    //int port;
 };
