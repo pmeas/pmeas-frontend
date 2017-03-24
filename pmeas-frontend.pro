@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick network
 CONFIG += c++14
 
 RESOURCES += qml/qml.qrc

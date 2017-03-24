@@ -1,4 +1,5 @@
-#include <QtNetwork>
+#include <QUdpSocket>
+#include <QNetworkDatagram>
 
 #include "socketserver.h"
 
