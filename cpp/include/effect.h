@@ -28,6 +28,7 @@ public:
     explicit Effect( QObject *parent = nullptr );
     explicit Effect( Type t_type, QObject *parent = nullptr );
 
+    QString broadcastName() const;
     QString name() const;
     Type effectType() const;
     ParameterModel *model() const;
@@ -44,6 +45,7 @@ private:
     Type m_effectType;
     ParameterModel *m_model;
     QString m_name;
+    QString m_broadcastName;
 
 };
 

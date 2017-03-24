@@ -112,12 +112,11 @@ QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument
 
                 const Parameter &parameter = effect->model()->at( i );
 
-                QJsonObject parameterMap {
-                    { "name", parameter.name },
-                    { "min", parameter.min },
-                    { "max", parameter.max },
-                    { "value", parameter.value },
-                };
+                QJsonObject parameterMap;
+                parameterMap[ "name" ] = parameter.name;
+                parameterMap[ "min" ] =parameter.min.toJsonValue();
+                parameterMap[ "max" ] = parameter.max.toJsonValue();
+                parameterMap[ "value" ] = parameter.value.toJsonValue(),
                 effectParameters.append( parameterMap );
             }
 
@@ -132,6 +131,38 @@ QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument
     }
 
     return result;
+
+}
+
+QByteArray EffectsModel::toBroadcastJson() {
+
+    QByteArray result;
+
+    QJsonObject jsonObject;
+
+    int i=0;
+
+    for ( Effect *effect : m_model ) {
+
+        QJsonObject parameterMap;
+
+        parameterMap[ "name" ] = effect->broadcastName();
+
+        for ( int p=0; p < effect->model()->size(); ++p ) {
+
+            const Parameter &parameter = effect->model()->at( p );
+
+            parameterMap[ parameter.broadcastName ] = parameter.value.toDouble();
+
+            qDebug( ) << parameter.max << parameter.value;
+
+        }
+
+        jsonObject[ QByteArray::number( i ) ] = parameterMap;
+        ++i;
+    }
+
+    return QJsonDocument( jsonObject ).toJson( QJsonDocument::Compact );
 
 }
 

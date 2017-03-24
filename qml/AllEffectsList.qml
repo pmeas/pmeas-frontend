@@ -24,9 +24,6 @@ ListView {
         Effect { effectType: Effect.Phaser; }
         Effect { effectType: Effect.Reverb; }
 
-        Component.onCompleted: {
-            saveSetlist( "/home/lee/Documents/playlist.json" );
-        }
     }
 
     header: Rectangle {
