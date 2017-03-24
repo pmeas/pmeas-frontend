@@ -9,7 +9,8 @@
 // it can be used and tied into the GUI easily.
 
 // Forward declares
-class QLocalServer;
+class QTimer;
+class QUdpSocket;
 
 class SocketServer : public QObject
 {
@@ -22,10 +23,9 @@ public:
 signals:
 
 public slots:
+    void broadcastDatagram();
+    void readDatagram();
 
 private:
-    // This is a raw pointer but does not need to be manually deleted.
-    // It gets parented to this SocketServer class which will detroy it
-    // automatically.
-    QLocalServer *m_localServer;
+    QUdpSocket *udpSocket;
 };
