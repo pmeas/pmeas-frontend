@@ -24,10 +24,12 @@ void SocketServer::broadcastDatagram() {
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
 }
-/*
-void SocketServer::newConnection(address,port){
-    tcpSocket->connectToHost(QHostAddress::address,port);
-}*/
+
+void SocketServer::tcpConnection(QHostAddress address,int port){
+    tcpSocket->connectToHost(address,port);
+    qDebug() << "Host Address:" << (address);
+    qDebug() << "Port:" << (port);
+}
 
 void SocketServer::readDatagram() {
 
@@ -37,9 +39,6 @@ void SocketServer::readDatagram() {
         qDebug() << QString(receivedData);
         QHostAddress address = networkDatagram.destinationAddress();
         int port = networkDatagram.destinationPort();
-        qDebug() << "Host Address:" << (address);
-        qDebug() << "Port:" << (port);
-        tcpSocket->connectToHost(address,port);
-        //newConnection(address,port);
+        tcpConnection(address,port);
     }
 }

@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include <QDebug>
-
+#include <QHostAddress>
 // The SocketServer class will allow us to listen to and
 // send messages to the backend server.
 //
@@ -13,7 +13,6 @@
 class QTimer;
 class QUdpSocket;
 class QTcpSocket;
-class QHostAddress;
 class QAbstractSocket;
 
 class SocketServer : public QObject
@@ -28,7 +27,7 @@ signals:
 
 public slots:
     void broadcastDatagram();
-    //void newConnection(QHostAddress,int);
+    void tcpConnection(QHostAddress,int);
     void readDatagram();
 
 private:
