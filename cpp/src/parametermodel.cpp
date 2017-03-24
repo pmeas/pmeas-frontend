@@ -23,9 +23,10 @@ ParameterModel::ParameterModel( const QJsonArray &parameters, QObject *parent)  
         QJsonObject parameterMap = val.toObject();
 
         m_model.append( Parameter{ parameterMap[ "name" ].toString()
-                   , parameterMap[ "min" ].toInt(),
-                    parameterMap[ "max" ].toInt()
-                    , parameterMap[ "value"].toInt() } );
+                                   , parameterMap[ "broadcastName" ].toString()
+                                   , parameterMap[ "min" ].toInt()
+                                   , parameterMap[ "max" ].toInt()
+                                   , parameterMap[ "value"].toInt() } );
     }
 
     endInsertRows();
@@ -91,7 +92,7 @@ bool ParameterModel::setData(const QModelIndex &index, const QVariant &value, in
                 m_model[ index.row() ].name = value.toString();
                 break;
             case Roles::ParameterValue:
-                m_model[ index.row() ].value = value.toInt();
+                m_model[ index.row() ].value = value;
                 break;
             case Roles::ParameterMinValue:
                 m_model[ index.row() ].min = value.toInt();
@@ -176,48 +177,50 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
             break;
 
         case Effect::Type::Distortion:
-            m_model.append( Parameter{ "Distortion", 0, 100, 50 } );
-            m_model.append( Parameter{ "Tone", 0, 100, 50 } );
+            m_model.append( Parameter{ "Drive", "drive", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Tone", "tone", 0, 1, 0.5 } );
             break;
 
         case Effect::Type::Delay:
-            m_model.append( Parameter{ "Feedback", 0, 100, 50 } );
-            m_model.append( Parameter{ "Delay Time", 0, 100, 50 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            //m_model.append( Parameter{ "Delay Time", "delay", 0, 100, QVariantList{ 0, 0 } } );
             break;
 
         case Effect::Type::Reverb:
-            m_model.append( Parameter{ "Effect Level", 0, 100, 50 } );
-            m_model.append( Parameter{ "Tone", 0, 100, 50 } );
-            m_model.append( Parameter{ "Delay", 0, 100, 50 } );
-            m_model.append( Parameter{ "Room Size", 0, 100, 50 } );
+            m_model.append( Parameter{ "Balance",  "balance", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Tone", "cutoff", 0, 100, 50 } );
+            m_model.append( Parameter{ "Delay", "revtime", 0, 100, 50 } );
+            m_model.append( Parameter{ "Room Size", "roomsize", 0.25, 4, 0 } );
 
             break;
 
         case Effect::Type::Harmonizer:
-            m_model.append( Parameter{ "Balance", 0, 100, 50 } );
-            m_model.append( Parameter{ "Shift", 0, 100, 50 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            //m_model.append( Parameter{ "Shift", "transpose", -20, 20, QVariantList{ } } );
             break;
 
         case Effect::Type::FrequencyShift:
-            m_model.append( Parameter{ "Balance", 0, 100, 50 } );
-            m_model.append( Parameter{ "Pitch", 0, 100, 50 } );
+            //m_model.append( Parameter{ "Pitch", "shift", 0, 100, QVariantList{ } } );
             break;
 
         case Effect::Type::Phaser:
-            m_model.append( Parameter{ "Distortion", 0, 100, 50 } );
-            m_model.append( Parameter{ "Tone", 0, 100, 50 } );
+            m_model.append( Parameter{ "Frequency", "frequency", 0, 100, 0.5 } );
+            m_model.append( Parameter{ "Spread", "spread", 0, 100, 50 } );
+            m_model.append( Parameter{ "Q-Factor", "q", 0, 100, 50 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Num", "num", 0, 100, 50 } );
             break;
 
         case Effect::Type::Chorus:
-            m_model.append( Parameter{ "Effect Level", 0, 100, 50 } );
-            m_model.append( Parameter{ "Rate", 0, 100, 50 } );
-            m_model.append( Parameter{ "Depth", 0, 100, 50 } );
+            m_model.append( Parameter{ "Balance", "balance", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            //m_model.append( Parameter{ "Depth", "depth", 0, 5, QVariant{ 0, 0 } } );
             break;
 
         case Effect::Type::Flanger:
-            m_model.append( Parameter{ "Depth", 0, 100, 50 } );
-            m_model.append( Parameter{ "Lfo Frequency", 0, 100, 50 } );
-            m_model.append( Parameter{ "Feedback", 0, 100, 50 } );
+            m_model.append( Parameter{ "Depth", "depth", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Lfo Frequency", "freq", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
             break;
 
         default:
@@ -239,7 +242,7 @@ void ParameterModel::append( QString t_name, int t_min, int t_max, int t_value) 
 
     beginInsertRows( QModelIndex(), m_model.size(), m_model.size() );
 
-    m_model.append( Parameter{ t_name , t_min, t_max, t_value } );
+    m_model.append( Parameter{ t_name, "", t_min, t_max, t_value } );
 
     endInsertRows();
 }

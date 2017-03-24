@@ -62,6 +62,8 @@ public slots:
     bool loadSetlist( QString filePath );
     bool saveSetlist( QString filePath );
 
+    QByteArray toBroadcastJson();
+
 private:
     void append( Effect *t_effect );
 

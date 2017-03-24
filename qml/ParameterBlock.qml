@@ -107,6 +107,8 @@ Rectangle {
             onPressedChanged: {
                 if ( !pressed ) {
                     parameterValue = value;
+                    // JOSH!!!
+                    console.log( effectsColumnArea.effectsListView.model.toBroadcastJson() );
                 }
             }
 
