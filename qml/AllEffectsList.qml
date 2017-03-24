@@ -23,6 +23,10 @@ ListView {
         Effect { effectType: Effect.Harmonizer; }
         Effect { effectType: Effect.Phaser; }
         Effect { effectType: Effect.Reverb; }
+
+        Component.onCompleted: {
+            saveSetlist( "/home/lee/Documents/playlist.json" );
+        }
     }
 
     header: Rectangle {
@@ -49,6 +53,7 @@ ListView {
 
     delegate: EffectButton {
         exclusiveGroup: effectsExclusiveGroup;
+        z: checked ? 100 : 0;
     }
 
     /*

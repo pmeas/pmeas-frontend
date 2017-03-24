@@ -5,7 +5,6 @@
 
 #include <QDebug>
 
-#include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -94,6 +93,46 @@ void EffectsModel::appendEffect(QQmlListProperty<Effect> *list, Effect *effect) 
     EffectsModel *parentModel = qobject_cast<EffectsModel *>( list->object );
     effect->setModel( effect->effectType() );
     parentModel->append( effect );
+}
+
+QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument::Indented ) {
+
+    QByteArray result;
+
+    if ( !m_model.isEmpty() ) {
+
+        QJsonArray rootArray;
+        \
+        for ( Effect *effect : m_model ) {
+
+            QJsonObject effectObject;
+            QJsonArray effectParameters;
+
+            for ( int i=0; i < effect->model()->size(); ++i ) {
+
+                const Parameter &parameter = effect->model()->at( i );
+
+                QJsonObject parameterMap {
+                    { "name", parameter.name },
+                    { "min", parameter.min },
+                    { "max", parameter.max },
+                    { "value", parameter.value },
+                };
+                effectParameters.append( parameterMap );
+            }
+
+            effectObject[ "effectType" ] = static_cast<int>( effect->effectType() );
+            effectObject[ "parameters" ] = effectParameters;
+            rootArray.append( effectObject );
+        }
+
+        QJsonDocument jsonDoc( rootArray );
+        result = jsonDoc.toJson( t_fmt );
+
+    }
+
+    return result;
+
 }
 
 void EffectsModel::append( Effect::Type t_type ) {
@@ -193,35 +232,7 @@ bool EffectsModel::saveSetlist( QString filePath ) {
         QFile jsonFile( filePath );
         if ( jsonFile.open( QIODevice::WriteOnly ) ) {
 
-
-            QJsonArray rootArray;
-            \
-            for ( Effect *effect : m_model ) {
-
-                QJsonObject effectObject;
-                QJsonArray effectParameters;
-
-                for ( int i=0; i < effect->model()->size(); ++i ) {
-
-                    const Parameter &parameter = effect->model()->at( i );
-
-                    QJsonObject parameterMap {
-                        { "name", parameter.name },
-                        { "min", parameter.min },
-                        { "max", parameter.max },
-                        { "value", parameter.value },
-                    };
-                    effectParameters.append( parameterMap );
-                }
-
-                effectObject[ "effectType" ] = static_cast<int>( effect->effectType() );
-                effectObject[ "parameters" ] = effectParameters;
-                rootArray.append( effectObject );
-            }
-
-            QJsonDocument jsonDoc( rootArray );
-
-            jsonFile.write( jsonDoc.toJson( QJsonDocument::Indented ) );
+            jsonFile.write( toJson( QJsonDocument::Indented ) );
 
             return true;
         }

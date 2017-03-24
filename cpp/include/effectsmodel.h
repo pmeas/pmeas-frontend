@@ -7,8 +7,9 @@
 
 #include <QQmlListProperty>
 
-#include <initializer_list>
+#include <QJsonDocument>
 
+#include <initializer_list>
 
 
 class EffectsModel : public QAbstractTableModel
@@ -46,6 +47,8 @@ public:
     QQmlListProperty<Effect> effectList();
 
     static void appendEffect( QQmlListProperty<Effect> *list, Effect *effect );
+
+    QByteArray toJson( QJsonDocument::JsonFormat t_fmt );
 
 public slots:
     void append( Effect::Type t_type );
