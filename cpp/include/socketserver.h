@@ -13,6 +13,7 @@
 class QTimer;
 class QUdpSocket;
 class QTcpSocket;
+class QHostAddress;
 class QAbstractSocket;
 
 class SocketServer : public QObject
@@ -27,9 +28,12 @@ signals:
 
 public slots:
     void broadcastDatagram();
+    //void newConnection(QHostAddress,int);
     void readDatagram();
 
 private:
     QUdpSocket *udpSocket;
     QAbstractSocket *tcpSocket;
+    //QHostAddress *address;
+    //int port;
 };
