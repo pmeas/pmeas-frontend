@@ -27,8 +27,18 @@ void SocketServer::broadcastDatagram() {
 
 void SocketServer::tcpConnection(QHostAddress address,int port){
     tcpSocket->connectToHost(address,port);
+
+    if(tcpSocket->waitForConnected(3000)){
+        qDebug() << "Connected!";
+    }
+    else{
+        qDebug() << "Not Connected :(";
+    }
     qDebug() << "Host Address:" << (address);
     qDebug() << "Port:" << (port);
+//    tcpSocket->write("Here is where the tcp socket will send JSON");
+//    tcpSocket->flush();
+//    tcpSocket->close();
 }
 
 void SocketServer::readDatagram() {
