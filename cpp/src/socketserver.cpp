@@ -10,7 +10,11 @@ SocketServer::SocketServer(QObject *parent) : QObject(parent)
     tcpSocket = new QTcpSocket(this);
     udpSocket = new QUdpSocket(this);
 
-    connect(tcpSocket,SIGNAL(connected()),this, SLOT(handleTcpConnection()));
+    connect(tcpSocket, &QTcpSocket::connected,this, [this] {
+        qDebug() << "has connected";
+    });
+
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readTCPResult()));
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(readDatagram()));
 }
 
@@ -21,16 +25,19 @@ void SocketServer::broadcastDatagram() {
                              QHostAddress::Broadcast, 10000);
 }
 
-void SocketServer::handleTcpConnection(){
-    qDebug() << "Connected!";
+void SocketServer::sendData(){
 
-    tcpSocket->write("{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
+    int res = tcpSocket->write("{\"distortion\": {\"drive\": 1,\"slope\": 0.25},\"intent\": \"EFFECT\"}");
+    qDebug() << res;
 
-    tcpSocket->waitForBytesWritten(1000);
-    tcpSocket->waitForReadyRead(1000);
+    tcpSocket->flush();
+}
 
-    qDebug() << "Reading: " << tcpSocket->bytesAvailable(); //HOW MANY BYTES COMMING FROM SERVER
-    qDebug() << tcpSocket->readAll(); //READ ENTIRE BUFFER
+void SocketServer::readTCPResult() {
+
+    QByteArray tcpResult = tcpSocket->readAll();
+
+    qDebug() << tcpResult;
 }
 
 void SocketServer::tcpConnection(QHostAddress address,int port){
@@ -45,6 +52,7 @@ void SocketServer::readDatagram() {
         QByteArray receivedData = networkDatagram.data();
         QHostAddress address = networkDatagram.senderAddress();
         int port = receivedData.toInt();
+        qDebug() << "Got IP: " << address << " on Port: " << port;
         tcpConnection(address,port);
     }
 }
