@@ -30,6 +30,7 @@ public slots:
     void broadcastDatagram();
     void tcpConnection(QHostAddress,int);
     void readDatagram();
+    void handleTcpConnection();
 
 private:
     QUdpSocket *udpSocket;

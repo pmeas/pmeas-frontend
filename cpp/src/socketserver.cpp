@@ -10,7 +10,7 @@ SocketServer::SocketServer(QObject *parent) : QObject(parent)
     tcpSocket = new QTcpSocket(this);
     udpSocket = new QUdpSocket(this);
 
-    connect(tcpSocket,SIGNAL(readyRead()),this, SLOT(readDatagram()));
+    connect(tcpSocket,SIGNAL(connected()),this, SLOT(handleTcpConnection()));
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(readDatagram()));
 }
 
@@ -21,28 +21,22 @@ void SocketServer::broadcastDatagram() {
                              QHostAddress::Broadcast, 10000);
 }
 
+void SocketServer::handleTcpConnection(){
+    qDebug() << "Connected!";
+
+    tcpSocket->write("{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
+
+    tcpSocket->waitForBytesWritten(1000);
+    tcpSocket->waitForReadyRead(1000);
+
+    qDebug() << "Reading: " << tcpSocket->bytesAvailable(); //HOW MANY BYTES COMMING FROM SERVER
+    qDebug() << tcpSocket->readAll(); //READ ENTIRE BUFFER
+}
+
 void SocketServer::tcpConnection(QHostAddress address,int port){
-    // TODO: Replace this sample JSON with live effect data + params.
-    // ISSUE CONNECTING TO HOST
-
     qDebug() << "Host:" << address << "Port:" << port;
-    tcpSocket->connectToHost(address, port);
-    if(tcpSocket->waitForConnected(3000)){
-        qDebug() << "Connected to Host:" << address << "Port:" << port;
-
-        tcpSocket->write("{\"distortion\": {\"drive\": 1,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
-
-        tcpSocket->waitForBytesWritten(1000);
-        tcpSocket->waitForReadyRead(1000);
-
-        qDebug() << "Reading: " << tcpSocket->bytesAvailable(); //HOW MANY BYTES COMMING FROM SERVER
-        qDebug() << tcpSocket->readAll(); //READ ENTIRE BUFFER
-
-        tcpSocket->close(); //CLOSE SOCKET
-    }
-    else{
-        qDebug() << "Not Connected";
-    }
+    tcpSocket->connectToHost(address, quint16(port));
+    qDebug() << "Connected to Host:" << address << "Port:" << port;
 }
 
 void SocketServer::readDatagram() {
