@@ -109,6 +109,7 @@ Rectangle {
                     parameterValue = value;
                     // JOSH!!!
                     console.log( effectsColumnArea.effectsListView.model.toBroadcastJson() );
+                    socketServer.broadcastDatagram(effectsColumnArea.effectsListView.model.toBroadcastJson());
                 }
             }
 

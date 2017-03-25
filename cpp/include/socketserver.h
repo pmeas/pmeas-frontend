@@ -23,7 +23,7 @@ public:
 signals:
 
 public slots:
-    void broadcastDatagram();
+    void broadcastDatagram(QByteArray);
     void readDatagram();
 
 private:

@@ -183,14 +183,15 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
 
         case Effect::Type::Delay:
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            m_model.append(Parameter { "Delay Time", "delay", 0, 10}); // Added temporarily.
             //m_model.append( Parameter{ "Delay Time", "delay", 0, 100, QVariantList{ 0, 0 } } );
             break;
 
         case Effect::Type::Reverb:
             m_model.append( Parameter{ "Balance",  "balance", 0, 1, 0.5 } );
-            m_model.append( Parameter{ "Tone", "cutoff", 0, 100, 50 } );
-            m_model.append( Parameter{ "Delay", "revtime", 0, 100, 50 } );
-            m_model.append( Parameter{ "Room Size", "roomsize", 0.25, 4, 0 } );
+            m_model.append( Parameter{ "Tone", "cutoff", 0, 30000, 5000 } );
+            m_model.append( Parameter{ "Delay", "revtime", 0, 10, 1 } );
+            m_model.append( Parameter{ "Room Size", "roomsize", 0.25, 4, 1 } );
 
             break;
 
