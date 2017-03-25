@@ -197,7 +197,7 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
 
         case Effect::Type::Harmonizer:
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0 } );
-            m_model.append( Parameter{ "Shift", "transpose", -20, 20, -7.0 );
+            m_model.append( Parameter{ "Shift", "transpose", -20, 20, -7.0 } );
             //m_model.append( Parameter{ "Shift", "transpose", -20, 20, QVariantList{ } } );
             break;
 
