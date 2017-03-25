@@ -101,7 +101,7 @@ Item {
             drag.onActiveChanged: {
                 enabledEffectsListView.draggedItemEntered = true;
                 if (drag.active) {
-                    allEffectItem.checked = true;
+                    //allEffectItem.checked = true;
                     effectsColumn.dragInProgress = true;
                     enabledEffectsListView.dragItemIndex = index;
                 } else {

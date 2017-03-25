@@ -101,34 +101,29 @@ ApplicationWindow {
 
                 visible: !inOutAnimation.running;
 
-                property bool modelWasUndefined;
+                property bool modelWasUndefined: false;
 
                 Component.onCompleted: modelWasUndefined = ( effectsColumnArea.currentParameterModel === undefined );
-
-                onModelWasUndefinedChanged: console.log( "Model", modelWasUndefined )
 
                 Connections {
                     target: effectsColumnArea;
                     onCurrentParameterModelChanged: {
                         if ( effectsColumnArea.currentParameterModel === undefined ) {
                             parameterColumnArea.modelWasUndefined = true;
-                            console.log( parameterColumnArea.modelWasUndefined)
                         }
 
                         if ( parameterColumnArea.modelWasUndefined ) {
                             parameterColumnArea.modelWasUndefined = false;
                         } else {
-                            inOutAnimation = true;
+                            inOutAnimation.running = true;
                         }
-
-                        //console.log("CHANGEd", effectsColumnArea.currentParameterModel)
                     }
                 }
 
 
                 SequentialAnimation {
                     id: inOutAnimation;
-                    running: false; //effectsColumnArea.currentParameterModel !== undefined;
+                    running: false
                     alwaysRunToEnd: true;
 
                     NumberAnimation {
@@ -142,7 +137,7 @@ ApplicationWindow {
                         target: parameterColumnArea;
                         property: "x";
                         to: 175;
-                        duration: 250;
+                        duration: 200;
                         easing.type: Easing.OutCirc
                     }
                 }
