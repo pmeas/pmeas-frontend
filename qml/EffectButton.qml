@@ -9,6 +9,8 @@ Item {
     height: 24;
     width: parent.width;
 
+    z: checked || effectButtonMouseArea.drag.active ? 100 : 0;
+
     property var model: parameterModel;
 
     property bool checked: false;
@@ -27,10 +29,10 @@ Item {
         id: effectButtonBackground;
         height: parent.height;
         width: parent.width - 24;
-        color: parent.checked ? Theme.highlighterColor : "transparent";
+        color: parent.checked || effectButtonMouseArea.drag.active ? Theme.highlighterColor : "transparent";
 
         border {
-            width: parent.checked ? 0 : 2;
+            width: parent.checked || effectButtonMouseArea.drag.active ? 0 : 2;
             color: mouseEntered ? Theme.highlighterColor : "#5a5a5a";
         }
 
@@ -71,7 +73,7 @@ Item {
 
             text: effectName;
             color: {
-                if ( allEffectItem.checked ) {
+                if ( allEffectItem.checked || effectButtonMouseArea.drag.active) {
                     return "#346f66";
                 } else {
                     if ( mouseEntered ) {

@@ -50,7 +50,6 @@ ListView {
 
     delegate: EffectButton {
         exclusiveGroup: effectsExclusiveGroup;
-        z: checked ? 100 : 0;
     }
 
     /*

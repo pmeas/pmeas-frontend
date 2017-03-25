@@ -73,11 +73,11 @@ ApplicationWindow {
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
-                    margins: 32;
+                    margins: 16;
                 }
 
                 radius: 6;
-                width: 3;
+                width: 2;
                 opacity: 0.25;
                 color: "black";
             }
