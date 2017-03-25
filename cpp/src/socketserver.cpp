@@ -15,34 +15,30 @@ SocketServer::SocketServer(QObject *parent) : QObject(parent)
 }
 
 void SocketServer::broadcastDatagram() {
-    // TODO: Replace this sample JSON with live effect data + params.
-    /* TODO: See if we _want_ to just broadcast the data or make a TCP
-     * connection after like Younes suggests to send data over reliably. This can be done
-     * of course but before we start work on it we gotta make sure its what we want to do.
-     */
+    // datagram loaded with one byte of data to broadcast to backend
     QByteArray datagram = "1";
     udpSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, 10000);
 }
 
 void SocketServer::tcpConnection(QHostAddress address,int port){
-    tcpSocket->connectToHost(address,port);
+    // TODO: Replace this sample JSON with live effect data + params.
+    // ISSUE CONNECTING TO HOST
 
+    qDebug() << "Host:" << address << "Port:" << port;
+    tcpSocket->connectToHost(address, port);
     if(tcpSocket->waitForConnected(3000)){
         qDebug() << "Connected to Host:" << address << "Port:" << port;
 
-        //HERE IS WHERE THE JSON WILL BE SENT
-        tcpSocket->write("{\"distortion\": {\"drive\": 0,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
-        //SEND
+        tcpSocket->write("{\"distortion\": {\"drive\": 1,\"slope\": 0.5},\"intent\": \"EFFECT\"}");
+
         tcpSocket->waitForBytesWritten(1000);
-        //WAIT FOR RESPONSE
         tcpSocket->waitForReadyRead(1000);
-        //HOW MANY BYTES COMMING FROM SERVER
-        qDebug() << "Reading: " << tcpSocket->bytesAvailable();
-        //READ ENTIRE BUFFER
-        qDebug() << tcpSocket->readAll();
-        //CLOSE SOCKET
-        tcpSocket->close();
+
+        qDebug() << "Reading: " << tcpSocket->bytesAvailable(); //HOW MANY BYTES COMMING FROM SERVER
+        qDebug() << tcpSocket->readAll(); //READ ENTIRE BUFFER
+
+        tcpSocket->close(); //CLOSE SOCKET
     }
     else{
         qDebug() << "Not Connected";
@@ -50,18 +46,11 @@ void SocketServer::tcpConnection(QHostAddress address,int port){
 }
 
 void SocketServer::readDatagram() {
-
     while(udpSocket->hasPendingDatagrams()) {
         QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
-        if (receivedData == "1"){
-            qDebug() << "Received data:" << QString(receivedData);
-            QHostAddress address = networkDatagram.destinationAddress();
-            int port = networkDatagram.destinationPort();
-            tcpConnection(address,port);
-        }
-        else{
-            qDebug() << "No Data Received";
-        }
+        QHostAddress address = networkDatagram.senderAddress();
+        int port = receivedData.toInt();
+        tcpConnection(address,port);
     }
 }

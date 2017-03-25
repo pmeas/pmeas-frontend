@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QHostAddress>
+
 // The SocketServer class will allow us to listen to and
 // send messages to the backend server.
 //
