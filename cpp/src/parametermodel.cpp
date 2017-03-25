@@ -177,13 +177,13 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
             break;
 
         case Effect::Type::Distortion:
-            m_model.append( Parameter{ "Drive", "drive", 0, 1, 0.5 } );
-            m_model.append( Parameter{ "Tone", "tone", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Drive", "drive", 0, 1, 0.75 } );
+            m_model.append( Parameter{ "Tone", "slope", 0, 1, 0.5 } );
             break;
 
         case Effect::Type::Delay:
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
-            m_model.append(Parameter { "Delay Time", "delay", 0, 10}); // Added temporarily.
+            m_model.append(Parameter { "Delay Time", "delay", 0, 10, 1}); // Added temporarily.
             //m_model.append( Parameter{ "Delay Time", "delay", 0, 100, QVariantList{ 0, 0 } } );
             break;
 
@@ -196,11 +196,13 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
             break;
 
         case Effect::Type::Harmonizer:
-            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0 } );
+            m_model.append( Parameter{ "Shift", "transpose", -20, 20, -7.0 } );
             //m_model.append( Parameter{ "Shift", "transpose", -20, 20, QVariantList{ } } );
             break;
 
         case Effect::Type::FrequencyShift:
+            m_model.append( Parameter{ "Pitch", "shift", 0, 1000, 100 } );
             //m_model.append( Parameter{ "Pitch", "shift", 0, 100, QVariantList{ } } );
             break;
 
@@ -214,7 +216,8 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
 
         case Effect::Type::Chorus:
             m_model.append( Parameter{ "Balance", "balance", 0, 1, 0.5 } );
-            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
+            m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.25 } );
+            m_model.append( Parameter{ "Depth", "depth", 0, 5, 1 } );
             //m_model.append( Parameter{ "Depth", "depth", 0, 5, QVariant{ 0, 0 } } );
             break;
 
