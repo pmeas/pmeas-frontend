@@ -73,7 +73,8 @@ ApplicationWindow {
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
-                    margins: 16;
+                    topMargin: 12;
+                    bottomMargin: 8;
                 }
 
                 radius: 6;

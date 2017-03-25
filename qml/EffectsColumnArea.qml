@@ -17,7 +17,7 @@ Rectangle {
             fill: parent;
         }
 
-        spacing: 6;
+        spacing: 0;
 
         ExclusiveGroup {
             id: effectsExclusiveGroup;
@@ -28,24 +28,38 @@ Rectangle {
 
         EnabledEffectsList {
             id: enabledEffectsListView;
+
+            anchors {
+                top: parent.top;
+                bottom: separator.top;
+                bottomMargin: 12;
+            }
+
+            //Layout.fillHeight: true;
+
+            Layout.fillWidth: true;
         }
 
         Rectangle {
+            id: separator;
             anchors {
                 left: parent.left;
                 right: parent.right;
-                margins: 12;
+                bottom: effectsListView.top;
+                leftMargin: 12;
+                rightMargin: 12;
+                bottomMargin: 6;
             }
 
             radius: 3;
-            height: 3;
+            height: 2;
             opacity: 0.25;
             color: "black";
         }
 
         AllEffectsList {
             id: effectsListView;
-            height: 315;
+            height: ( count * ( currentItem.height + spacing ) ) + currentItem.height;
 
             width: parent.width;
 

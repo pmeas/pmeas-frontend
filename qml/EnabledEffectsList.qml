@@ -14,8 +14,7 @@ ListView {
     id: enabledEffectsListView;
     interactive: true;
 
-    Layout.fillHeight: true;
-    Layout.fillWidth: true;
+
 
     ScrollBar.vertical: ScrollBar {
         width: 8;
