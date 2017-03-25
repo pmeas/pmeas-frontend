@@ -140,6 +140,8 @@ QByteArray EffectsModel::toBroadcastJson() {
 
     QJsonObject jsonObject;
 
+    jsonObject["intent"] = "EFFECT";
+
     int i=0;
 
     for ( Effect *effect : m_model ) {
