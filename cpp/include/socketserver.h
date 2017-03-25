@@ -25,7 +25,7 @@ public:
     explicit SocketServer( QObject *parent = nullptr );
 
 signals:
-
+    void tcpConnected();
 public slots:
     void tcpConnection(QHostAddress,int);
     void broadcastDatagram(QByteArray);
