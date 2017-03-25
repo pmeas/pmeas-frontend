@@ -1,7 +1,7 @@
 TEMPLATE = app
 
-QT += qml quick
-CONFIG += c++11
+QT += qml quick network
+CONFIG += c++14
 
 RESOURCES += qml/qml.qrc
 
@@ -21,10 +21,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 HEADERS += \
-    cpp/include/socketserver.h
+    cpp/include/socketserver.h \
+    cpp/include/effect.h \
+    cpp/include/effectsmodel.h \
+    cpp/include/parameter.h \
+    cpp/include/parametermodel.h
 
 SOURCES += cpp/src/main.cpp \
-    cpp/src/socketserver.cpp
+    cpp/src/socketserver.cpp \
+    cpp/src/effect.cpp \
+    cpp/src/effectsmodel.cpp \
+    cpp/src/parametermodel.cpp
 
 
 # You can also make your code fail to compile if you use deprecated APIs.

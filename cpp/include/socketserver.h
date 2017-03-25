@@ -27,8 +27,8 @@ public:
 signals:
 
 public slots:
-    void broadcastDatagram();
     void tcpConnection(QHostAddress,int);
+    void broadcastDatagram(QByteArray);
     void readDatagram();
     void sendData();
     void readTCPResult();

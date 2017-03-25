@@ -7,19 +7,8 @@ import Theme 1.0
 
 Rectangle {
 
-    id: effectsColumnArea;
+    id: parameterColumnArea;
 
-    property string currentModelKey: "chorusEffect";
-
-    property var parameterMapModel: {
-        "Distortion": [ "Distortion", "Tone", "Distortion", "Tone", "Distortion", "Tone", "Distortion", "Tone"],
-        "Delay": [ "Feed Back", "Delay Time"],
-        "Chorus": [ "Effect Level", "Rate", "Depth" ],
-        "Harmonizer": [ "Balance", "Shift" ],
-        "Frequency Shift": [ "Balance", "Pitch" ],
-        "Reverb": [ "Effect Level", "Tone", "Delay", "Room Size"],
-        "Flanger": [ "Depth", "Lfo Freq", "Feedback"],
-    }
 
     Rectangle  {
         color: "transparent";
@@ -65,7 +54,8 @@ Rectangle {
                 }
              }
 
-            model: parameterMapModel[ currentModelKey ]
+            model: effectsColumnArea.currentParameterModel;
+
             spacing: 12;
 
             ScrollBar.vertical: ScrollBar {

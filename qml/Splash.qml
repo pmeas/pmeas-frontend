@@ -33,5 +33,8 @@ Window {
         }
     }
 
-    Component.onCompleted: visible = true;
+    Component.onCompleted: {
+
+        visible = true;
+    }
 }

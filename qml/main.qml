@@ -73,11 +73,12 @@ ApplicationWindow {
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
-                    margins: 32;
+                    topMargin: 12;
+                    bottomMargin: 8;
                 }
 
                 radius: 6;
-                width: 3;
+                width: 2;
                 opacity: 0.25;
                 color: "black";
             }
@@ -99,17 +100,37 @@ ApplicationWindow {
                 Layout.fillWidth: true;
                 color: "#332f2f";
 
-                currentModelKey: effectsColumnArea.currentModelKey;
                 visible: !inOutAnimation.running;
+
+                property bool modelWasUndefined: false;
+
+                Component.onCompleted: modelWasUndefined = ( effectsColumnArea.currentParameterModel === undefined );
+
+                Connections {
+                    target: effectsColumnArea;
+                    onCurrentParameterModelChanged: {
+                        if ( effectsColumnArea.currentParameterModel === undefined ) {
+                            parameterColumnArea.modelWasUndefined = true;
+                        }
+
+                        if ( parameterColumnArea.modelWasUndefined ) {
+                            parameterColumnArea.modelWasUndefined = false;
+                        } else {
+                            inOutAnimation.running = true;
+                        }
+                    }
+                }
+
 
                 SequentialAnimation {
                     id: inOutAnimation;
-                    running: false;
+                    running: false
                     alwaysRunToEnd: true;
+
                     NumberAnimation {
                         target: parameterColumnArea;
                         property: "x";
-                        to: root.width;
+                        to: root.width + 100;
                         duration: 150;
 
                     }
@@ -117,22 +138,11 @@ ApplicationWindow {
                         target: parameterColumnArea;
                         property: "x";
                         to: 175;
-                        duration: 250;
+                        duration: 200;
                         easing.type: Easing.OutCirc
                     }
                 }
 
-                property bool ranOnce: false;
-
-
-                onCurrentModelKeyChanged: {
-                    if ( !ranOnce ) {
-                        ranOnce = true;
-                    } else {
-
-                        inOutAnimation.running = true;
-                    }
-                }
             }
 
         }
