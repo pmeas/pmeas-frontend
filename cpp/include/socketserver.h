@@ -20,12 +20,14 @@ class SocketServer : public QObject
 {
     // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
+
 public:
     // Define a basic contructor for a QObject
     explicit SocketServer( QObject *parent = nullptr );
 
 signals:
     void tcpConnected();
+    void lostConnection();
 public slots:
     void tcpConnection(QHostAddress,int);
     void broadcastDatagram();

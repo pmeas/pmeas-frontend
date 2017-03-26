@@ -33,7 +33,10 @@ void SocketServer::broadcastDatagram() {
 void SocketServer::sendData(QByteArray message){
 
     int res = tcpSocket->write(message);
-    qDebug() << res;
+    if(res == -1) {
+        qDebug() << "Connection severed.";
+        emit(lostConnection());
+    }
 
     tcpSocket->flush();
 }

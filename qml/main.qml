@@ -39,6 +39,12 @@ ApplicationWindow {
     color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
 
+    Component.onCompleted: {
+        socketServer.lostConnection.connect(function () {
+            console.log("Lost Connection");
+        });
+    }
+
     // This is defined in the cpp code and is then exposed to this QML enviroment
     SocketServer {
         id: socketServer;
