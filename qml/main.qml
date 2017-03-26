@@ -40,7 +40,7 @@ ApplicationWindow {
     title: qsTr("Portable Multi-Effects Audio Software");
 
     Component.onCompleted: {
-        socketServer.lostConnection.connect(function () {
+        bridge.lostConnection.connect(function () {
             console.log("Lost Connection");
         });
     }

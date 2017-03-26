@@ -39,10 +39,9 @@ void Bridge::sendData(QByteArray message){
 
     if ( m_tcpSocket->write(message) == -1 ) {
         qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
-        return;
-    } else {
         qDebug() << "Connection with backend interrupted.";
         emit(lostConnection());
+        return;
     }
 
     m_tcpSocket->flush();
