@@ -18,21 +18,21 @@ SocketServer::SocketServer(QObject *parent) : QObject(parent)
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(readDatagram()));
 }
 
-void SocketServer::broadcastDatagram(QByteArray message) {
+void SocketServer::broadcastDatagram() {
     // TODO: Replace this sample JSON with live effect data + params.
     /* TODO: See if we _want_ to just broadcast the data or make a TCP
      * connection after like Younes suggests to send data over reliably. This can be done
      * of course but before we start work on it we gotta make sure its what we want to do.
      */
 //    QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
-    message = "1";
+    QByteArray message = "1";
     udpSocket->writeDatagram(message.data(), message.size(),
                              QHostAddress::Broadcast, 10000);
 }
 
-void SocketServer::sendData(){
+void SocketServer::sendData(QByteArray message){
 
-    int res = tcpSocket->write("{\"distortion\": {\"drive\": 1,\"slope\": 0.25},\"intent\": \"EFFECT\"}");
+    int res = tcpSocket->write(message);
     qDebug() << res;
 
     tcpSocket->flush();

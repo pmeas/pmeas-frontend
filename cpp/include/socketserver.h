@@ -28,9 +28,9 @@ signals:
     void tcpConnected();
 public slots:
     void tcpConnection(QHostAddress,int);
-    void broadcastDatagram(QByteArray);
+    void broadcastDatagram();
     void readDatagram();
-    void sendData();
+    void sendData(QByteArray);
     void readTCPResult();
 
 private:

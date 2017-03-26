@@ -40,7 +40,7 @@ Window {
     }
 
     Component.onCompleted: {
-        socketServer.broadcastDatagram("garbage");
+        socketServer.broadcastDatagram();
         socketServer.tcpConnected.connect(function () {
             visible = false;
             splashScreen.timeout();
