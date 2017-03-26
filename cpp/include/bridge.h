@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QObject>
-#include <QDebug>
 #include <QHostAddress>
 
 // The SocketServer class will allow us to listen to and
@@ -11,29 +10,29 @@
 // it can be used and tied into the GUI easily.
 
 // Forward declares
-class QTimer;
 class QUdpSocket;
 class QTcpSocket;
-class QAbstractSocket;
 
-class SocketServer : public QObject
+class Bridge : public QObject
 {
     // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
 public:
     // Define a basic contructor for a QObject
-    explicit SocketServer( QObject *parent = nullptr );
+    explicit Bridge( QObject *parent = nullptr );
 
 signals:
-    void tcpConnected();
+    void tcpSocketConnected();
+
 public slots:
-    void tcpConnection(QHostAddress,int);
     void broadcastDatagram();
+    void broadcastJson(QByteArray);
+
+private slots:
     void readDatagram();
-    void sendData(QByteArray);
     void readTCPResult();
 
 private:
-    QUdpSocket *udpSocket;
-    QAbstractSocket *tcpSocket;
+    QUdpSocket *m_udpSocket;
+    QAbstractSocket *m_tcpSocket;
 };
