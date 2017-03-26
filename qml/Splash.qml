@@ -40,11 +40,14 @@ Window {
     }
 
     Component.onCompleted: {
-        socketServer.broadcastDatagram();
-        socketServer.tcpConnected.connect(function () {
+        bridge.broadcastDatagram();
+        bridge.tcpSocketConnected.connect(function () {
             visible = false;
             splashScreen.timeout();
         });
+
         visible = true;
     }
+
+
 }

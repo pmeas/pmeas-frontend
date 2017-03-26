@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
-import LocalServer 1.0
+import Networking 1.0
 
 
 /*
@@ -46,8 +46,8 @@ ApplicationWindow {
     }
 
     // This is defined in the cpp code and is then exposed to this QML enviroment
-    SocketServer {
-        id: socketServer;
+    Bridge {
+        id: bridge;
     }
 
     ColumnLayout {
@@ -176,7 +176,7 @@ ApplicationWindow {
                 anchors { fill: parent; }
                 onClicked: {
                     console.log( "Clicked the submit button" );
-                    socketServer.broadcastDatagram();
+                    Bridge.broadcastDatagram();
                 }
                 onEntered: {
                     parent.color = "#01891e";
@@ -190,5 +190,7 @@ ApplicationWindow {
 
     property var splashWindow: Splash {
         onTimeout: root.visible = true;
+
+
     }
 }
