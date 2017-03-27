@@ -64,18 +64,8 @@ Rectangle {
             width: parent.width;
 
             anchors {
-                bottom: settingsArea.top;
+                bottom: effectsColumn.bottom;
             }
-        }
-
-        DropShadow {
-            anchors.fill: source;
-            horizontalOffset: 0;
-            verticalOffset: 1;
-            radius: 4.0
-            samples: radius * 2;
-            color: "black"
-            source: settingsArea;
         }
     }
 }
