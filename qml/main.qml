@@ -213,10 +213,10 @@ ApplicationWindow {
                         settingsWindow.show();
                     }
                     onPressed: {
-                        parent.color = "#6ff7c9";
+                        parent.color = Theme.enabledButtonColor;
                     }
                     onReleased: {
-                        parent.color = "#444";
+                        parent.color = Theme.inactiveButtonColor;
                     }
                 }
             }
@@ -268,10 +268,10 @@ ApplicationWindow {
                             saveSetlistDialog.open();
                         }
                         onPressed: {
-                            savePreset.color = "#6ff7c9";
+                            savePreset.color = Theme.enabledButtonColor;
                         }
                         onReleased: {
-                            savePreset.color = "#444";
+                            savePreset.color = Theme.inactiveButtonColor;
                         }
                     }
                 }
@@ -325,10 +325,10 @@ ApplicationWindow {
                             loadSetlistDialog.open();
                         }
                         onPressed: {
-                            loadPreset.color = "#6ff7c9";
+                            loadPreset.color = Theme.enabledButtonColor;
                         }
                         onReleased: {
-                            loadPreset.color = "#444";
+                            loadPreset.color = Theme.inactiveButtonColor;
                         }
                     }
                 }
@@ -373,10 +373,10 @@ ApplicationWindow {
                             //TODO: Open tutorial popup
                         }
                         onPressed: {
-                            tutorial.color = "#6ff7c9";
+                            tutorial.color = Theme.enabledButtonColor;
                         }
                         onReleased: {
-                            tutorial.color = "#444";
+                            tutorial.color = Theme.inactiveButtonColor;
                         }
                     }
                 }
