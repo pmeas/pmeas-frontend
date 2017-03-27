@@ -3,6 +3,7 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
+import QtQuick.Dialogs 1.2
 import Networking 1.0
 import QtQuick.Controls.Styles 1.4
 import Theme 1.0
@@ -220,44 +221,159 @@ ApplicationWindow {
                 }
             }
 
-            Image {
-                id: speakerIcon
-                source: "icons/speaker_icon.png"
-                sourceSize {
-                    height: 18
+            Rectangle{
+                id: savePreset
+                height: parent.height;
+                width: 120;
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    left: settingsArea.right;
                 }
-                anchors{
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 120
+                border.color: "#332f2f"
+                border.width: 1
+                color: parent.color;
+
+                FileDialog {
+                    id: saveSetlistDialog;
+                    nameFilters: ["JSON files (*.json)"];
+                }
+                RowLayout{
+                    anchors.centerIn: parent;
+                    spacing: 12;
+
+                    Image {
+                        source: "./icons/document-2x.png";
+                        sourceSize {
+                            height: 14;
+                            width: height;
+                        }
+                    }
+                    Text {
+                        text: qsTr( "Save Preset" );
+                        font {
+                            bold: true;
+                            pixelSize: 12;
+                        }
+                        color: "#f1f1f1";
+                    }
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            saveSetlistDialog.open();
+                        }
+                    }
                 }
             }
 
-            Slider {
-                id: volumeSlider
+            Rectangle{
+                id: loadPreset
+                height: parent.height;
+                width: 120;
                 anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 10
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    left: savePreset.right;
                 }
-                minimumValue: 0
-                maximumValue: 100
-                value: 50
-                style: SliderStyle {
-                    groove: Rectangle {
-                        implicitWidth: 100
-                        implicitHeight: 2
-                        color: "#bdbebf"
-                        radius: 2
+                border.color: "#332f2f"
+                border.width: 1
+                color: parent.color;
+
+                FileDialog {
+                    id: loadSetlistDialog;
+                    nameFilters: ["JSON files (*.json)"];
+                    onAccepted: {
+                        enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
                     }
-                    handle: Rectangle {
-                        anchors.centerIn: parent
-                        color: "#fff"
-                        border.color: "#000"
-                        border.width: 1
-                        implicitWidth: 15
-                        implicitHeight: 15
-                        radius: 12
+                }
+
+                RowLayout{
+                    anchors.centerIn: parent;
+                    spacing: 12;
+                    Image {
+                        source: "./icons/data-transfer-upload-2x.png";
+                        sourceSize {
+                            height: 14;
+                            width: height;
+                        }
+                    }
+                    Text {
+                        text: qsTr( "Load Preset" );
+                        font {
+                            bold: true;
+                            pixelSize: 12;
+                        }
+                        color: "#f1f1f1";
+                    }
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            loadSetlistDialog.open();
+                        }
+                    }
+                }
+            }
+
+            Rectangle{
+                id: tutorial
+                height: parent.height;
+                width: 120;
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    left: loadPreset.right;
+                }
+                border.color: "#332f2f"
+                border.width: 1
+                color: parent.color;
+            }
+
+            Rectangle{
+                id: volumeControl
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    left: controlBar.right;
+                }
+                Image {
+                    id: speakerIcon
+                    source: "icons/speaker_icon.png"
+                    sourceSize {
+                        height: 18
+                    }
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        right: controlBar.right
+                        rightMargin: 120
+                    }
+                }
+
+                Slider {
+                    id: volumeSlider
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        left: parent.left
+                    }
+                    minimumValue: 0
+                    maximumValue: 100
+                    value: 50
+                    style: SliderStyle {
+                        groove: Rectangle {
+                            implicitWidth: 100
+                            implicitHeight: 2
+                            color: "#bdbebf"
+                            radius: 2
+                        }
+                        handle: Rectangle {
+                            anchors.centerIn: parent
+                            color: "#fff"
+                            border.color: "#000"
+                            border.width: 1
+                            implicitWidth: 15
+                            implicitHeight: 15
+                            radius: 12
+                        }
                     }
                 }
             }
