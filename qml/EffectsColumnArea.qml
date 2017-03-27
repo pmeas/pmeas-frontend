@@ -68,60 +68,6 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            id: settingsArea;
-            height: 24;
-            anchors {
-                bottom: parent.bottom;
-                left: parent.left;
-                right: parent.right;
-                leftMargin: 12;
-                rightMargin: 12;
-            }
-
-            color: "#3e3a3a";
-            radius: 3;
-
-            RowLayout {
-                anchors.centerIn: parent;
-
-                spacing: 12;
-
-                Image {
-                    id: settingsIcon;
-                    source: "./icons/cog-2x.png";
-                    height: 14;
-                    width: height;
-                    sourceSize {
-                        width: 14;
-                        height: 14;
-                    }
-                }
-
-                Text {
-
-                    text: qsTr( "Settings" );
-                    font {
-                        bold: true;
-                        pixelSize: 12;
-                    }
-                    color: "#f1f1f1";
-                }
-            }
-
-            SettingsWindow {
-                id: settingsWindow;
-            }
-
-            MouseArea {
-                anchors.fill: parent;
-                onClicked: {
-                    settingsWindow.show();
-                }
-
-            }
-        }
-
         DropShadow {
             anchors.fill: source;
             horizontalOffset: 0;

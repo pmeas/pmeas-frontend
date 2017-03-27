@@ -155,19 +155,70 @@ ApplicationWindow {
         }
 
         Rectangle {
-            Layout.fillWidth: true;
+            id: controlBar
+            Layout.fillWidth: true
             anchors {
-                bottom: parent.bottom;
+                bottom: parent.bottom
             }
 
-            height: 25;
+            height: 25
             color: "#444"
+
+            Rectangle {
+                id: settingsArea;
+                height: parent.height;
+                width: 120;
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    left: parent.left;
+                }
+                border.color: "#332f2f"
+                border.width: 1
+                color: parent.color;
+                radius: 3;
+
+                RowLayout {
+                    anchors.centerIn: parent;
+                    spacing: 12;
+                    Image {
+                        id: settingsIcon;
+                        source: "./icons/cog-2x.png";
+                        height: 14;
+                        width: height;
+                        sourceSize {
+                            width: 14;
+                            height: 14;
+                        }
+                    }
+
+                    Text {
+                        text: qsTr( "Settings" );
+                        font {
+                            bold: true;
+                            pixelSize: 12;
+                        }
+                        color: "#f1f1f1";
+                    }
+                }
+
+                SettingsWindow {
+                    id: settingsWindow;
+                }
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        settingsWindow.show();
+                    }
+                }
+            }
 
             Image {
                 id: speakerIcon
                 source: "icons/speaker_icon.png"
                 sourceSize {
-                    height: 18;
+                    height: 18
                 }
                 anchors{
                     verticalCenter: parent.verticalCenter
