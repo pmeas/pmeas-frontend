@@ -211,6 +211,12 @@ ApplicationWindow {
                     onClicked: {
                         settingsWindow.show();
                     }
+                    onPressed: {
+                        parent.color = "#6ff7c9";
+                    }
+                    onReleased: {
+                        parent.color = "#444";
+                    }
                 }
             }
 
