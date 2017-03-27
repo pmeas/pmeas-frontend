@@ -3,8 +3,9 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
-
 import Networking 1.0
+import QtQuick.Controls.Styles 1.4
+import Theme 1.0
 
 
 /*
@@ -195,14 +196,13 @@ ApplicationWindow {
                     handle: Rectangle {
                         anchors.centerIn: parent
                         color: "#fff"
-                        border.color: "black"
+                        border.color: "#000"
                         border.width: 1
                         implicitWidth: 15
                         implicitHeight: 15
                         radius: 12
-                        }
                     }
-
+                }
             }
         }
     }
