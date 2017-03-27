@@ -326,6 +326,31 @@ ApplicationWindow {
                 border.color: "#332f2f"
                 border.width: 1
                 color: parent.color;
+                RowLayout{
+                    anchors.centerIn: parent;
+                    spacing: 12;
+                    Image {
+                        source: "./icons/question-mark.png";
+                        sourceSize {
+                            height: 14;
+                            width: height;
+                        }
+                    }
+                    Text {
+                        text: qsTr( "Tutorial" );
+                        font {
+                            bold: true;
+                            pixelSize: 12;
+                        }
+                        color: "#f1f1f1";
+                    }
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            //Open tutorial popup
+                        }
+                    }
+                }
             }
 
             Rectangle{
@@ -333,48 +358,47 @@ ApplicationWindow {
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
-                    left: controlBar.right;
-                    rightMargin: 100
+                    left: tutorial.right;
+                    right: controlBar.right;
                 }
-                Image {
-                    id: speakerIcon
-                    source: "icons/speaker_icon.png"
-                    sourceSize {
-                        height: 18
-                    }
-                    anchors{
-                        verticalCenter: parent.verticalCenter
-                        right: controlBar.right
-                        rightMargin: 120
-                    }
-                }
-
-                Slider {
-                    id: volumeSlider
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        right: parent.right
-                        left: parent.left
-                        rightMargin: 20
-                    }
-                    minimumValue: 0
-                    maximumValue: 100
-                    value: 80
-                    style: SliderStyle {
-                        groove: Rectangle {
-                            implicitWidth: 100
-                            implicitHeight: 2
-                            color: "#bdbebf"
-                            radius: 2
+                border.color: "#332f2f"
+                border.width: 1
+                color: parent.color;
+                RowLayout{
+                    anchors.centerIn: parent;
+                    spacing: 12;
+                    Image {
+                        id: speakerIcon
+                        source: "./icons/speaker-icon.png"
+                        sourceSize {
+                            height: 18;
+                            width: height;
                         }
-                        handle: Rectangle {
-                            anchors.centerIn: parent
-                            color: "#fff"
-                            border.color: "#000"
-                            border.width: 1
-                            implicitWidth: 15
-                            implicitHeight: 15
-                            radius: 12
+                    }
+                    Slider {
+                        id: volumeSlider
+                        anchors {
+                            rightMargin: 20
+                        }
+                        minimumValue: 0
+                        maximumValue: 100
+                        value: 80
+                        style: SliderStyle {
+                            groove: Rectangle {
+                                implicitWidth: 100
+                                implicitHeight: 2
+                                color: "#bdbebf"
+                                radius: 2
+                            }
+                            handle: Rectangle {
+                                anchors.centerIn: parent
+                                color: "#fff"
+                                border.color: "#000"
+                                border.width: 1
+                                implicitWidth: 15
+                                implicitHeight: 15
+                                radius: 12
+                            }
                         }
                     }
                 }

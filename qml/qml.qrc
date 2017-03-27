@@ -14,5 +14,7 @@
         <file>ParameterBlock.qml</file>
         <file>icons/data-transfer-upload-2x.png</file>
         <file>icons/document-2x.png</file>
+	<file>icons/speaker-icon.png</file>
+	<file>icons/question-mark.png</file>
     </qresource>
 </RCC>
