@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "socketserver.h"
+#include "bridge.h"
 #include "effectsmodel.h"
 
 int main(int argc, char *argv[])
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     EffectsModel::registerTypes();
 
-    qmlRegisterType<SocketServer>( "LocalServer", 1, 0, "SocketServer" );
+    qmlRegisterType<Bridge>( "Networking", 1, 0, "Bridge" );
 
     qmlRegisterSingletonType( QUrl( "qrc:///Theme.qml" ), "Theme", 1, 0, "Theme" );
 

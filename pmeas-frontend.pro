@@ -21,14 +21,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 HEADERS += \
-    cpp/include/socketserver.h \
+    cpp/include/bridge.h \
     cpp/include/effect.h \
     cpp/include/effectsmodel.h \
     cpp/include/parameter.h \
     cpp/include/parametermodel.h
 
 SOURCES += cpp/src/main.cpp \
-    cpp/src/socketserver.cpp \
+    cpp/src/bridge.cpp \
     cpp/src/effect.cpp \
     cpp/src/effectsmodel.cpp \
     cpp/src/parametermodel.cpp
