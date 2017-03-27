@@ -334,6 +334,7 @@ ApplicationWindow {
                     top: parent.top;
                     bottom: parent.bottom;
                     left: controlBar.right;
+                    rightMargin: 100
                 }
                 Image {
                     id: speakerIcon
@@ -354,10 +355,11 @@ ApplicationWindow {
                         verticalCenter: parent.verticalCenter
                         right: parent.right
                         left: parent.left
+                        rightMargin: 20
                     }
                     minimumValue: 0
                     maximumValue: 100
-                    value: 50
+                    value: 80
                     style: SliderStyle {
                         groove: Rectangle {
                             implicitWidth: 100
