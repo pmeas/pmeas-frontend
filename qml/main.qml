@@ -168,7 +168,7 @@ ApplicationWindow {
             Rectangle {
                 id: settingsArea;
                 height: parent.height;
-                width: 120;
+                width: 150;
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
@@ -224,7 +224,7 @@ ApplicationWindow {
             Rectangle{
                 id: savePreset
                 height: parent.height;
-                width: 120;
+                width: 150;
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
@@ -269,7 +269,7 @@ ApplicationWindow {
             Rectangle{
                 id: loadPreset
                 height: parent.height;
-                width: 120;
+                width: 150;
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
@@ -317,7 +317,7 @@ ApplicationWindow {
             Rectangle{
                 id: tutorial
                 height: parent.height;
-                width: 120;
+                width: 150;
                 anchors {
                     top: parent.top;
                     bottom: parent.bottom;
@@ -385,7 +385,7 @@ ApplicationWindow {
                         value: 80
                         style: SliderStyle {
                             groove: Rectangle {
-                                implicitWidth: 100
+                                implicitWidth: 120
                                 implicitHeight: 2
                                 color: "#bdbebf"
                                 radius: 2
