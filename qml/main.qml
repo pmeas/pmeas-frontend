@@ -154,36 +154,55 @@ ApplicationWindow {
         }
 
         Rectangle {
-
             Layout.fillWidth: true;
-
             anchors {
-
                 bottom: parent.bottom;
             }
 
             height: 25;
+            color: "#444"
 
-            color: "#E39A53";
-
-            Text {
-                anchors { centerIn: parent; }
-                text: qsTr( "Submit Me, Pls :(" );
-                color: "#ffffff";
+            Image {
+                id: speakerIcon
+                source: "icons/speaker_icon.png"
+                sourceSize {
+                    height: 18;
+                }
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: 120
+                }
             }
 
-            MouseArea {
-                anchors { fill: parent; }
-                onClicked: {
-                    console.log( "Clicked the submit button" );
-                    Bridge.broadcastDatagram();
+            Slider {
+                id: volumeSlider
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: 10
                 }
-                onEntered: {
-                    parent.color = "#01891e";
-                }
-                onExited: {
-                    parent.color = "#E39A53";
-                }
+                minimumValue: 0
+                maximumValue: 100
+                value: 50
+                style: SliderStyle {
+                    groove: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 2
+                        color: "#bdbebf"
+                        radius: 2
+                    }
+                    handle: Rectangle {
+                        anchors.centerIn: parent
+                        color: "#fff"
+                        border.color: "black"
+                        border.width: 1
+                        implicitWidth: 15
+                        implicitHeight: 15
+                        radius: 12
+                        }
+                    }
+
             }
         }
     }
