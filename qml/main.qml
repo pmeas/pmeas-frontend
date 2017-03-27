@@ -208,7 +208,7 @@ ApplicationWindow {
                 }
 
                 MouseArea {
-                    anchors.fill: parent;
+                    anchors.fill: settingsArea;
                     onClicked: {
                         settingsWindow.show();
                     }
@@ -239,7 +239,11 @@ ApplicationWindow {
                     nameFilters: ["JSON files (*.json)"];
                 }
                 RowLayout{
-                    anchors.centerIn: parent;
+                    anchors {
+                        fill: parent;
+                        leftMargin: 30
+                    }
+
                     spacing: 12;
 
                     Image {
@@ -248,6 +252,7 @@ ApplicationWindow {
                             height: 14;
                             width: height;
                         }
+
                     }
                     Text {
                         text: qsTr( "Save Preset" );
@@ -261,6 +266,12 @@ ApplicationWindow {
                         anchors.fill: parent;
                         onClicked: {
                             saveSetlistDialog.open();
+                        }
+                        onPressed: {
+                            savePreset.color = "#6ff7c9";
+                        }
+                        onReleased: {
+                            savePreset.color = "#444";
                         }
                     }
                 }
@@ -288,7 +299,10 @@ ApplicationWindow {
                 }
 
                 RowLayout{
-                    anchors.centerIn: parent;
+                    anchors {
+                        fill: parent;
+                        leftMargin: 30
+                    }
                     spacing: 12;
                     Image {
                         source: "./icons/data-transfer-upload-2x.png";
@@ -310,6 +324,12 @@ ApplicationWindow {
                         onClicked: {
                             loadSetlistDialog.open();
                         }
+                        onPressed: {
+                            loadPreset.color = "#6ff7c9";
+                        }
+                        onReleased: {
+                            loadPreset.color = "#444";
+                        }
                     }
                 }
             }
@@ -327,7 +347,10 @@ ApplicationWindow {
                 border.width: 1
                 color: parent.color;
                 RowLayout{
-                    anchors.centerIn: parent;
+                    anchors {
+                        fill: parent;
+                        leftMargin: 35
+                    }
                     spacing: 12;
                     Image {
                         source: "./icons/question-mark.png";
@@ -347,7 +370,13 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
-                            //Open tutorial popup
+                            //TODO: Open tutorial popup
+                        }
+                        onPressed: {
+                            tutorial.color = "#6ff7c9";
+                        }
+                        onReleased: {
+                            tutorial.color = "#444";
                         }
                     }
                 }
