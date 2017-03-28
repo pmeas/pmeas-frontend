@@ -18,7 +18,12 @@ Window {
     height: splashImage.height;
     BusyIndicator {
         id: networkSpinner
-        running: true
+        running: timer.running
+        anchors {
+            verticalCenter: splashImage.bottom;
+            verticalCenterOffset: -128;
+            horizontalCenter: splashImage.horizontalCenter;
+        }
     }
 
     Image {
@@ -33,7 +38,7 @@ Window {
         icon: StandardIcon.Critical
         informativeText: "The backend failed to respond within "+durationOfSplash+" ms.\n"+
                          "Please make sure that the backend has power and a network connection.\n"+
-                         "If the problem persists, try ethernet"
+                         "If the problem persists, try ethernet\n"
         width: 2000
         standardButtons: StandardButton.Retry | StandardButton.Close
         onAccepted: tryConnect()
@@ -48,7 +53,6 @@ Window {
             visible = false;
             splashScreen.timeout();
         });
-        networkSpinner.running = false;
         visible = true;
     }
 
@@ -58,6 +62,7 @@ Window {
         repeat: false;
         onTriggered: {
             networkSpinner.running = false;
+            errorMessage.setWidth(400)
             errorMessage.open()
         }
     }
