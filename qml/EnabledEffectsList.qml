@@ -143,6 +143,7 @@ ListView {
             }
 
             Image {
+                visible: false;
                 source: "./icons/document-2x.png";
                 sourceSize {
                     height: 14;
@@ -150,6 +151,7 @@ ListView {
                 }
 
                 MouseArea {
+                    enabled: false;
                     anchors.fill: parent;
                     onClicked: {
                         saveSetlistDialog.open();
@@ -159,6 +161,8 @@ ListView {
             }
 
             Image {
+                visible: false;
+
                 source: "./icons/data-transfer-upload-2x.png";
                 sourceSize {
                     height: 14;
@@ -166,6 +170,7 @@ ListView {
                 }
 
                 MouseArea {
+                    enabled: false;
                     anchors.fill: parent;
                     onClicked: {
                         loadSetlistDialog.open();

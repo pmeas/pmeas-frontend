@@ -162,7 +162,7 @@ ApplicationWindow {
                 bottom: parent.bottom;
             }
 
-            height: 25;
+            height: 3;
 
             color: "transparent";
 
