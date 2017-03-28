@@ -164,15 +164,17 @@ ApplicationWindow {
 
             height: 25;
 
-            color: "#E39A53";
+            color: "transparent";
 
             Text {
                 anchors { centerIn: parent; }
                 text: qsTr( "Submit Me, Pls :(" );
                 color: "#ffffff";
+                visible: false;
             }
 
             MouseArea {
+                enabled: false;
                 anchors { fill: parent; }
                 onClicked: {
                     console.log( "Clicked the submit button" );
