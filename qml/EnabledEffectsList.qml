@@ -48,7 +48,7 @@ ListView {
                 enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
                 console.log("FIX MOVING EFFECT!!!");
-                enabledEffectsListView.model.move( )
+                //enabledEffectsListView.model.move( )
             }
 
             console.log("Item dragged into enabled area");
