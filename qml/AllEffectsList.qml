@@ -47,7 +47,7 @@ ListView {
     }
 
     delegate: EffectButton {
-        exclusiveGroup: effectsExclusiveGroup;
+        //exclusiveGroup: effectsExclusiveGroup;
     }
 
     /*

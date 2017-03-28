@@ -119,9 +119,8 @@ Item {
                 effectButtonBackground.Drag.drop();
             }
 
-            onClicked: {
-                allEffectItem.checked = true;
-            }
+            onPressed: allEffectItem.checked = true;
+            onReleased: allEffectItem.checked = false;
 
         }
 

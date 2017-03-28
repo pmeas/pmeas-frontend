@@ -21,11 +21,6 @@ ListView {
         opacity: 0.3;
     }
 
-    ScrollBar.vertical: ScrollBar {
-        width: 8;
-        opacity: 0.3;
-    }
-
     remove: Transition {
         NumberAnimation {
             properties: "x";
@@ -53,7 +48,7 @@ ListView {
                 enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
                 console.log("FIX MOVING EFFECT!!!");
-                enabledEffectsListView.model.move( )
+                //enabledEffectsListView.model.move( )
             }
 
             console.log("Item dragged into enabled area");
