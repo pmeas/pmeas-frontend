@@ -10,7 +10,7 @@ Window {
     title: "PMEAS Splash Screen";
     modality: Qt.ApplicationModal;
     flags: Qt.SplashScreen;
-    property int durationOfSplash: 3000;
+    property int durationOfSplash: 5000;
     signal timeout;
     x: (Screen.width - splashImage.width) / 2;
     y: (Screen.height - splashImage.height) / 2;
@@ -23,15 +23,31 @@ Window {
 
     }
 
+    Text {
+        id: errorMessage
+        visible: false
+        text: "Could not establish connection :( make sure it's all good"
+    }
+
     Timer {
+        id: timer;
         interval: durationOfSplash;
         running: true;
         repeat: false;
         onTriggered: {
-            visible = false;
-            splashScreen.timeout();
+            errorMessage.visible = true;
         }
     }
 
-    Component.onCompleted: visible = true;
+    Component.onCompleted: {
+        bridge.broadcastDatagram();
+        bridge.tcpSocketConnected.connect(function () {
+            visible = false;
+            splashScreen.timeout();
+        });
+
+        visible = true;
+    }
+
+
 }

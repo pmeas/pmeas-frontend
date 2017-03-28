@@ -9,6 +9,10 @@ Item {
     height: 24;
     width: parent.width;
 
+    z: checked || effectButtonMouseArea.drag.active ? 100 : 0;
+
+    property var model: parameterModel;
+
     property bool checked: false;
     property ExclusiveGroup exclusiveGroup;
     property bool mouseEntered: false;
@@ -25,10 +29,10 @@ Item {
         id: effectButtonBackground;
         height: parent.height;
         width: parent.width - 24;
-        color: parent.checked ? Theme.highlighterColor : "transparent";
+        color: parent.checked || effectButtonMouseArea.drag.active ? Theme.highlighterColor : "transparent";
 
         border {
-            width: parent.checked ? 0 : 2;
+            width: parent.checked || effectButtonMouseArea.drag.active ? 0 : 2;
             color: mouseEntered ? Theme.highlighterColor : "#5a5a5a";
         }
 
@@ -51,6 +55,8 @@ Item {
 
         property alias text: effectButtonText.text;
         property string category: "allEffects";
+        property int type: effectType;
+
 
         Text {
             id: effectButtonText;
@@ -67,7 +73,7 @@ Item {
 
             text: effectName;
             color: {
-                if ( allEffectItem.checked ) {
+                if ( allEffectItem.checked || effectButtonMouseArea.drag.active) {
                     return "#346f66";
                 } else {
                     if ( mouseEntered ) {
@@ -97,14 +103,16 @@ Item {
             drag.onActiveChanged: {
                 enabledEffectsListView.draggedItemEntered = true;
                 if (drag.active) {
-                    allEffectItem.checked = true;
+                    //allEffectItem.checked = true;
                     effectsColumn.dragInProgress = true;
                     enabledEffectsListView.dragItemIndex = index;
                 } else {
                     var oldIndex = index;
-                    var oldEffectName = effectName;
-                    effectsListView.model.remove( oldIndex, 1 );
-                    effectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                    var oldEffectType = effectType;
+
+                    effectsListView.model.remove( oldIndex );
+                    effectsListView.model.insert( oldIndex, oldEffectType );
+                    
                     enabledEffectsListView.draggedItemEntered = false;
                 }
 
@@ -112,8 +120,6 @@ Item {
             }
 
             onClicked: {
-                currentModelKey = modelData;
-                console.log("Clicked 'All Effects' " + modelData + " button" );
                 allEffectItem.checked = true;
             }
 

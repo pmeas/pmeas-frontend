@@ -12,5 +12,7 @@
         <file>EnabledEffectsList.qml</file>
         <file>AllEffectsList.qml</file>
         <file>ParameterBlock.qml</file>
+        <file>icons/data-transfer-upload-2x.png</file>
+        <file>icons/document-2x.png</file>
     </qresource>
 </RCC>

@@ -5,14 +5,21 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
+import QtQuick.Dialogs 1.2
+
+import Models 1.0
 
 ListView {
 
     id: enabledEffectsListView;
     interactive: true;
 
-    Layout.fillHeight: true;
-    Layout.fillWidth: true;
+
+
+    ScrollBar.vertical: ScrollBar {
+        width: 8;
+        opacity: 0.3;
+    }
 
     ScrollBar.vertical: ScrollBar {
         width: 8;
@@ -43,11 +50,14 @@ ListView {
         onDropped: {
             effectsColumn.dragInProgress = false;
             if ( drop.source.category === "allEffects" ) {
-                enabledEffectsListView.model.append( { "effectName": drop.source.text } );
+                enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
-                console.log("dropped enabled");
+                console.log("FIX MOVING EFFECT!!!");
                 enabledEffectsListView.model.move( )
             }
+
+            console.log("Item dragged into enabled area");
+            bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
 
             enabledEffectsListView.draggedItemEntered = false;
         }
@@ -86,33 +96,88 @@ ListView {
         }
     }
 
-    model: ListModel {}
+    model: EffectsModel {
+
+    }
+
+
+
 
     header: Rectangle {
         color: "transparent";
         height: 40;
         width: parent.width;
 
-        Text {
+        RowLayout {
             anchors {
-                left: parent.left;
-                verticalCenter: parent.verticalCenter;
+                fill: parent;
                 leftMargin: 12;
             }
 
-            font {
-                bold: true;
-                pixelSize: 13;
+            spacing: 0;
+
+            Text {
+
+                font {
+                    bold: true;
+                    pixelSize: 14;
+                }
+
+                text: qsTr( "Enabled" );
+                color: enabledEffectsListView.draggedItemEntered ? "#6ff7c9" : "#ffffff";
+                Behavior on color {
+                    PropertyAnimation {
+                        duration: 600;
+                        easing.type: enabledEffectsListView.draggedItemEntered ? Easing.InCubic : Easing.Linear;
+                    }
+                }
+
             }
 
-            text: qsTr( "Enabled" );
-            color: enabledEffectsListView.draggedItemEntered ? "#6ff7c9" : "#ffffff";
-            Behavior on color {
-                PropertyAnimation {
-                    duration: 600;
-                    easing.type: enabledEffectsListView.draggedItemEntered ? Easing.InCubic : Easing.Linear;
+            FileDialog {
+                id: loadSetlistDialog;
+                nameFilters: ["JSON files (*.json)"];
+                onAccepted: {
+                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
                 }
             }
+
+            FileDialog {
+                id: saveSetlistDialog;
+                nameFilters: ["JSON files (*.json)"];
+            }
+
+            Image {
+                source: "./icons/document-2x.png";
+                sourceSize {
+                    height: 14;
+                    width: height;
+                }
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        saveSetlistDialog.open();
+                    }
+                }
+
+            }
+
+            Image {
+                source: "./icons/data-transfer-upload-2x.png";
+                sourceSize {
+                    height: 14;
+                    width: height;
+                }
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        loadSetlistDialog.open();
+                    }
+                }
+            }
+
         }
     }
 
@@ -120,6 +185,8 @@ ListView {
         id: enabledEffectItem;
         height: 24;
         width: parent.width;
+
+        property var model: parameterModel;
 
         property bool checked: false;
         property ExclusiveGroup exclusiveGroup: effectsExclusiveGroup
@@ -189,7 +256,8 @@ ListView {
                     id: enabledEffectMouseArea;
                     anchors.fill: parent;
                     onClicked: {
-                        enabledEffectsListView.model.remove( index, 1 );
+                        enabledEffectsListView.model.remove( index );
+                        bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
                     }
                 }
             }
@@ -226,9 +294,7 @@ ListView {
 
                 onClicked: {
                     console.log("Clicked 'Enabled' " + effectName + " button" );
-                    currentModelKey = effectName;
                     enabledEffectItem.checked = true;
-
 
                 }
                 drag.onActiveChanged: {

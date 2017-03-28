@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.1
 
 import Theme 1.0
+import Models 1.0
+
 
 ListView {
     id: effectsListView;
@@ -11,15 +13,15 @@ ListView {
 
     property ButtonGroup exclusiveGroup;
 
-
-    model: ListModel {
-        ListElement { effectName: "Distortion"; }
-        ListElement { effectName: "Delay"; }
-        ListElement { effectName: "Reverb"; }
-        ListElement { effectName: "Chorus"; }
-        ListElement { effectName: "Frequency Shift"; }
-        ListElement { effectName: "Harmonizer"; }
-        ListElement { effectName: "Flanger"; }
+    model: EffectsModel {
+        Effect { effectType: Effect.Distortion; }
+        Effect { effectType: Effect.Delay; }
+        Effect { effectType: Effect.Chorus; }
+        Effect { effectType: Effect.Flanger; }
+        //Effect { effectType: Effect.FrequencyShift; }
+        Effect { effectType: Effect.Harmonizer; }
+        Effect { effectType: Effect.Phaser; }
+        Effect { effectType: Effect.Reverb; }
     }
 
     header: Rectangle {

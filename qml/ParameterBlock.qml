@@ -77,7 +77,7 @@ Rectangle {
                     horizontalCenter: parent.horizontalCenter;
                 }
 
-                text: modelData;
+                text: parameterName;
                 font {
                     pixelSize: 15;
                     bold: true;
@@ -90,9 +90,9 @@ Rectangle {
 
         Slider {
             id: parameterSlider;
-            from: 0;
-            to: 100;
-            value: 50;
+            from: parameterMinValue;
+            to: parameterMaxValue;
+            value: parameterValue;
             height: 17;
             implicitWidth: parameterBlock.width * 0.75;
             anchors {
@@ -102,6 +102,13 @@ Rectangle {
             hoverEnabled: true;
             onHoveredChanged: {
                 console.log(hovered)
+            }
+
+            onPressedChanged: {
+                if ( !pressed ) {
+                    parameterValue = value;
+                    bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson() );
+                }
             }
 
 

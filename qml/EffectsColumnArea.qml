@@ -7,7 +7,9 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
-    property string currentModelKey: "Distortion";
+    property alias effectsListView: enabledEffectsListView;
+
+    property var currentParameterModel: effectsExclusiveGroup.current === null ? undefined : effectsExclusiveGroup.current.model;
 
     ColumnLayout {
         id: effectsColumn;
@@ -15,34 +17,50 @@ Rectangle {
             fill: parent;
         }
 
-        spacing: 6;
+        spacing: 0;
 
-        ExclusiveGroup { id: effectsExclusiveGroup; }
+        ExclusiveGroup {
+            id: effectsExclusiveGroup;
+        }
 
         property bool dragInProgress: false;
 
 
         EnabledEffectsList {
             id: enabledEffectsListView;
+
+            anchors {
+                top: parent.top;
+                bottom: separator.top;
+                bottomMargin: 12;
+            }
+
+            //Layout.fillHeight: true;
+
+            Layout.fillWidth: true;
         }
 
         Rectangle {
+            id: separator;
             anchors {
                 left: parent.left;
                 right: parent.right;
-                margins: 12;
+                bottom: effectsListView.top;
+                leftMargin: 12;
+                rightMargin: 12;
+                bottomMargin: 6;
             }
 
             radius: 3;
-            height: 3;
+            height: 2;
             opacity: 0.25;
             color: "black";
         }
 
         AllEffectsList {
             id: effectsListView;
-            height: 280;
 
+            height: ( count * ( currentItem.height + spacing ) ) + currentItem.height;
             width: parent.width;
 
             anchors {

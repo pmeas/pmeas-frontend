@@ -1,48 +1,66 @@
+#include <QUdpSocket>
+#include <QNetworkDatagram>
+#include <QTcpSocket>
+
 #include "socketserver.h"
 
-#include <QLocalServer>
-#include <QLocalSocket>
-
-// This is the name we give to the server to listen to.
-// We just need to coordinate with Matt for the name.
-const QString SERVER_NAME = "ListenHereBOI!";
-
-SocketServer::SocketServer(QObject *parent) : QObject(parent),
-    m_localServer( new QLocalServer( this ) )
+SocketServer::SocketServer(QObject *parent) : QObject(parent)
 {
+    tcpSocket = new QTcpSocket(this);
+    udpSocket = new QUdpSocket(this);
 
-    // Set up the server and listen to a connection name.
-    if ( !m_localServer->listen( SERVER_NAME ) ) {
+    connect(tcpSocket, &QTcpSocket::connected,this, [this] {
+        qDebug() << "has connected";
+    });
 
-        // Qt's QLocalServer class creates a file on your operating system that
-        // may not be properly deleted when the application quits.
-        //
-        // This is the only reason why the QLocalServer::listen() method would
-        // fail to connect.
-        //
-        // We need to manually close the server, delete the server file and
-        // then reconnect the server.
-        //
-        // That is what happens for the few lines below.s
+    connect(tcpSocket, &QTcpSocket::connected, this, &SocketServer::tcpConnected);
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readTCPResult()));
+    connect(udpSocket, SIGNAL(readyRead()),this, SLOT(readDatagram()));
+}
 
-        m_localServer->close();
-        QLocalServer::removeServer( SERVER_NAME );
-        m_localServer->listen( SERVER_NAME );
-        Q_ASSERT( m_localServer->isListening() );
+void SocketServer::broadcastDatagram() {
+    // TODO: Replace this sample JSON with live effect data + params.
+    /* TODO: See if we _want_ to just broadcast the data or make a TCP
+     * connection after like Younes suggests to send data over reliably. This can be done
+     * of course but before we start work on it we gotta make sure its what we want to do.
+     */
+//    QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
+    QByteArray message = "1";
+    udpSocket->writeDatagram(message.data(), message.size(),
+                             QHostAddress::Broadcast, 10000);
+}
+
+void SocketServer::sendData(QByteArray message){
+
+    int res = tcpSocket->write(message);
+    if(res == -1) {
+        qDebug() << "Connection severed.";
+        emit(lostConnection());
     }
 
-    // Prints to the console, similar to 'std::cout', and automatically adds an 'std::endl';
-    qDebug() << "The server is listening...";
-    qDebug() << "check the cpp code to find this.";
+    tcpSocket->flush();
+}
 
-    // Listen in for any new coming connections.
-    // This is an async method and will be called for us automatically
-    connect( m_localServer, &QLocalServer::newConnection, this, [this]() {
-        QLocalSocket *newSocket = m_localServer->nextPendingConnection();
+void SocketServer::readTCPResult() {
 
-        // This is an async method and willb e called for us automatically.
-        connect( newSocket, &QLocalSocket::readyRead, this, [this]() {
-            qDebug() << "A socket is ready to be read, parse it now homie!";
-        });
-    });
+    QByteArray tcpResult = tcpSocket->readAll();
+
+    qDebug() << tcpResult;
+}
+
+void SocketServer::tcpConnection(QHostAddress address,int port){
+    qDebug() << "Host:" << address << "Port:" << port;
+    tcpSocket->connectToHost(address, quint16(port));
+    qDebug() << "Connected to Host:" << address << "Port:" << port;
+}
+
+void SocketServer::readDatagram() {
+    while(udpSocket->hasPendingDatagrams()) {
+        QNetworkDatagram networkDatagram = udpSocket->receiveDatagram(1024);
+        QByteArray receivedData = networkDatagram.data();
+        QHostAddress address = networkDatagram.senderAddress();
+        int port = receivedData.toInt();
+        qDebug() << "Got IP: " << address << " on Port: " << port;
+        tcpConnection(address,port);
+    }
 }
