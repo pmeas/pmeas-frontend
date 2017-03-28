@@ -158,7 +158,6 @@ ApplicationWindow {
             Layout.fillWidth: true;
 
             anchors {
-
                 bottom: parent.bottom;
             }
 
