@@ -21,11 +21,6 @@ ListView {
         opacity: 0.3;
     }
 
-    ScrollBar.vertical: ScrollBar {
-        width: 8;
-        opacity: 0.3;
-    }
-
     remove: Transition {
         NumberAnimation {
             properties: "x";
