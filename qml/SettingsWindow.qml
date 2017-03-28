@@ -7,6 +7,7 @@ Window {
     id: settingsWindow
     title: qsTr( "Settings" );
     visible: false;
+    color: "#332f2f";
     x: root.x + ( ( root.width / 2 ) - ( width / 2 ) );
     y: root.y + ( ( root.height / 2 ) - ( height / 2 ) );
     width: 300;
@@ -17,12 +18,12 @@ Window {
 
     ColumnLayout {
         id: devicesColumn;
-
         anchors { centerIn: parent; }
         spacing: 12;
 
         Text {
             text: "Audio Input";
+            color: "#f1f1f1";
         }
 
         ComboBox {
@@ -32,88 +33,55 @@ Window {
 
         Text {
             text: "Audio Output";
+            color: "#f1f1f1";
         }
 
         ComboBox {
-            model: [ "Speakers", "Surround Sound" ];
+            model: [ "ALSA (3.5mm)", "USB" ];
             implicitWidth: 150;
         }
 
     }
 
-            RowLayout {
+    RowLayout {
+        anchors {
+            top: devicesColumn.bottom;
+            horizontalCenter: parent.horizontalCenter;
+            margins: 12;
+        }
 
-                anchors {
-                    top: devicesColumn.bottom;
-                    horizontalCenter: parent.horizontalCenter;
-                    margins: 12;
-                }
-
-                Rectangle {
-                    id: cancelSettings;
-                    anchors {
-                        right: sendSettings.left;
-                        rightMargin: 20;
-                    }
-                    width: 75;
-                    height: 35;
-                    color: "#FFFFFF";
-                    border.color: "#000000";
-                    border.width: 1;
-                    radius: 4;
-
-                    Text {
-                        anchors.centerIn: parent;
-                        text: qsTr("Cancel");
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent;
-                        onClicked: {
-                            console.log("Cancel settings page");
-                            settingsWindow.close();
-                        }
-
-                        onPressed: {
-                            parent.color = "#E19854";
-                        }
-
-                        onReleased: {
-                            parent.color = "#FFFFFF";
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: sendSettings;
-                    width: 75;
-                    height: 35;
-                    color: "#FFFFFF";
-                    border.color: "#000000";
-                    border.width: 1;
-                    radius: 4;
-
-                    Text {
-                        anchors.centerIn: parent;
-                        text: qsTr("Accept");
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent;
-                        onClicked: {
-                            console.log("Update server ports here :^)");
-                        }
-
-                        onPressed: {
-                            parent.color = "#E19854";
-                        }
-
-                        onReleased: {
-                            parent.color = "#FFFFFF";
-                        }
-
-                    }
-                }
-
+        Button {
+            id: cancelSettings;
+            anchors {
+                //right: sendSettings.left;
+                rightMargin: 20;
             }
+            width: 75;
+            height: 35;
+
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Cancel");
+            }
+
+            onClicked: {
+                console.log("Cancel settings page");
+                settingsWindow.close();
+            }
+        }
+
+        Button {
+            id: sendSettings;
+            width: 75;
+            height: 35;
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Accept");
+            }
+
+            onClicked: {
+                console.log("Update server ports here :^)");
+            }
+        }
+    }
 }
