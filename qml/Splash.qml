@@ -47,7 +47,9 @@ Window {
         });
 
 
-        visible = true;
+        visible = false;
+        splashScreen.timeout();
+
     }
 
 
