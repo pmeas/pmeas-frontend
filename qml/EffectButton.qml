@@ -112,6 +112,7 @@ Item {
 
                     effectsListView.model.remove( oldIndex );
                     effectsListView.model.insert( oldIndex, oldEffectType );
+                    
                     enabledEffectsListView.draggedItemEntered = false;
                 }
 

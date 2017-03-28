@@ -59,8 +59,8 @@ Rectangle {
 
         AllEffectsList {
             id: effectsListView;
-            height: ( count * ( currentItem.height + spacing ) ) + currentItem.height;
 
+            height: ( count * ( currentItem.height + spacing ) ) + currentItem.height;
             width: parent.width;
 
             anchors {
