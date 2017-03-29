@@ -41,9 +41,14 @@ ApplicationWindow {
     color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
 
+    ReconnectWindow {
+        id: reconnectWindow;
+    }
+
     Component.onCompleted: {
         bridge.lostConnection.connect(function () {
             console.log("Lost Connection");
+            reconnectWindow.show();
         });
     }
 

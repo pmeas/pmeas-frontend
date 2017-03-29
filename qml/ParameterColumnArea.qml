@@ -9,7 +9,6 @@ Rectangle {
 
     id: parameterColumnArea;
 
-
     Rectangle  {
         color: "transparent";
 

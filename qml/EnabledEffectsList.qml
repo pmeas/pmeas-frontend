@@ -13,8 +13,6 @@ ListView {
     id: enabledEffectsListView;
     interactive: true;
 
-
-
     ScrollBar.vertical: ScrollBar {
         width: 8;
         opacity: 0.3;
@@ -24,10 +22,18 @@ ListView {
         NumberAnimation {
             properties: "x";
             to: -enabledEffectsListView.width;
-            duration: 1200;
-            easing.type: Easing.InOutElastic;
+            duration: 25;
+            easing.type: Easing.Linear;
         }
      }
+
+    removeDisplaced: Transition {
+        NumberAnimation {
+            properties: "y";
+            duration: 300;
+            easing.type: Easing.OutCubic;
+        }
+    }
 
     spacing: 12;
 
@@ -47,7 +53,7 @@ ListView {
                 enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
                 console.log("FIX MOVING EFFECT!!!");
-                enabledEffectsListView.model.move( )
+                //enabledEffectsListView.model.move( )
             }
 
             console.log("Item dragged into enabled area");

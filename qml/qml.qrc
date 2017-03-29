@@ -16,5 +16,6 @@
         <file>icons/document-2x.png</file>
 	<file>icons/speaker-icon.png</file>
 	<file>icons/question-mark.png</file>
+        <file>ReconnectWindow.qml</file>
     </qresource>
 </RCC>
