@@ -5,7 +5,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.2
 
 import Models 1.0
 
@@ -134,56 +133,6 @@ ListView {
                 }
 
             }
-
-            FileDialog {
-                id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-                onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
-                }
-            }
-
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-            }
-
-            Image {
-                visible: false;
-                source: "./icons/document-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    enabled: false;
-                    anchors.fill: parent;
-                    onClicked: {
-                        saveSetlistDialog.open();
-                    }
-                }
-
-            }
-
-            Image {
-                visible: false;
-
-                source: "./icons/data-transfer-upload-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    enabled: false;
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                }
-            }
-
         }
     }
 
