@@ -102,6 +102,7 @@ Window {
                         anchors.fill: parent;
                         onClicked: {
                             console.log("Update server ports here :^)");
+                            bridge.sendData("{\"intent\":\"UPDATEPORT\"}");
                         }
 
                         onPressed: {
