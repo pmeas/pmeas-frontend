@@ -43,6 +43,9 @@ Window {
         standardButtons: StandardButton.Retry | StandardButton.Close
         onAccepted: tryConnect()
         onRejected: Qt.quit()
+        TextField {
+            id: ipAddr
+        }
     }
 
     function tryConnect(){

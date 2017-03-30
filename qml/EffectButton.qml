@@ -74,10 +74,10 @@ Item {
             text: effectName;
             color: {
                 if ( allEffectItem.checked || effectButtonMouseArea.drag.active) {
-                    return "#346f66";
+                    return Theme.effectGlowColorDim;
                 } else {
                     if ( mouseEntered ) {
-                        return "#6ff7c9";
+                        return Theme.highlighterColor;
                     }
                     return "#5d6161";
                 }

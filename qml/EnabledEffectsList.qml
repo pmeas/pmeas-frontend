@@ -10,12 +10,8 @@ import QtQuick.Dialogs 1.2
 import Models 1.0
 
 ListView {
-
     id: enabledEffectsListView;
     interactive: true;
-
-
-
     ScrollBar.vertical: ScrollBar {
         width: 8;
         opacity: 0.3;
@@ -68,7 +64,7 @@ ListView {
             radius: 6;
             border {
                 width: 3;
-                color: "#6ff7c9";
+                color: Theme.highlighterColor;
             }
 
             Behavior on opacity {
@@ -87,7 +83,7 @@ ListView {
             verticalOffset: 0;
             radius: 32.0
             samples: radius * 2;
-            color: "#6ff7c9";
+            color: Theme.highlighterColor;
         }
     }
 
@@ -112,7 +108,6 @@ ListView {
             spacing: 0;
 
             Text {
-
                 font {
                     bold: true;
                     pixelSize: 14;
@@ -156,21 +151,30 @@ ListView {
                     }
                 }
 
+                ToolTip {
+                    text: "Save"
+                }
             }
 
-            Image {
+            /*Image {
                 source: "./icons/data-transfer-upload-2x.png";
                 sourceSize {
                     height: 14;
                     width: height;
-                }
-
+                }*/
+            Text {
+                text: "💾";
+                color: Theme.highlighterFontColor;
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: {
                         loadSetlistDialog.open();
                     }
                 }
+
+                ToolTip.delay: 200
+                ToolTip.text: "Load"
+                //ToolTip.visible: hovered
             }
 
         }

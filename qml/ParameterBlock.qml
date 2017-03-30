@@ -83,7 +83,7 @@ Rectangle {
                     bold: true;
                 }
 
-                color: "#f1f1f1";
+                color: Theme.highlighterFontColor;
             }
 
        //}

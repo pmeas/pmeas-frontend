@@ -36,7 +36,7 @@ ApplicationWindow {
     minimumWidth: 800;
     minimumHeight: 600;
 
-    color: "#332f2f";
+    color: Theme.backgroundColor;
     title: qsTr("Portable Multi-Effects Audio Software");
 
     Component.onCompleted: {
@@ -247,7 +247,7 @@ ApplicationWindow {
         }
     */
     }
-    property var splashWindow: Splash {
-        onTimeout: root.visible = true;
-    }
+//    property var splashWindow: Splash {
+//        onTimeout: root.visible = true;
+//    }
 }
