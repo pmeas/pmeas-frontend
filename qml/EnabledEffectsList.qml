@@ -5,9 +5,9 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.2
 
 import Models 1.0
+import Theme 1.0
 
 ListView {
     id: enabledEffectsListView;
@@ -21,10 +21,18 @@ ListView {
         NumberAnimation {
             properties: "x";
             to: -enabledEffectsListView.width;
-            duration: 1200;
-            easing.type: Easing.InOutElastic;
+            duration: 25;
+            easing.type: Easing.Linear;
         }
      }
+
+    removeDisplaced: Transition {
+        NumberAnimation {
+            properties: "y";
+            duration: 300;
+            easing.type: Easing.OutCubic;
+        }
+    }
 
     spacing: 12;
 
@@ -44,7 +52,7 @@ ListView {
                 enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
                 console.log("FIX MOVING EFFECT!!!");
-                enabledEffectsListView.model.move( )
+                //enabledEffectsListView.model.move( )
             }
 
             console.log("Item dragged into enabled area");
@@ -123,60 +131,6 @@ ListView {
                 }
 
             }
-
-            FileDialog {
-                id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-                onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
-                }
-            }
-
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-            }
-
-            Image {
-                source: "./icons/document-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        saveSetlistDialog.open();
-                    }
-                }
-
-                ToolTip {
-                    text: "Save"
-                }
-            }
-
-            /*Image {
-                source: "./icons/data-transfer-upload-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }*/
-            Text {
-                text: "💾";
-                color: Theme.highlighterFontColor;
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                }
-
-                ToolTip.delay: 200
-                ToolTip.text: "Load"
-                //ToolTip.visible: hovered
-            }
-
         }
     }
 

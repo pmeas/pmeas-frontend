@@ -21,7 +21,7 @@ Window {
         running: timer.running
         anchors {
             verticalCenter: splashImage.bottom;
-            verticalCenterOffset: -128;
+            verticalCenterOffset: -96;
             horizontalCenter: splashImage.horizontalCenter;
         }
     }
@@ -43,12 +43,9 @@ Window {
         standardButtons: StandardButton.Retry | StandardButton.Close
         onAccepted: tryConnect()
         onRejected: Qt.quit()
-        TextField {
-            id: ipAddr
-        }
     }
 
-    function tryConnect(){
+    function tryConnect() {
         timer.start()
         networkSpinner.running = true;
         bridge.broadcastDatagram();
