@@ -21,13 +21,20 @@ Window {
         anchors { centerIn: parent; }
         spacing: 12;
 
+        Component.onCompleted: {
+            bridge.sendData("{\"intent\":\"REQPORT\"}")
+            var ports = bridge.getStream()
+        }
+
         Text {
             text: "Audio Input";
         }
 
         ComboBox {
-            model: [ "Microphone", "Guitar" ];
+            id: inputs;
+            model: [];
             implicitWidth: 150;
+
         }
 
         Text {
@@ -35,86 +42,83 @@ Window {
         }
 
         ComboBox {
-            model: [ "Speakers", "Surround Sound" ];
+            id: outputs;
+            model: [];
             implicitWidth: 150;
         }
 
     }
 
-            RowLayout {
+    RowLayout {
+        anchors {
+            top: devicesColumn.bottom;
+            horizontalCenter: parent.horizontalCenter;
+            margins: 12;
+        }
 
-                anchors {
-                    top: devicesColumn.bottom;
-                    horizontalCenter: parent.horizontalCenter;
-                    margins: 12;
-                }
-
-                Rectangle {
-                    id: cancelSettings;
-                    anchors {
-                        right: sendSettings.left;
-                        rightMargin: 20;
-                    }
-                    width: 75;
-                    height: 35;
-                    color: "#FFFFFF";
-                    border.color: "#000000";
-                    border.width: 1;
-                    radius: 4;
-
-                    Text {
-                        anchors.centerIn: parent;
-                        text: qsTr("Cancel");
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent;
-                        onClicked: {
-                            console.log("Cancel settings page");
-                            settingsWindow.close();
-                        }
-
-                        onPressed: {
-                            parent.color = "#E19854";
-                        }
-
-                        onReleased: {
-                            parent.color = "#FFFFFF";
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: sendSettings;
-                    width: 75;
-                    height: 35;
-                    color: "#FFFFFF";
-                    border.color: "#000000";
-                    border.width: 1;
-                    radius: 4;
-
-                    Text {
-                        anchors.centerIn: parent;
-                        text: qsTr("Accept");
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent;
-                        onClicked: {
-                            console.log("Update server ports here :^)");
-                            bridge.sendData("{\"intent\":\"UPDATEPORT\"}");
-                        }
-
-                        onPressed: {
-                            parent.color = "#E19854";
-                        }
-
-                        onReleased: {
-                            parent.color = "#FFFFFF";
-                        }
-
-                    }
-                }
-
+        Rectangle {
+            id: cancelSettings;
+            anchors {
+                right: sendSettings.left;
+                rightMargin: 20;
             }
+            width: 75;
+            height: 35;
+            color: "#FFFFFF";
+            border.color: "#000000";
+            border.width: 1;
+            radius: 4;
+
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Cancel");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    console.log("Cancel settings page");
+                    settingsWindow.close();
+                }
+
+                onPressed: {
+                    parent.color = "#E19854";
+                }
+
+                onReleased: {
+                    parent.color = "#FFFFFF";
+                }
+            }
+        }
+
+        Rectangle {
+            id: sendSettings;
+            width: 75;
+            height: 35;
+            color: "#FFFFFF";
+            border.color: "#000000";
+            border.width: 1;
+            radius: 4;
+
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Accept");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    bridge.sendData("{\"intent\":\"UPDATEPORT\", \"inport\":"+"}");
+                }
+
+                onPressed: {
+                    parent.color = "#E19854";
+                }
+
+                onReleased: {
+                    parent.color = "#FFFFFF";
+                }
+            }
+        }
+    }
 }
