@@ -62,13 +62,12 @@ Rectangle {
             height: ( count * ( currentItem.height + spacing ) ) + currentItem.height;
 
             width: parent.width;
-/*
+
             anchors {
                 bottom: settingsArea.top;
             }
-            */
         }
-/*
+
         Rectangle {
             id: settingsArea;
             height: 24;
@@ -87,6 +86,18 @@ Rectangle {
                 anchors.centerIn: parent;
 
                 spacing: 12;
+
+                Image {
+                    id: settingsIcon;
+                    source: "./icons/cog-2x.png";
+                    height: 14;
+                    width: height;
+                    sourceSize {
+                        width: 14;
+                        height: 14;
+                    }
+                }
+
                 Text {
 
                     text: qsTr( "Settings" );
@@ -98,6 +109,10 @@ Rectangle {
                 }
             }
 
+            SettingsWindow {
+                id: settingsWindow;
+            }
+
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
@@ -106,6 +121,7 @@ Rectangle {
 
             }
         }
+
         DropShadow {
             anchors.fill: source;
             horizontalOffset: 0;
@@ -115,6 +131,5 @@ Rectangle {
             color: "black"
             source: settingsArea;
         }
-    */
     }
 }

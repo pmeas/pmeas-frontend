@@ -30,7 +30,7 @@ import Networking 1.0
 // This is the root level of the GUI, hence why the 'id: root' exists.
 ApplicationWindow {
     id: root;
-    visible: true;
+    visible: false;
     width: 800;
     height: 600;
     minimumWidth: 800;
@@ -51,6 +51,7 @@ ApplicationWindow {
     }
 
     ColumnLayout {
+
         anchors {
             fill: parent;
             margins: 1;
@@ -59,6 +60,7 @@ ApplicationWindow {
         spacing: 10;
 
         RowLayout {
+
             Layout.fillWidth: true;
             Layout.fillHeight: true;
             spacing: 2;
@@ -80,6 +82,7 @@ ApplicationWindow {
                     topMargin: 12;
                     bottomMargin: 8;
                 }
+
                 radius: 6;
                 width: 2;
                 opacity: 0.25;
@@ -150,68 +153,6 @@ ApplicationWindow {
 
         }
 
-        Button {
-            id: submitButton
-            Layout.fillWidth: true;
-            anchors {
-                bottom: parent.bottom;
-                left: parent.left;
-            }
-            height: 25
-            text: "Submit!!!!!!!!";
-            onClicked: {
-                bridge.broadcastDatagram();
-            }
-        }
-        Button {
-            id: advancedSettings;
-            anchors {
-                bottom: parent.bottom;
-                right: parent.right;
-            }
-            height: 25
-            width: 25
-            Text {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-
-                font.pointSize: 14
-                width: 25
-                height: 25
-                text: "⚙";
-                color: "#332f2f";
-            }
-            /*
-            Image {
-                id: settingsIcon;
-                source: "./icons/cog-2x.png";
-                anchors {
-                    verticalCenter: advancedSettings.verticalCenter
-                    horizontalCenter: advancedSettings.horizontalCenter
-                }
-
-                height: 14;
-                width: height;
-                sourceSize {
-                    width: 14;
-                    height: 14;
-                }
-            }
-            */
-            SettingsWindow {
-                id: settingsWindow;
-                visible: false;
-            }
-
-            onClicked: {
-                console.log("Clicked settings")
-                settingsWindow.show()
-            }
-        }
-
-        /*
         Rectangle {
 
             Layout.fillWidth: true;
@@ -245,9 +186,6 @@ ApplicationWindow {
                 }
             }
         }
-    */
     }
-//    property var splashWindow: Splash {
-//        onTimeout: root.visible = true;
-//    }
+    property var splashWindow: Splash {
 }
