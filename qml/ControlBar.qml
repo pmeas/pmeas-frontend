@@ -240,6 +240,8 @@ Rectangle {
                     anchors.fill: parent;
                     onClicked: {
                         //TODO: Open tutorial popup
+                        console.log("Tutorial button clicked");
+                        tutorialTip.visible = true;
                     }
                     onPressed: {
                         tutorial.color = Theme.enabledButtonColor;

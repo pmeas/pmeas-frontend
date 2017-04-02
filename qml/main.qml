@@ -38,8 +38,10 @@ ApplicationWindow {
     minimumWidth: 800;
     minimumHeight: 600;
 
-    color: Theme.backgroundColor;
+    color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
+
+    property int tutorialState: 0;
 
     ReconnectWindow {
         id: reconnectWindow;
@@ -173,6 +175,89 @@ ApplicationWindow {
         }
 
     }
+
+    Rectangle {
+        id: tutorialTip;
+        width: 400;
+        height: 250;
+        x: (root.width - width) / 2;
+        y: (root.height - height) / 2;
+        Text {
+            id: tutorialText;
+            text: qsTr("Welcome to the PMEAS System!");
+        }
+        visible: false;
+
+        Rectangle {
+            id: tutorialExit;
+            anchors {
+                bottom: parent.bottom;
+                left: parent.left;
+                leftMargin: 20;
+                bottomMargin: 10;
+            }
+            width: 50;
+            height: 25;
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Exit");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+
+                onClicked: {
+                    tutorialState = 0;
+                    tutorialTip.visible = false;
+                    tutorialText.text = "Welcome to the PMEAS System!";
+                    tutorialTip.width = 400;
+                    tutorialTip.height = 250;
+                    tutorialTip.x = (root.width - tutorialTip.width) / 2;
+                    tutorialTip.y = (root.height - tutorialTip.height) / 2;
+                    tutorialNext.visible = true;
+                }
+            }
+        }
+
+        Rectangle {
+            id: tutorialNext;
+            anchors {
+                bottom: parent.bottom;
+                right: parent.right;
+                rightMargin: 20;
+                bottomMargin: 10;
+            }
+            width: 50;
+            height: 25;
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Next");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+
+                onClicked: {
+                    if(tutorialState === 0) {
+                        console.log("Next button clicked");
+                        tutorialText.text = "This area is where all the effects are located.\n" +
+                                "Drag an effect into the area above to enable the effect!";
+                        tutorialTip.x = effectsColumnArea.allEffectsAlias.x + 150;
+                        tutorialTip.y = effectsColumnArea.allEffectsAlias.y;
+                        tutorialTip.width = 400;
+                        tutorialTip.height = 75;
+                        tutorialNext.visible = false;
+                        tutorialState++;
+                    }
+
+                }
+            }
+        }
+    }
+
     property var splashWindow: Splash {
+        onTimeout: root.visible = true;
+
+
     }
 }

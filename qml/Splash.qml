@@ -2,10 +2,10 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
-import QtQuick.Dialogs 1.1
 
 Window {
     // Responsible for the splash screen upon loading of application.
+
     id: splashScreen;
     title: "PMEAS Splash Screen";
     modality: Qt.ApplicationModal;
@@ -16,56 +16,42 @@ Window {
     y: (Screen.height - splashImage.height) / 2;
     width: splashImage.width;
     height: splashImage.height;
-    BusyIndicator {
-        id: networkSpinner
-        running: timer.running
-        anchors {
-            verticalCenter: splashImage.bottom;
-            verticalCenterOffset: -96;
-            horizontalCenter: splashImage.horizontalCenter;
-        }
-    }
 
     Image {
         id: splashImage;
         source: "images/logo.png";
+
     }
 
-    MessageDialog {
+    Text {
         id: errorMessage
         visible: false
-        title: "Could not establish network connection"
-        icon: StandardIcon.Critical
-        informativeText: "The backend failed to respond within "+durationOfSplash+" ms.\n"+
-                         "Please make sure that the backend has power and a network connection.\n"+
-                         "If the problem persists, try ethernet\n"
-        width: 2000
-        standardButtons: StandardButton.Retry | StandardButton.Close
-        onAccepted: tryConnect()
-        onRejected: Qt.quit()
-    }
-
-    function tryConnect() {
-        timer.start()
-        networkSpinner.running = true;
-        bridge.broadcastDatagram();
-        bridge.tcpSocketConnected.connect(function () {
-            visible = false;
-            splashScreen.timeout();
-        });
-        visible = true;
+        text: "Could not establish connection :( make sure it's all good"
     }
 
     Timer {
         id: timer;
         interval: durationOfSplash;
+        running: true;
         repeat: false;
         onTriggered: {
-            networkSpinner.running = false;
-            errorMessage.setWidth(400)
-            errorMessage.open()
+            errorMessage.visible = true;
         }
     }
 
-    Component.onCompleted: tryConnect()
+    Component.onCompleted: {
+        bridge.broadcastDatagram();
+        bridge.tcpSocketConnected.connect(function () {
+            visible = false;
+            splashScreen.timeout();
+        });
+
+
+        visible = true;
+//        visible = false;
+//        splashScreen.timeout();
+
+    }
+
+
 }

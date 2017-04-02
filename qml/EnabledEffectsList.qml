@@ -7,11 +7,12 @@ import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 
 import Models 1.0
-import Theme 1.0
 
 ListView {
+
     id: enabledEffectsListView;
     interactive: true;
+
     ScrollBar.vertical: ScrollBar {
         width: 8;
         opacity: 0.3;
@@ -59,6 +60,14 @@ ListView {
             bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
 
             enabledEffectsListView.draggedItemEntered = false;
+
+            if(tutorialTip.visible && tutorialState === 1) {
+                tutorialText.text = "Nice! You just enabled the " + drop.source.text + " effect.\n" +
+                        "Click on the effect to view its parameters.";
+                tutorialTip.x = parameterColumnArea.x;
+                tutorialTip.y = parameterColumnArea.y;
+                tutorialState++;
+            }
         }
 
         //onEntered: enabledEffectsListView.draggedItemEntered = true
@@ -72,7 +81,7 @@ ListView {
             radius: 6;
             border {
                 width: 3;
-                color: Theme.highlighterColor;
+                color: "#6ff7c9";
             }
 
             Behavior on opacity {
@@ -91,7 +100,7 @@ ListView {
             verticalOffset: 0;
             radius: 32.0
             samples: radius * 2;
-            color: Theme.highlighterColor;
+            color: "#6ff7c9";
         }
     }
 
@@ -116,6 +125,7 @@ ListView {
             spacing: 0;
 
             Text {
+
                 font {
                     bold: true;
                     pixelSize: 14;
@@ -248,6 +258,13 @@ ListView {
                 onClicked: {
                     console.log("Clicked 'Enabled' " + effectName + " button" );
                     enabledEffectItem.checked = true;
+
+                    if(tutorialTip.visible && tutorialState === 2) {
+                        tutorialText.text = "Well done. These are the parameters for the " + effectName + " effect.\n" +
+                                "Drag one of the sliders to modify a parameter.";
+                        tutorialTip.width = 450;
+                        tutorialState++;
+                    }
 
                 }
                 drag.onActiveChanged: {
