@@ -248,6 +248,15 @@ ApplicationWindow {
                         tutorialTip.height = 75;
                         tutorialNext.visible = false;
                         tutorialState++;
+                    } else {
+                        tutorialState = 0;
+                        tutorialTip.visible = false;
+                        tutorialText.text = "Welcome to the PMEAS System!";
+                        tutorialTip.width = 400;
+                        tutorialTip.height = 250;
+                        tutorialTip.x = (root.width - tutorialTip.width) / 2;
+                        tutorialTip.y = (root.height - tutorialTip.height) / 2;
+                        tutorialNext.visible = true;
                     }
 
                 }

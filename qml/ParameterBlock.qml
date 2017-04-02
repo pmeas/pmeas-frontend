@@ -109,6 +109,7 @@ Rectangle {
                     tutorialText.text = "Very good. Changing the sliders allows you to fine tune\n" +
                             "how the effect will modulate the audio.";
                     tutorialTip.width = 400;
+                    tutorialNext.visible = true;
                 }
             }
 
