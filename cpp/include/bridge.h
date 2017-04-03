@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QObject>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QHostAddress>
 
 // The SocketServer class will allow us to listen to and
@@ -17,24 +20,25 @@ class Bridge : public QObject
 {
     // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
-
+    Q_PROPERTY(QVariantList inports MEMBER m_inports)
+    Q_PROPERTY(QVariantList outports MEMBER m_outports)
 public:
     // Define a basic contructor for a QObject
     explicit Bridge( QObject *parent = nullptr );
-
 signals:
     void tcpSocketConnected();
     void lostConnection();
+    void getPorts();
 
 public slots:
-    void broadcastDatagram();
-    void sendData(QByteArray);
+    void beginUDPBroadcast();
+    void tcpSend(QByteArray);
+    void udpRecvBackendIpAndConnect();
 
 private slots:
-    void readDatagram();
-    void readTCPResult();
 
 private:
     QUdpSocket *m_udpSocket;
     QAbstractSocket *m_tcpSocket;
+    QVariantList m_inports, m_outports;
 };

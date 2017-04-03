@@ -21,20 +21,14 @@ Window {
         anchors { centerIn: parent; }
         spacing: 12;
 
-        Component.onCompleted: {
-            bridge.sendData("{\"intent\":\"REQPORT\"}")
-            var ports = bridge.getStream()
-        }
-
         Text {
             text: "Audio Input";
         }
 
         ComboBox {
             id: inputs;
-            model: [];
+            model: bridge.inports;
             implicitWidth: 150;
-
         }
 
         Text {
@@ -43,7 +37,7 @@ Window {
 
         ComboBox {
             id: outputs;
-            model: [];
+            model: bridge.outports;
             implicitWidth: 150;
         }
 

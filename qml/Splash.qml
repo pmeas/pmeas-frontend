@@ -40,13 +40,11 @@ Window {
     }
 
     Component.onCompleted: {
-        bridge.broadcastDatagram();
+        bridge.beginUDPBroadcast();
         bridge.tcpSocketConnected.connect(function () {
             visible = false;
             splashScreen.timeout();
         });
-
-
         visible = true;
 //        visible = false;
 //        splashScreen.timeout();
