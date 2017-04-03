@@ -41,6 +41,8 @@ ApplicationWindow {
     color: "#332f2f";
     title: qsTr("Portable Multi-Effects Audio Software");
 
+    property int tutorialState: 0;
+
     ReconnectWindow {
         id: reconnectWindow;
     }
@@ -172,6 +174,120 @@ ApplicationWindow {
 
         }
 
+    }
+
+    Rectangle {
+        id: tutorialTip;
+        width: 400;
+        height: 250;
+        x: (root.width - width) / 2;
+        y: (root.height - height) / 2;
+
+        color: "#5a5a5a";
+        border {
+            width: 2;
+            color: "#1e1e1e";
+        }
+
+        Text {
+            id: tutorialText;
+            anchors {
+                horizontalCenter: parent.horizontalCenter;
+            }
+
+            text: qsTr("Welcome to the PMEAS System!");
+            color: "#f1f1f1";
+        }
+        visible: false;
+
+        Rectangle {
+            id: tutorialExit;
+            anchors {
+                bottom: parent.bottom;
+                left: parent.left;
+                leftMargin: 20;
+                bottomMargin: 10;
+            }
+            width: 50;
+            height: 25;
+
+            color: "#5a5a5a";
+            border {
+                width: 1;
+                color: "#1e1e1e";
+            }
+
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Exit");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+
+                onClicked: {
+                    tutorialState = 0;
+                    tutorialTip.visible = false;
+                    tutorialText.text = "Welcome to the PMEAS System!";
+                    tutorialTip.width = 400;
+                    tutorialTip.height = 250;
+                    tutorialTip.x = (root.width - tutorialTip.width) / 2;
+                    tutorialTip.y = (root.height - tutorialTip.height) / 2;
+                    tutorialNext.visible = true;
+                }
+            }
+        }
+
+        Rectangle {
+            id: tutorialNext;
+            anchors {
+                bottom: parent.bottom;
+                right: parent.right;
+                rightMargin: 20;
+                bottomMargin: 10;
+            }
+            width: 50;
+            height: 25;
+
+            color: "#5a5a5a";
+            border {
+                width: 1;
+                color: "#1e1e1e";
+            }
+
+            Text {
+                anchors.centerIn: parent;
+                text: qsTr("Next");
+            }
+
+            MouseArea {
+                anchors.fill: parent;
+
+                onClicked: {
+                    if(tutorialState === 0) {
+                        console.log("Next button clicked");
+                        tutorialText.text = "This area is where all the effects are located.\n" +
+                                "Drag an effect into the area above to enable the effect!";
+                        tutorialTip.x = effectsColumnArea.allEffectsAlias.x + 150;
+                        tutorialTip.y = effectsColumnArea.allEffectsAlias.y;
+                        tutorialTip.width = 400;
+                        tutorialTip.height = 75;
+                        tutorialNext.visible = false;
+                        tutorialState++;
+                    } else {
+                        tutorialState = 0;
+                        tutorialTip.visible = false;
+                        tutorialText.text = "Welcome to the PMEAS System!";
+                        tutorialTip.width = 400;
+                        tutorialTip.height = 250;
+                        tutorialTip.x = (root.width - tutorialTip.width) / 2;
+                        tutorialTip.y = (root.height - tutorialTip.height) / 2;
+                        tutorialNext.visible = true;
+                    }
+
+                }
+            }
+        }
     }
 
     property var splashWindow: Splash {

@@ -104,6 +104,15 @@ Rectangle {
                 console.log(hovered)
             }
 
+            onValueChanged: {
+                if(tutorialTip.visible && tutorialState === 3) {
+                    tutorialText.text = "Very good. Changing the sliders allows you to fine tune\n" +
+                            "how the effect will modulate the audio.";
+                    tutorialTip.width = 400;
+                    tutorialNext.visible = true;
+                }
+            }
+
             onPressedChanged: {
                 if ( !pressed ) {
                     parameterValue = value;

@@ -9,6 +9,8 @@ Rectangle {
 
     property alias effectsListView: enabledEffectsListView;
 
+    property alias allEffectsAlias: effectsListView;
+
     property var currentParameterModel: effectsExclusiveGroup.current === null ? undefined : effectsExclusiveGroup.current.model;
 
     ColumnLayout {
