@@ -182,9 +182,21 @@ ApplicationWindow {
         height: 250;
         x: (root.width - width) / 2;
         y: (root.height - height) / 2;
+
+        color: "#5a5a5a";
+        border {
+            width: 2;
+            color: "#1e1e1e";
+        }
+
         Text {
             id: tutorialText;
+            anchors {
+                horizontalCenter: parent.horizontalCenter;
+            }
+
             text: qsTr("Welcome to the PMEAS System!");
+            color: "#f1f1f1";
         }
         visible: false;
 
@@ -198,6 +210,13 @@ ApplicationWindow {
             }
             width: 50;
             height: 25;
+
+            color: "#5a5a5a";
+            border {
+                width: 1;
+                color: "#1e1e1e";
+            }
+
             Text {
                 anchors.centerIn: parent;
                 text: qsTr("Exit");
@@ -229,6 +248,13 @@ ApplicationWindow {
             }
             width: 50;
             height: 25;
+
+            color: "#5a5a5a";
+            border {
+                width: 1;
+                color: "#1e1e1e";
+            }
+
             Text {
                 anchors.centerIn: parent;
                 text: qsTr("Next");
