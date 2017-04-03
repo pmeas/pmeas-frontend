@@ -28,12 +28,12 @@ public:
 signals:
     void tcpSocketConnected();
     void lostConnection();
-    void getPorts();
 
 public slots:
     void beginUDPBroadcast();
     void tcpSend(QByteArray);
     void udpRecvBackendIpAndConnect();
+    void getPorts();
 
 private slots:
 
