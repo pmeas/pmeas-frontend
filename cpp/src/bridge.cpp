@@ -27,9 +27,10 @@ void Bridge::beginUDPBroadcast() {
      * connection after like Younes suggests to send data over reliably. This can be done
      * of course but before we start work on it we gotta make sure its what we want to do.
      */
-//    QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
+    // QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
     QByteArray message = "1";
     m_udpSocket->writeDatagram( message, QHostAddress::Broadcast, 10000);
+    qDebug() << "Started UDP server";
 }
 
 //
@@ -51,6 +52,10 @@ void Bridge::getPorts() {
     QJsonObject jsobj (QJsonDocument::fromBinaryData(data).object());
     m_inports = jsobj["inports"].toArray().toVariantList();
     m_outports = jsobj["outports"].toArray().toVariantList();
+}
+
+void Bridge::sendPorts() {
+    tcpSend("{\"intent\":\"SETPORTS\", \"in\":\""+inport+"\", \"out\":\""+outport+"\"}");
 }
 
 void Bridge::udpRecvBackendIpAndConnect() {

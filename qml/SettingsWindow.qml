@@ -3,6 +3,8 @@ import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 
+import Theme 1.0
+
 Window {
     id: settingsWindow
     title: qsTr( "Settings" );
@@ -11,7 +13,6 @@ Window {
     y: root.y + ( ( root.height / 2 ) - ( height / 2 ) );
     width: 300;
     height: 250;
-
     modality: Qt.ApplicationModal;
     flags: Qt.Window;
 
@@ -102,7 +103,7 @@ Window {
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    bridge.sendData("{\"intent\":\"UPDATEPORT\", \"inport\":"+"}");
+                    bridge.sendData("{\"intent\":\"UPDATEPORT\", \"inport\":}");
                 }
 
                 onPressed: {

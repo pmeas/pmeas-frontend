@@ -20,7 +20,6 @@ Window {
     Image {
         id: splashImage;
         source: "images/logo.png";
-
     }
 
     Text {
@@ -46,9 +45,6 @@ Window {
             splashScreen.timeout();
         });
         visible = true;
-//        visible = false;
-//        splashScreen.timeout();
-
     }
 
 

@@ -196,7 +196,5 @@ ApplicationWindow {
 
     property var splashWindow: Splash {
         onTimeout: root.visible = true;
-
-
     }
 }

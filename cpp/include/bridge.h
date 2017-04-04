@@ -18,27 +18,28 @@ class QTcpSocket;
 
 class Bridge : public QObject
 {
-    // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
-    Q_PROPERTY(QVariantList inports MEMBER m_inports)
-    Q_PROPERTY(QVariantList outports MEMBER m_outports)
+    Q_PROPERTY(QVariantList inports MEMBER m_inports NOTIFY portsChanged)
+    Q_PROPERTY(QVariantList outports MEMBER m_outports NOTIFY portsChanged)
 public:
     // Define a basic contructor for a QObject
     explicit Bridge( QObject *parent = nullptr );
+
 signals:
     void tcpSocketConnected();
     void lostConnection();
+    void portsChanged();
 
 public slots:
     void beginUDPBroadcast();
     void tcpSend(QByteArray);
     void udpRecvBackendIpAndConnect();
     void getPorts();
-
-private slots:
+    void sendPorts();
 
 private:
     QUdpSocket *m_udpSocket;
     QAbstractSocket *m_tcpSocket;
     QVariantList m_inports, m_outports;
+    QString inport, outport;
 };
