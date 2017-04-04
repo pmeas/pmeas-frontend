@@ -104,6 +104,9 @@ Rectangle {
             FileDialog {
                 id: saveSetlistDialog;
                 nameFilters: ["JSON files (*.json)"];
+                onAccepted: {
+                    enabledEffectsListView.model.saveSetlist( fileUrl.toString().save( "file://", "" ) )
+                }
             }
 
             RowLayout{
