@@ -43,20 +43,36 @@ ApplicationWindow {
 
     property int tutorialState: 0;
 
-    ReconnectWindow {
-        id: reconnectWindow;
+    Splash {
+        id: splashWindow;
+        onTimeout: root.visible = true;
     }
 
-    Component.onCompleted: {
-        bridge.lostConnection.connect(function () {
-            console.log("Lost Connection");
-            reconnectWindow.show();
-        });
+    ReconnectWindow {
+        id: reconnectWindow;
     }
 
     // This is defined in the cpp code and is then exposed to this QML enviroment
     Bridge {
         id: bridge;
+        onConnectedChanged: {
+            if ( !connected ) {
+                // Whenever the bridge is disconnected, it will display the connection window.
+                reconnectWindow.show();
+            } else {
+
+                // We are all connected, so the splashWindow and the reconnectWindow
+                // can be disabled.
+                console.log(splashWindow.visible)
+                if ( splashWindow.visible ) {
+                    splashWindow.visible = false;
+                    splashWindow.timeout();
+                }
+
+                reconnectWindow.close();
+            }
+
+        }
     }
 
     ColumnLayout {
@@ -288,11 +304,5 @@ ApplicationWindow {
                 }
             }
         }
-    }
-
-    property var splashWindow: Splash {
-        onTimeout: root.visible = true;
-
-
     }
 }

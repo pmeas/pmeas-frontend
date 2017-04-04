@@ -1,30 +1,38 @@
 #pragma once
 
 #include <QObject>
-#include <QHostAddress>
 
-// The SocketServer class will allow us to listen to and
+// The Bridge class will allow us to listen to and
 // send messages to the backend server.
 //
 // This class is exposed to the QML environment so
 // it can be used and tied into the GUI easily.
 
-// Forward declares
-class QUdpSocket;
-class QTcpSocket;
+#include <QUdpSocket>
+#include <QTcpSocket>
+#include <QQmlParserStatus>
 
-class Bridge : public QObject
+class Bridge : public QObject, public QQmlParserStatus
 {
-    // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
+    Q_INTERFACES(QQmlParserStatus)
+
+    Q_PROPERTY( bool connected READ connected NOTIFY connectedChanged )
 
 public:
     // Define a basic contructor for a QObject
     explicit Bridge( QObject *parent = nullptr );
 
+    bool connected() const;
+
+    // Virtual methods from the QQmlParserStatus class.
+    void classBegin() override;
+
+    // Is called by the QML 'Component.onCompleted' signal.
+    void componentComplete() override;
+
 signals:
-    void tcpSocketConnected();
-    void lostConnection();
+    void connectedChanged();
 
 public slots:
     void broadcastDatagram();
@@ -34,7 +42,13 @@ private slots:
     void readDatagram();
     void readTCPResult();
 
+    void handleUDPStateChanged( QAbstractSocket::SocketState t_state );
+    void handleUDPError( QAbstractSocket::SocketError t_error );
+
+    void handleTcpStateChanged( QAbstractSocket::SocketState t_state );
+
 private:
-    QUdpSocket *m_udpSocket;
-    QAbstractSocket *m_tcpSocket;
+    QUdpSocket m_udpSocket;
+    QTcpSocket m_tcpSocket;
+
 };

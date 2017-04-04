@@ -1,5 +1,6 @@
 #include "effectsmodel.h"
 #include "parametermodel.h"
+#include "logging.h"
 
 #include <qqml.h>
 
@@ -156,7 +157,7 @@ QByteArray EffectsModel::toBroadcastJson() {
 
             parameterMap[ parameter.broadcastName ] = parameter.value.toDouble();
 
-            qDebug( ) << parameter.max << parameter.value;
+            qCDebug( effectModel ) << parameter.max << parameter.value;
 
         }
 
@@ -225,7 +226,7 @@ bool EffectsModel::loadSetlist( QString filePath ) {
 
     QFile file( filePath );
     if ( !file.open( QIODevice::ReadOnly ) ) {
-        qDebug( "Could not open %s", qPrintable( file.fileName() ) );
+        qCDebug( effectModel, "Could not open %s", qPrintable( file.fileName() ) );
         return false;
     }
 
@@ -233,7 +234,7 @@ bool EffectsModel::loadSetlist( QString filePath ) {
     QJsonDocument jsonDoc = QJsonDocument::fromJson( file.readAll(), &parserError );
 
     if ( parserError.error != QJsonParseError::NoError ) {
-        qDebug( "%s cannot be parsed, error %s", qPrintable( file.fileName() ), qPrintable( parserError.errorString() ) );
+        qCDebug( effectModel, "%s cannot be parsed, error %s", qPrintable( file.fileName() ), qPrintable( parserError.errorString() ) );
         return false;
     }
 
