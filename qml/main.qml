@@ -47,16 +47,18 @@ ApplicationWindow {
         id: reconnectWindow;
     }
 
-    Component.onCompleted: {
-        bridge.lostConnection.connect(function () {
-            console.log("Lost Connection");
-            reconnectWindow.show();
-        });
-    }
-
     // This is defined in the cpp code and is then exposed to this QML enviroment
     Bridge {
         id: bridge;
+        onIsConnectedChanged: {
+            if ( !isConnected ) {
+                console.log("Lost Connection");
+                reconnectWindow.show();
+            } else {
+                console.log("TRUE")
+            }
+
+        }
     }
 
     ColumnLayout {
