@@ -45,6 +45,13 @@ Rectangle {
                 color: "#5a5a5a";
             }
 
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
+            }
+
             RowLayout {
                 anchors.centerIn: parent;
                 spacing: 12;
@@ -75,6 +82,7 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: settingsArea;
+                hoverEnabled: true;
                 onClicked: {
                     settingsWindow.show();
                 }
@@ -83,6 +91,12 @@ Rectangle {
                 }
                 onReleased: {
                     parent.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
@@ -99,6 +113,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             FileDialog {
@@ -136,6 +157,7 @@ Rectangle {
             }
             MouseArea {
                 anchors.fill: savePreset;
+                hoverEnabled: true;
                 onClicked: {
                     saveSetlistDialog.open();
                 }
@@ -144,6 +166,12 @@ Rectangle {
                 }
                 onReleased: {
                     savePreset.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
@@ -160,6 +188,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             FileDialog {
@@ -194,6 +229,7 @@ Rectangle {
             }
             MouseArea {
                 anchors.fill: loadPreset;
+                hoverEnabled: true;
                 onClicked: {
                     loadSetlistDialog.open();
                 }
@@ -202,6 +238,12 @@ Rectangle {
                 }
                 onReleased: {
                     loadPreset.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
@@ -217,6 +259,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             RowLayout{
@@ -243,6 +292,7 @@ Rectangle {
             }
             MouseArea {
                 anchors.fill: tutorial;
+                hoverEnabled: true;
                 onClicked: {
                     console.log("Tutorial button clicked");
                     tutorialTip.visible = true;
@@ -252,6 +302,12 @@ Rectangle {
                 }
                 onReleased: {
                     tutorial.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
