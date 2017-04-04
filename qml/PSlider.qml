@@ -8,23 +8,24 @@ Slider {
     id: slider;
 
     stepSize: 1;
+
     hoverEnabled: true;
 
     implicitHeight: 16;
 
-    implicitWidth: 100;
+    implicitWidth: 150;
 
     background: Rectangle {
               x: slider.leftPadding
               y: slider.topPadding + slider.availableHeight / 2 - height / 2
-
-              width: slider.implicitWidth
+              width: slider.availableWidth
               height: slider.implicitHeight / 3;
 
               radius: 2
               color: "#7a7a7a"
 
               Rectangle {
+                  id: valueHighlighter
                   width: slider.visualPosition * parent.width
                   height: parent.height
                   color: Theme.highlighterColor
@@ -33,10 +34,10 @@ Slider {
           }
 
     handle: Item {
-              x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)
+              x: slider.leftPadding + valueHighlighter.width - 5
               y: slider.topPadding + slider.availableHeight / 2 - height / 2
 
-              implicitWidth: slider.implicitHeight ;
+              implicitWidth: parent.height - 2;
               implicitHeight: implicitWidth;
 
               Rectangle {
@@ -56,8 +57,8 @@ Slider {
 
                   Behavior on verticalOffset {
                       PropertyAnimation {
-                          duration: 500;
-                          easing.type: Easing.InCurve;
+                          duration: 50;
+                          easing.type: Easing.InCubic;
                       }
                   }
 
