@@ -116,9 +116,9 @@ QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument
 
                 QJsonObject parameterMap;
                 parameterMap[ "name" ] = parameter.name;
-                parameterMap[ "min" ] =parameter.min.toJsonValue();
-                parameterMap[ "max" ] = parameter.max.toJsonValue();
-                parameterMap[ "value" ] = parameter.value.toJsonValue(),
+                parameterMap[ "min" ] =parameter.min.toFloat();
+                parameterMap[ "max" ] = parameter.max.toFloat();
+                parameterMap[ "value" ] = parameter.value.toFloat(),
                 effectParameters.append( parameterMap );
             }
 
