@@ -28,7 +28,7 @@ Rectangle {
         Rectangle {
             id: settingsArea;
 
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -89,7 +89,7 @@ Rectangle {
 
         Rectangle{
             id: savePreset
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -147,7 +147,7 @@ Rectangle {
 
         Rectangle{
             id: loadPreset
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -205,7 +205,7 @@ Rectangle {
 
         Rectangle{
             id: tutorial;
-            width: 150;
+            width: 130;
             Layout.fillHeight: true;
 
             color: "transparent";
@@ -292,7 +292,7 @@ Rectangle {
                 }
 
                 PSlider {
-                    //implicitWidth: 100;
+                    implicitWidth: 150;
                     height: 17;
                 }
             }
