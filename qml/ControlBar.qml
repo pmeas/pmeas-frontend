@@ -20,7 +20,7 @@ Rectangle {
 
             leftMargin: 12;
             rightMargin: 12;
-            bottomMargin: 12;
+            bottomMargin: 6;
         }
 
         spacing: 6;
@@ -82,7 +82,7 @@ Rectangle {
                     parent.color = Theme.enabledButtonColor;
                 }
                 onReleased: {
-                    parent.color = Theme.inactiveButtonColor;
+                    parent.color = "transparent";
                 }
             }
         }
@@ -138,7 +138,7 @@ Rectangle {
                         savePreset.color = Theme.enabledButtonColor;
                     }
                     onReleased: {
-                        savePreset.color = Theme.inactiveButtonColor;
+                        savePreset.color = "transparent";
                     }
                 }
             }
@@ -196,7 +196,7 @@ Rectangle {
                         loadPreset.color = Theme.enabledButtonColor;
                     }
                     onReleased: {
-                        loadPreset.color = Theme.inactiveButtonColor;
+                        loadPreset.color = "transparent";
                     }
                 }
             }
@@ -239,7 +239,6 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: {
-                        //TODO: Open tutorial popup
                         console.log("Tutorial button clicked");
                         tutorialTip.visible = true;
                     }
@@ -247,7 +246,7 @@ Rectangle {
                         tutorial.color = Theme.enabledButtonColor;
                     }
                     onReleased: {
-                        tutorial.color = Theme.inactiveButtonColor;
+                        tutorial.color = "transparent";
                     }
                 }
             }
@@ -260,6 +259,11 @@ Rectangle {
 
             anchors {
                 right: parent.right;
+            }
+
+            border {
+                width: 2;
+                color: "#5a5a5a";
             }
 
             Layout.fillWidth: true;
@@ -284,7 +288,7 @@ Rectangle {
                 }
 
                 PSlider {
-                    implicitWidth: 125;
+                    //implicitWidth: 100;
                     height: 17;
                 }
             }
