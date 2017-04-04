@@ -2,7 +2,7 @@
 
 #include <QObject>
 
-// The SocketServer class will allow us to listen to and
+// The Bridge class will allow us to listen to and
 // send messages to the backend server.
 //
 // This class is exposed to the QML environment so
