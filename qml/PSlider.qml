@@ -25,6 +25,7 @@ Slider {
               color: "#7a7a7a"
 
               Rectangle {
+                  id: valueHighlighter
                   width: slider.visualPosition * parent.width
                   height: parent.height
                   color: Theme.highlighterColor
@@ -33,7 +34,7 @@ Slider {
           }
 
     handle: Item {
-              x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)
+              x: valueHighlighter.width
               y: slider.topPadding + slider.availableHeight / 2 - height / 2
 
               implicitWidth: slider.implicitHeight ;

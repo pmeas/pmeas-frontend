@@ -225,7 +225,7 @@ Rectangle {
                 Image {
                     source: "./icons/question-mark.png";
                     sourceSize {
-                        height: 14;
+                        height: 16;
                         width: height;
                     }
                 }
@@ -277,7 +277,7 @@ Rectangle {
                     centerIn: parent;
 
                     leftMargin: 6;
-                    rightMargin: 16;
+                    rightMargin: 12;
                 }
 
                 spacing: 6;
