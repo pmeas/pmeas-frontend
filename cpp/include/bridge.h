@@ -8,9 +8,8 @@
 // This class is exposed to the QML environment so
 // it can be used and tied into the GUI easily.
 
-// Forward declares
-class QUdpSocket;
-class QTcpSocket;
+#include <QUdpSocket>
+#include <QTcpSocket>
 
 class Bridge : public QObject
 {
@@ -32,8 +31,10 @@ public slots:
 private slots:
     void readDatagram();
     void readTCPResult();
+    void handleUDPStateChanged( QAbstractSocket::SocketState t_state );
+    void handleUDPError( QAbstractSocket::SocketError t_error );
 
 private:
-    QUdpSocket *m_udpSocket;
-    QTcpSocket *m_tcpSocket;
+    QUdpSocket m_udpSocket;
+    QTcpSocket m_tcpSocket;
 };
