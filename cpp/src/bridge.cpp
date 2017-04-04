@@ -1,8 +1,10 @@
+#include "bridge.h"
+
 #include <QUdpSocket>
-#include <QNetworkDatagram>
 #include <QTcpSocket>
 
-#include "bridge.h"
+#include <QNetworkDatagram>
+#include <QHostAddress>
 
 // Sets up the TCP and UDP sockets, connecting to every signal that is useful to us.
 Bridge::Bridge(QObject *parent) : QObject(parent),
@@ -10,13 +12,37 @@ Bridge::Bridge(QObject *parent) : QObject(parent),
     m_tcpSocket( new QTcpSocket( this ) )
 {
 
-    connect(m_tcpSocket, &QTcpSocket::connected,this, [this] {
-        qDebug() << "has connected";
+    // Connect UDP Socket signals.
+
+    connect(m_udpSocket, &QUdpSocket::connected,this, [] {
+        qDebug() << "UDP socket has connected to backend.";
+    });
+    connect(m_udpSocket, &QUdpSocket::disconnected,this, [] {
+        qDebug() << "UDP socket has disconnected from backend.";
     });
 
-    // Connect to signals
     connect(m_udpSocket, &QUdpSocket::readyRead,this, &Bridge::readDatagram );
+    connect(m_udpSocket, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>( &QUdpSocket::error )
+            , this, [this]( QAbstractSocket::SocketError error ) {
+
+        qDebug() << "Got socket error" << error;
+        switch( error ) {
+            default:
+                break;
+        }
+    });
+
+    // Connect TCP socket signals
+
+    connect(m_tcpSocket, &QTcpSocket::connected,this, [this] {
+        qDebug() << "TCP socket has connected to backend.";
+    });
+
     connect(m_tcpSocket, &QTcpSocket::connected, this, &Bridge::tcpSocketConnected);
+    connect(m_tcpSocket, &QTcpSocket::disconnected, this, [this] {
+        qDebug() << "TCP socket has disconnected from backend.";
+    });
+
     connect(m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::readTCPResult );
 }
 
@@ -40,7 +66,7 @@ void Bridge::sendData(QByteArray message){
     if ( m_tcpSocket->write(message) == -1 ) {
         qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
         qDebug() << "Connection with backend interrupted.";
-        emit(lostConnection());
+        emit lostConnection();
         return;
     }
 

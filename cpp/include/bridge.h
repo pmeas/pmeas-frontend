@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QObject>
-#include <QHostAddress>
 
 // The SocketServer class will allow us to listen to and
 // send messages to the backend server.
@@ -36,5 +35,5 @@ private slots:
 
 private:
     QUdpSocket *m_udpSocket;
-    QAbstractSocket *m_tcpSocket;
+    QTcpSocket *m_tcpSocket;
 };
