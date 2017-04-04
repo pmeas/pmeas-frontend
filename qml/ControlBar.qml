@@ -280,7 +280,7 @@ Rectangle {
                     rightMargin: 12;
                 }
 
-                spacing: 6;
+                spacing: 12;
 
                 Image {
                     id: speakerIcon
@@ -292,8 +292,10 @@ Rectangle {
                 }
 
                 PSlider {
-                    implicitWidth: 150;
                     height: 17;
+                    onValueChanged: {
+                        console.log("Volume value: " + value)
+                    }
                 }
             }
         }
