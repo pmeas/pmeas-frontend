@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 
 import Theme 1.0
 
@@ -87,6 +88,8 @@ Rectangle {
             }
         }
 
+
+
         Rectangle{
             id: savePreset
             width: 150;
@@ -101,10 +104,11 @@ Rectangle {
                 color: "#5a5a5a";
             }
 
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
+
+            SavePresetDialog {
+                id: savePresetDialog;
             }
+
             RowLayout{
                 anchors {
                     centerIn: parent;
@@ -132,7 +136,11 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: {
-                        saveSetlistDialog.open();
+                        if ( savePresetDialog.visible === true ) {
+                            savePresetDialog.close();
+                        } else {
+                            savePresetDialog.open();
+                        }
                     }
                     onPressed: {
                         savePreset.color = Theme.enabledButtonColor;

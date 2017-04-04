@@ -11,6 +11,7 @@
 #include <QJsonArray>
 
 #include <QFile>
+#include <QDir>
 
 #include <QQmlEngine>
 
@@ -261,17 +262,30 @@ bool EffectsModel::loadSetlist( QString filePath ) {
 
 bool EffectsModel::saveSetlist( QString filePath ) {
 
-    if ( !m_model.isEmpty() ) {
+    QString outputFilePath = QDir::currentPath();
 
-        QFile jsonFile( filePath );
-        if ( jsonFile.open( QIODevice::WriteOnly ) ) {
+    if ( !filePath.isEmpty() ) {
+        if ( filePath.endsWith( '/' ) || filePath.endsWith( '\\' ) ) {
+            outputFilePath += filePath + ".json";
+        } else {
+            outputFilePath += "/" + filePath + ".json";
+        }
 
-            jsonFile.write( toJson( QJsonDocument::Indented ) );
+        if ( !m_model.isEmpty() ) {
 
-            return true;
+            QFile jsonFile( filePath );
+            if ( jsonFile.open( QIODevice::WriteOnly ) ) {
+
+                jsonFile.write( toJson( QJsonDocument::Indented ) );
+
+                qCDebug( effectModel, "saved setlist %s to %s.\n", qPrintable( filePath ), qPrintable( outputFilePath ) );
+
+                return true;
+            }
         }
 
     }
+    qCDebug( effectModel, "could not save setlist %s to %s.\n", qPrintable( filePath ), qPrintable( outputFilePath ) );
 
     return false;
 }
