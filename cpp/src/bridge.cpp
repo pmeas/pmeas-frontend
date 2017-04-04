@@ -28,7 +28,6 @@ Bridge::Bridge(QObject *parent) : QObject(parent)
         qCDebug( bridge ) << "TCP socket has connected to backend.";
     });
 
-    connect( &m_tcpSocket, &QTcpSocket::connected, this, &Bridge::tcpSocketConnected);
     connect( &m_tcpSocket, &QTcpSocket::disconnected, this, [this] {
         qCDebug( bridge ) << "TCP socket has disconnected from backend.";
     });
@@ -36,11 +35,24 @@ Bridge::Bridge(QObject *parent) : QObject(parent)
     connect( &m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::readTCPResult );
     connect( &m_tcpSocket, &QTcpSocket::stateChanged, this, &Bridge::handleTcpStateChanged );
 
-    emit isConnectedChanged();
 }
 
-bool Bridge::isConnected() const {
+bool Bridge::connected() const {
     return m_tcpSocket.state() == QTcpSocket::ConnectedState;
+}
+
+// Called like a constructor from QML. We don't need to actually fill this in though.
+void Bridge::classBegin() {
+
+}
+
+// This is equivalent to called 'Component.onCompleted' from QML.
+//
+// We need to broadcast the datagram as soon as this QML component gets loaded.
+void Bridge::componentComplete() {
+    emit connectedChanged();
+
+    broadcastDatagram();
 }
 
 // Tell the listening backend device that we are hearing them!
@@ -64,14 +76,13 @@ void Bridge::sendData(QByteArray message){
         if ( m_tcpSocket.write(message) == -1 ) {
             qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
             qCDebug( bridge ) << "Connection with backend interrupted.";
-            emit lostConnection();
             return;
         }
 
         m_tcpSocket.flush();
 
     } else {
-        emit lostConnection();
+        //emit lostConnection();
     }
 
 }
@@ -87,14 +98,14 @@ void Bridge::handleUDPStateChanged(QAbstractSocket::SocketState t_state) {
     qCDebug( bridge ) << "UDP State changed" << t_state;
     switch( t_state ) {
         case QAbstractSocket::UnconnectedState:
-            emit isConnectedChanged();
+            emit connectedChanged();
             break;
         case QAbstractSocket::HostLookupState:
             break;
         case QAbstractSocket::ConnectingState:
             break;
         case QAbstractSocket::ConnectedState:
-            emit isConnectedChanged();
+            emit connectedChanged();
             break;
         case QAbstractSocket::BoundState:
             break;
@@ -105,6 +116,7 @@ void Bridge::handleUDPStateChanged(QAbstractSocket::SocketState t_state) {
         default:
             break;
     }
+
 }
 
 void Bridge::handleUDPError(QAbstractSocket::SocketError t_error) {

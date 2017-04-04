@@ -10,23 +10,29 @@
 
 #include <QUdpSocket>
 #include <QTcpSocket>
+#include <QQmlParserStatus>
 
-class Bridge : public QObject
+class Bridge : public QObject, public QQmlParserStatus
 {
-    // This Q_OBJECT macro is required by Qt, because we subclass the QObject class.
     Q_OBJECT
-    Q_PROPERTY( bool isConnected READ isConnected NOTIFY isConnectedChanged )
+    Q_INTERFACES(QQmlParserStatus)
+
+    Q_PROPERTY( bool connected READ connected NOTIFY connectedChanged )
 
 public:
     // Define a basic contructor for a QObject
-    explicit  Bridge( QObject *parent = nullptr );
+    explicit Bridge( QObject *parent = nullptr );
 
-    bool isConnected() const;
+    bool connected() const;
+
+    // Virtual methods from the QQmlParserStatus class.
+    void classBegin() override;
+
+    // Is called by the QML 'Component.onCompleted' signal.
+    void componentComplete() override;
 
 signals:
-    void tcpSocketConnected();
-    void lostConnection();
-    void isConnectedChanged();
+    void connectedChanged();
 
 public slots:
     void broadcastDatagram();

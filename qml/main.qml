@@ -43,6 +43,11 @@ ApplicationWindow {
 
     property int tutorialState: 0;
 
+    Splash {
+        id: splashWindow;
+        onTimeout: root.visible = true;
+    }
+
     ReconnectWindow {
         id: reconnectWindow;
     }
@@ -50,12 +55,21 @@ ApplicationWindow {
     // This is defined in the cpp code and is then exposed to this QML enviroment
     Bridge {
         id: bridge;
-        onIsConnectedChanged: {
-            if ( !isConnected ) {
-                console.log("Lost Connection");
+        onConnectedChanged: {
+            if ( !connected ) {
+                // Whenever the bridge is disconnected, it will display the connection window.
                 reconnectWindow.show();
+
             } else {
-                console.log("TRUE")
+
+                // We are all connected, so the splashWindow and the reconnectWindow
+                // can be disabled.
+                if ( splashWindow.visible ) {
+                    splashWindow.visible = false;
+                    splashWindow.timeout();
+                }
+
+                reconnectWindow.close();
             }
 
         }
@@ -290,11 +304,5 @@ ApplicationWindow {
                 }
             }
         }
-    }
-
-    property var splashWindow: Splash {
-        onTimeout: root.visible = true;
-
-
     }
 }
