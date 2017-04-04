@@ -59,11 +59,11 @@ ApplicationWindow {
             if ( !connected ) {
                 // Whenever the bridge is disconnected, it will display the connection window.
                 reconnectWindow.show();
-
             } else {
 
                 // We are all connected, so the splashWindow and the reconnectWindow
                 // can be disabled.
+                console.log(splashWindow.visible)
                 if ( splashWindow.visible ) {
                     splashWindow.visible = false;
                     splashWindow.timeout();

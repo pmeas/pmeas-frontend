@@ -50,7 +50,7 @@ void Bridge::classBegin() {
 //
 // We need to broadcast the datagram as soon as this QML component gets loaded.
 void Bridge::componentComplete() {
-    emit connectedChanged();
+    //emit connectedChanged();
 
     broadcastDatagram();
 }
@@ -98,14 +98,12 @@ void Bridge::handleUDPStateChanged(QAbstractSocket::SocketState t_state) {
     qCDebug( bridge ) << "UDP State changed" << t_state;
     switch( t_state ) {
         case QAbstractSocket::UnconnectedState:
-            emit connectedChanged();
             break;
         case QAbstractSocket::HostLookupState:
             break;
         case QAbstractSocket::ConnectingState:
             break;
         case QAbstractSocket::ConnectedState:
-            emit connectedChanged();
             break;
         case QAbstractSocket::BoundState:
             break;
@@ -133,12 +131,14 @@ void Bridge::handleTcpStateChanged(QAbstractSocket::SocketState t_state) {
     qCDebug( bridge ) << "TCP State changed" << t_state;
     switch( t_state ) {
         case QAbstractSocket::UnconnectedState:
+            emit connectedChanged();
             break;
         case QAbstractSocket::HostLookupState:
             break;
         case QAbstractSocket::ConnectingState:
             break;
         case QAbstractSocket::ConnectedState:
+            emit connectedChanged();
             break;
         case QAbstractSocket::BoundState:
             break;
