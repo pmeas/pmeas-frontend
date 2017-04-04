@@ -105,6 +105,7 @@ Rectangle {
                 id: saveSetlistDialog;
                 nameFilters: ["JSON files (*.json)"];
             }
+
             RowLayout{
                 anchors {
                     centerIn: parent;
@@ -129,17 +130,17 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        saveSetlistDialog.open();
-                    }
-                    onPressed: {
-                        savePreset.color = Theme.enabledButtonColor;
-                    }
-                    onReleased: {
-                        savePreset.color = "transparent";
-                    }
+            }
+            MouseArea {
+                anchors.fill: savePreset;
+                onClicked: {
+                    saveSetlistDialog.open();
+                }
+                onPressed: {
+                    savePreset.color = Theme.enabledButtonColor;
+                }
+                onReleased: {
+                    savePreset.color = "transparent";
                 }
             }
         }
@@ -187,17 +188,17 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                    onPressed: {
-                        loadPreset.color = Theme.enabledButtonColor;
-                    }
-                    onReleased: {
-                        loadPreset.color = "transparent";
-                    }
+            }
+            MouseArea {
+                anchors.fill: loadPreset;
+                onClicked: {
+                    loadSetlistDialog.open();
+                }
+                onPressed: {
+                    loadPreset.color = Theme.enabledButtonColor;
+                }
+                onReleased: {
+                    loadPreset.color = "transparent";
                 }
             }
         }
@@ -236,18 +237,18 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        console.log("Tutorial button clicked");
-                        tutorialTip.visible = true;
-                    }
-                    onPressed: {
-                        tutorial.color = Theme.enabledButtonColor;
-                    }
-                    onReleased: {
-                        tutorial.color = "transparent";
-                    }
+            }
+            MouseArea {
+                anchors.fill: tutorial;
+                onClicked: {
+                    console.log("Tutorial button clicked");
+                    tutorialTip.visible = true;
+                }
+                onPressed: {
+                    tutorial.color = Theme.enabledButtonColor;
+                }
+                onReleased: {
+                    tutorial.color = "transparent";
                 }
             }
         }
@@ -274,9 +275,12 @@ Rectangle {
 
                 anchors {
                     centerIn: parent;
+
+                    leftMargin: 6;
+                    rightMargin: 16;
                 }
 
-                spacing: 12;
+                spacing: 6;
 
                 Image {
                     id: speakerIcon

@@ -56,8 +56,8 @@ Slider {
 
                   Behavior on verticalOffset {
                       PropertyAnimation {
-                          duration: 500;
-                          easing.type: Easing.InCurve;
+                          duration: 50;
+                          easing.type: Easing.InCubic;
                       }
                   }
 
