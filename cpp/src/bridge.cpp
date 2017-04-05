@@ -55,7 +55,10 @@ void Bridge::getPorts() {
 }
 
 void Bridge::sendPorts() {
-    tcpSend("{\"intent\":\"SETPORTS\", \"in\":\""+inport+"\", \"out\":\""+outport+"\"}");
+    QByteArray msg = "{\"intent\":\"UPDATEPORT\", \"in\":\"";
+    msg += inport +"\", \"out\":\"";
+    msg += outport+"\"}";
+    tcpSend(msg);
 }
 
 void Bridge::udpRecvBackendIpAndConnect() {

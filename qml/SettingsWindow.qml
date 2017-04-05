@@ -103,7 +103,7 @@ Window {
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    bridge.sendData("{\"intent\":\"UPDATEPORT\", \"inport\":}");
+                    bridge.sendPorts();
                 }
 
                 onPressed: {
