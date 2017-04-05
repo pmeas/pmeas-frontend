@@ -26,7 +26,6 @@ Rectangle {
         }
     }
 
-
     border {
         width: 3;
         color: mouseEntered ? Theme.highlighterColor : "#4a4a4a";
@@ -43,8 +42,16 @@ Rectangle {
     MouseArea {
         anchors.fill: parent;
         hoverEnabled: true;
-        onEntered: mouseEntered = true;
-        onExited: mouseEntered = false;
+        onEntered: {
+            mouseEntered = true;
+            textValue.forceActiveFocus();
+        }
+
+        onExited: {
+            mouseEntered = false;
+            textValue.focus = false;
+        }
+
         z: 100;
         propagateComposedEvents: true;
 
@@ -55,6 +62,7 @@ Rectangle {
         onDoubleClicked: mouse.accepted = false;
         onPositionChanged: mouse.accepted = false;
         onPressAndHold: mouse.accepted = false;
+
     }
 
 
@@ -189,13 +197,87 @@ Rectangle {
             anchors {
                 horizontalCenter: parent.horizontalCenter;
             }
+
             Text {
+                id: textValue;
                 anchors { centerIn: parent; }
                 text: Math.round( parameterSlider.position * 100 );
                 color: mouseEntered ? "#f1f1f1" : "#919191";
                 font {
                     pixelSize: 14;
                     bold: true;
+                }
+
+                Keys.onPressed: {
+                    switch( event.key ) {
+                        case Qt.Key_0:
+                        case Qt.Key_1:
+                        case Qt.Key_2:
+                        case Qt.Key_3:
+                        case Qt.Key_4:
+                        case Qt.Key_5:
+                        case Qt.Key_6:
+                        case Qt.Key_7:
+                        case Qt.Key_8:
+                        case Qt.Key_9:
+                            if ( textValue.text.length < 3 ) {
+
+                                var text = textValue.text;
+//                                if ( text === "0" ) {
+//                                    text = "";
+//                                }
+
+                                if ( textValue.text.length === 1 && text === '0' ) {
+                                    text = "";
+                                }
+
+                                var newText = text + ( event.key - Qt.Key_0 );
+                                var textNum = parseInt( newText );
+                                if ( textNum > 100 ) {
+                                    newText = "100";
+                                }
+
+                                parameterSlider.value = textNum / 100;
+
+                                textValue.text = newText;
+                            }
+
+                            break;
+                        case Qt.Key_Backspace:
+                            if ( textValue.text.length > 1 ) {
+                                textValue.text = textValue.text.slice(0, -1);
+                            } else {
+                                //textValue.text = '0';
+                            }
+
+                            textValue.text = '0';
+                            parameterSlider.value = parseInt(textValue.text) / 100;
+
+                            break;
+
+                        case Qt.Key_Right:
+                            var val = parseInt( textValue.text )
+                            val += parameterSlider.stepSize;
+
+                            if ( val <= 100 ) {
+                                textValue.text = val;
+                                parameterSlider.value = val / 100;
+                            }
+                            break;
+
+                        case Qt.Key_Left:
+                            var val = parseInt( textValue.text )
+                            val -= parameterSlider.stepSize;
+
+                            if ( val >= 0 ) {
+                                textValue.text = val;
+                                parameterSlider.value = val / 100;
+                            }
+
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 Behavior on color {
