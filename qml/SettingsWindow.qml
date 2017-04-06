@@ -16,9 +16,11 @@ Window {
     modality: Qt.ApplicationModal;
     flags: Qt.Window;
 
-    Component.onCompleted: {
-        console.log("Getting ports")
-        bridge.getPorts();
+    onVisibleChanged: {
+        if(visible === true) {
+            console.log("Getting ports")
+            bridge.getPorts();
+        }
     }
 
     ColumnLayout {
