@@ -2,6 +2,7 @@
 #include <QNetworkDatagram>
 #include <QTcpSocket>
 #include <QJsonDocument>
+#include <QMetaMethod>
 #include "bridge.h"
 
 // Sets up the TCP and UDP sockets, connecting to every signal that is useful to us.
@@ -51,11 +52,16 @@ void Bridge::tcpSend(QByteArray message)
 
 void Bridge::getPorts() {
     tcpSend("{\"intent\":\"REQPORT\"}");
-    auto data = m_tcpSocket->readAll();
-    qDebug() << "Received: " << data;
-    QJsonObject jsobj (QJsonDocument::fromBinaryData(data).object());
-    m_inports = jsobj["inports"].toArray().toVariantList();
-    m_outports = jsobj["outports"].toArray().toVariantList();
+    QMetaMethod updatePort;
+    updatePort = [&]() {
+        auto data = m_tcpSocket->readAll();
+        qDebug() << "Received: " << data;
+        QJsonObject jsobj (QJsonDocument::fromBinaryData(data).object());
+        m_inports = jsobj["inports"].toArray().toVariantList();
+        m_outports = jsobj["outports"].toArray().toVariantList();
+        disconnect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
+    };
+    connect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
 }
 
 void Bridge::sendPorts() {
