@@ -58,7 +58,7 @@ ListView {
             }
 
             console.log("Item dragged into enabled area");
-            bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
+            bridge.tcpSend(effectsColumnArea.effectsListView.model.toBroadcastJson());
 
             enabledEffectsListView.draggedItemEntered = false;
         }
@@ -263,7 +263,7 @@ ListView {
                     anchors.fill: parent;
                     onClicked: {
                         enabledEffectsListView.model.remove( index );
-                        bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
+                        bridge.tcpSend(effectsColumnArea.effectsListView.model.toBroadcastJson());
                     }
                 }
             }

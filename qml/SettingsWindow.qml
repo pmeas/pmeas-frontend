@@ -16,6 +16,11 @@ Window {
     modality: Qt.ApplicationModal;
     flags: Qt.Window;
 
+    Component.onCompleted: {
+        console.log("Getting ports")
+        bridge.getPorts();
+    }
+
     ColumnLayout {
         id: devicesColumn;
 

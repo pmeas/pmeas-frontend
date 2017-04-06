@@ -30,14 +30,17 @@ void Bridge::beginUDPBroadcast() {
     // QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
     QByteArray message = "1";
     m_udpSocket->writeDatagram( message, QHostAddress::Broadcast, 10000);
+    m_tcpSocket->connectToHost("192.168.1.93", 10001);
     qDebug() << "Started UDP server";
 }
 
 //
 void Bridge::tcpSend(QByteArray message)
 {
+    qDebug() << "Sending: " << qPrintable(message);
     if ( m_tcpSocket->write(message) == -1 ) {
         qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
+        qDebug() << "Error was: " << m_tcpSocket->errorString();
         qDebug() << "Connection with backend interrupted.";
         emit(lostConnection());
         return;
@@ -49,6 +52,7 @@ void Bridge::tcpSend(QByteArray message)
 void Bridge::getPorts() {
     tcpSend("{\"intent\":\"REQPORT\"}");
     auto data = m_tcpSocket->readAll();
+    qDebug() << "Received: " << data;
     QJsonObject jsobj (QJsonDocument::fromBinaryData(data).object());
     m_inports = jsobj["inports"].toArray().toVariantList();
     m_outports = jsobj["outports"].toArray().toVariantList();
@@ -61,7 +65,7 @@ void Bridge::sendPorts() {
     tcpSend(msg);
 }
 
-void Bridge::udpRecvBackendIpAndConnect() {
+void Bridge::udpRecvBackendIpAndConnect() {/*
     while(m_udpSocket->hasPendingDatagrams()) {
         QNetworkDatagram networkDatagram = m_udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
@@ -73,4 +77,5 @@ void Bridge::udpRecvBackendIpAndConnect() {
 
         m_tcpSocket->connectToHost(address, static_cast<quint16>( port ) );
     }
+    */
 }
