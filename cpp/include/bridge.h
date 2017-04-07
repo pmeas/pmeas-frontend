@@ -19,17 +19,15 @@ class QTcpSocket;
 class Bridge : public QObject
 {
     Q_OBJECT
+public:
     Q_PROPERTY(QVariantList inports MEMBER m_inports NOTIFY portsChanged)
     Q_PROPERTY(QVariantList outports MEMBER m_outports NOTIFY portsChanged)
-public:
     // Define a basic contructor for a QObject
     explicit Bridge( QObject *parent = nullptr );
-
 signals:
     void tcpSocketConnected();
     void lostConnection();
     void portsChanged();
-
 public slots:
     void beginUDPBroadcast();
     void tcpSend(QByteArray);
