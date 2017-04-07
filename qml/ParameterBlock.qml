@@ -98,7 +98,7 @@ Rectangle {
             anchors {
                 horizontalCenter: parent.horizontalCenter;
             }
-            stepSize: 1;
+            stepSize: parameterMinValue / parameterMaxValue;
             hoverEnabled: true;
             onHoveredChanged: {
                 console.log(hovered)
@@ -191,7 +191,7 @@ Rectangle {
             }
             Text {
                 anchors { centerIn: parent; }
-                text: Math.round( parameterSlider.position * 100 );
+                text: ( parameterSlider.value  ).toFixed(3);
                 color: mouseEntered ? "#f1f1f1" : "#919191";
                 font {
                     pixelSize: 14;
