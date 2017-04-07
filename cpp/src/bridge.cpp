@@ -18,6 +18,7 @@ Bridge::Bridge(QObject *parent) : QObject(parent),
     // Connect to signals
     connect(m_udpSocket, &QUdpSocket::readyRead,this, &Bridge::udpRecvBackendIpAndConnect );
     connect(m_tcpSocket, &QTcpSocket::connected, this, &Bridge::tcpSocketConnected);
+    connect(m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::updatePorts);
     //connect(m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::tcpRecv );
 }
 
@@ -50,18 +51,21 @@ void Bridge::tcpSend(QByteArray message)
     m_tcpSocket->flush();
 }
 
+void Bridge::updatePorts() {
+    auto data = m_tcpSocket->readAll();
+    qDebug() << "Received: " << data;
+    QJsonObject jsobj (QJsonDocument::fromJson(data).object());
+    auto ins = jsobj["input"].toArray();
+    auto outs = jsobj["output"].toArray();
+    m_inports = ins.toVariantList();
+    m_outports = outs.toVariantList();
+    qDebug() << "in size: " << m_inports.size() << '\n';
+    qDebug() << "out size: " << m_outports.size() << '\n';
+    //disconnect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
+}
+
 void Bridge::getPorts() {
     tcpSend("{\"intent\":\"REQPORT\"}");
-    QMetaMethod updatePort;
-    updatePort = [&]() {
-        auto data = m_tcpSocket->readAll();
-        qDebug() << "Received: " << data;
-        QJsonObject jsobj (QJsonDocument::fromBinaryData(data).object());
-        m_inports = jsobj["inports"].toArray().toVariantList();
-        m_outports = jsobj["outports"].toArray().toVariantList();
-        disconnect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
-    };
-    connect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
 }
 
 void Bridge::sendPorts() {

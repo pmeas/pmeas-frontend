@@ -36,7 +36,7 @@ public slots:
     void udpRecvBackendIpAndConnect();
     void getPorts();
     void sendPorts();
-
+    void updatePorts();
 private:
     QUdpSocket *m_udpSocket;
     QAbstractSocket *m_tcpSocket;
