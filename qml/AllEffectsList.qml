@@ -18,9 +18,9 @@ ListView {
         Effect { effectType: Effect.Delay; }
         Effect { effectType: Effect.Chorus; }
         Effect { effectType: Effect.Flanger; }
-        //Effect { effectType: Effect.FrequencyShift; }
+        Effect { effectType: Effect.FrequencyShift; }
         Effect { effectType: Effect.Harmonizer; }
-        Effect { effectType: Effect.Phaser; }
+        //Effect { effectType: Effect.Phaser; }
         Effect { effectType: Effect.Reverb; }
     }
 
