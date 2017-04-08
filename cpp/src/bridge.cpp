@@ -32,7 +32,6 @@ void Bridge::beginUDPBroadcast() {
     // QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
     QByteArray message = "1";
     m_udpSocket->writeDatagram( message, QHostAddress::Broadcast, 10000);
-    m_tcpSocket->connectToHost("192.168.1.93", 10001);
     qDebug() << "Started UDP server";
 }
 
@@ -77,7 +76,7 @@ void Bridge::sendPorts() {
     tcpSend(msg.toUtf8());
 }
 
-void Bridge::udpRecvBackendIpAndConnect() {/*
+void Bridge::udpRecvBackendIpAndConnect() {
     while(m_udpSocket->hasPendingDatagrams()) {
         QNetworkDatagram networkDatagram = m_udpSocket->receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
@@ -89,5 +88,4 @@ void Bridge::udpRecvBackendIpAndConnect() {/*
 
         m_tcpSocket->connectToHost(address, static_cast<quint16>( port ) );
     }
-    */
 }

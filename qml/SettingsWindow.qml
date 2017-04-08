@@ -110,6 +110,8 @@ Window {
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
+                    bridge.currentIn = inputs.currentText;
+                    bridge.currentOut = outputs.currentText;
                     bridge.sendPorts();
                 }
 
