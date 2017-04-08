@@ -7,6 +7,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 
 import Theme 1.0
+import Models 1.0
 
 Rectangle {
     id: controlBar;
@@ -168,10 +169,12 @@ Rectangle {
 
             FileDialog {
                 id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
+                nameFilters: ["Setlists (*.json)"];
+                folder: "file://" + effectsColumnArea.effectsListView.model.dialogPath()
                 onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
+                    effectsColumnArea.effectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
                 }
+
             }
 
             RowLayout{

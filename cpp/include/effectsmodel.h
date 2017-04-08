@@ -64,6 +64,8 @@ public slots:
 
     QByteArray toBroadcastJson();
 
+    static QString dialogPath();
+
 private:
     void append( Effect *t_effect );
 

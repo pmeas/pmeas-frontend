@@ -170,6 +170,10 @@ QByteArray EffectsModel::toBroadcastJson() {
 
 }
 
+QString EffectsModel::dialogPath() {
+    return QDir::currentPath() + '/' + "setlists";
+}
+
 void EffectsModel::append( Effect::Type t_type ) {
 
     beginInsertRows( QModelIndex(), m_model.size(), m_model.size() );

@@ -191,7 +191,7 @@ Rectangle {
             }
             Text {
                 anchors { centerIn: parent; }
-                text: Math.round( parameterSlider.position * 100 );
+                text: parameterSlider.value;
                 color: mouseEntered ? "#f1f1f1" : "#919191";
                 font {
                     pixelSize: 14;

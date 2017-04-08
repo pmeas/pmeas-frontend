@@ -24,9 +24,9 @@ ParameterModel::ParameterModel( const QJsonArray &parameters, QObject *parent)  
 
         m_model.append( Parameter{ parameterMap[ "name" ].toString()
                                    , parameterMap[ "broadcastName" ].toString()
-                                   , parameterMap[ "min" ].toInt()
-                                   , parameterMap[ "max" ].toInt()
-                                   , parameterMap[ "value"].toInt() } );
+                                   , parameterMap[ "min" ].toVariant()
+                                   , parameterMap[ "max" ].toVariant()
+                                   , parameterMap[ "value"].toVariant() } );
     }
 
     endInsertRows();
