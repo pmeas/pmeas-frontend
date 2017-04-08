@@ -19,5 +19,6 @@
         <file>ReconnectWindow.qml</file>
         <file>ControlBar.qml</file>
         <file>PSlider.qml</file>
+        <file>SavePresetDialog.qml</file>
     </qresource>
 </RCC>

@@ -11,6 +11,7 @@
 #include <QJsonArray>
 
 #include <QFile>
+#include <QDir>
 
 #include <QQmlEngine>
 
@@ -115,9 +116,9 @@ QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument
 
                 QJsonObject parameterMap;
                 parameterMap[ "name" ] = parameter.name;
-                parameterMap[ "min" ] =parameter.min.toJsonValue();
-                parameterMap[ "max" ] = parameter.max.toJsonValue();
-                parameterMap[ "value" ] = parameter.value.toJsonValue(),
+                parameterMap[ "min" ] =parameter.min.toFloat();
+                parameterMap[ "max" ] = parameter.max.toFloat();
+                parameterMap[ "value" ] = parameter.value.toFloat(),
                 effectParameters.append( parameterMap );
             }
 
@@ -167,6 +168,10 @@ QByteArray EffectsModel::toBroadcastJson() {
 
     return QJsonDocument( jsonObject ).toJson( QJsonDocument::Compact );
 
+}
+
+QString EffectsModel::dialogPath() {
+    return QDir::currentPath() + '/' + "setlists";
 }
 
 void EffectsModel::append( Effect::Type t_type ) {
@@ -261,17 +266,30 @@ bool EffectsModel::loadSetlist( QString filePath ) {
 
 bool EffectsModel::saveSetlist( QString filePath ) {
 
-    if ( !m_model.isEmpty() ) {
+    QString outputFilePath = QDir::currentPath();
 
-        QFile jsonFile( filePath );
-        if ( jsonFile.open( QIODevice::WriteOnly ) ) {
+    if ( !filePath.isEmpty() ) {
+        if ( filePath.endsWith( '/' ) || filePath.endsWith( '\\' ) ) {
+            outputFilePath += filePath + ".json";
+        } else {
+            outputFilePath += "/" + filePath + ".json";
+        }
 
-            jsonFile.write( toJson( QJsonDocument::Indented ) );
+        if ( !m_model.isEmpty() ) {
 
-            return true;
+            QFile jsonFile( filePath );
+            if ( jsonFile.open( QIODevice::WriteOnly ) ) {
+
+                jsonFile.write( toJson( QJsonDocument::Indented ) );
+
+                qCDebug( effectModel, "saved setlist %s to %s.\n", qPrintable( filePath ), qPrintable( outputFilePath ) );
+
+                return true;
+            }
         }
 
     }
+    qCDebug( effectModel, "could not save setlist %s to %s.\n", qPrintable( filePath ), qPrintable( outputFilePath ) );
 
     return false;
 }

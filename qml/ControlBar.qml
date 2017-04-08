@@ -4,8 +4,10 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 
 import Theme 1.0
+import Models 1.0
 
 Rectangle {
     id: controlBar;
@@ -101,6 +103,8 @@ Rectangle {
             }
         }
 
+
+
         Rectangle{
             id: savePreset
             width: 130;
@@ -115,19 +119,8 @@ Rectangle {
                 color: "#5a5a5a";
             }
 
-            Behavior on border.color {
-                PropertyAnimation {
-                    duration: 350;
-                    easing.type: Easing.InCubic;
-                }
-            }
-
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-                onAccepted: {
-                    enabledEffectsListView.model.saveSetlist( fileUrl.toString().save( "file://", "" ) )
-                }
+            SavePresetDialog {
+                id: savePresetDialog;
             }
 
             RowLayout{
@@ -154,24 +147,21 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-            }
-            MouseArea {
-                anchors.fill: savePreset;
-                hoverEnabled: true;
-                onClicked: {
-                    saveSetlistDialog.open();
-                }
-                onPressed: {
-                    savePreset.color = Theme.enabledButtonColor;
-                }
-                onReleased: {
-                    savePreset.color = "transparent";
-                }
-                onEntered: {
-                    parent.border.color = Theme.highlighterColor;
-                }
-                onExited: {
-                    parent.border.color = "#5a5a5a";
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        if ( savePresetDialog.visible === true ) {
+                            savePresetDialog.close();
+                        } else {
+                            savePresetDialog.open();
+                        }
+                    }
+                    onPressed: {
+                        savePreset.color = Theme.enabledButtonColor;
+                    }
+                    onReleased: {
+                        savePreset.color = Theme.inactiveButtonColor;
+                    }
                 }
             }
         }
@@ -199,10 +189,12 @@ Rectangle {
 
             FileDialog {
                 id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
+                nameFilters: ["Setlists (*.json)"];
+                folder: "file://" + effectsColumnArea.effectsListView.model.dialogPath()
                 onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
+                    effectsColumnArea.effectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
                 }
+
             }
 
             RowLayout{
