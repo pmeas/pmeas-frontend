@@ -22,7 +22,7 @@ Rectangle {
 
             leftMargin: 12;
             rightMargin: 12;
-            bottomMargin: 12;
+            bottomMargin: 6;
         }
 
         spacing: 6;
@@ -30,7 +30,7 @@ Rectangle {
         Rectangle {
             id: settingsArea;
 
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -45,6 +45,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             RowLayout {
@@ -77,6 +84,7 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: settingsArea;
+                hoverEnabled: true;
                 onClicked: {
                     settingsWindow.show();
                 }
@@ -84,7 +92,13 @@ Rectangle {
                     parent.color = Theme.enabledButtonColor;
                 }
                 onReleased: {
-                    parent.color = Theme.inactiveButtonColor;
+                    parent.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
@@ -93,7 +107,7 @@ Rectangle {
 
         Rectangle{
             id: savePreset
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -104,7 +118,6 @@ Rectangle {
                 width: 2;
                 color: "#5a5a5a";
             }
-
 
             SavePresetDialog {
                 id: savePresetDialog;
@@ -155,7 +168,7 @@ Rectangle {
 
         Rectangle{
             id: loadPreset
-            width: 150;
+            width: 130;
 
             Layout.fillHeight: true;
 
@@ -165,6 +178,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             FileDialog {
@@ -198,24 +218,31 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                    onPressed: {
-                        loadPreset.color = Theme.enabledButtonColor;
-                    }
-                    onReleased: {
-                        loadPreset.color = Theme.inactiveButtonColor;
-                    }
+            }
+            MouseArea {
+                anchors.fill: loadPreset;
+                hoverEnabled: true;
+                onClicked: {
+                    loadSetlistDialog.open();
+                }
+                onPressed: {
+                    loadPreset.color = Theme.enabledButtonColor;
+                }
+                onReleased: {
+                    loadPreset.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
 
         Rectangle{
             id: tutorial;
-            width: 150;
+            width: 130;
             Layout.fillHeight: true;
 
             color: "transparent";
@@ -224,6 +251,13 @@ Rectangle {
             border {
                 width: 2;
                 color: "#5a5a5a";
+            }
+
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
             }
 
             RowLayout{
@@ -235,7 +269,7 @@ Rectangle {
                 Image {
                     source: "./icons/question-mark.png";
                     sourceSize {
-                        height: 14;
+                        height: 16;
                         width: height;
                     }
                 }
@@ -247,19 +281,25 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        //TODO: Open tutorial popup
-                        console.log("Tutorial button clicked");
-                        tutorialTip.visible = true;
-                    }
-                    onPressed: {
-                        tutorial.color = Theme.enabledButtonColor;
-                    }
-                    onReleased: {
-                        tutorial.color = Theme.inactiveButtonColor;
-                    }
+            }
+            MouseArea {
+                anchors.fill: tutorial;
+                hoverEnabled: true;
+                onClicked: {
+                    console.log("Tutorial button clicked");
+                    tutorialTip.visible = true;
+                }
+                onPressed: {
+                    tutorial.color = Theme.enabledButtonColor;
+                }
+                onReleased: {
+                    tutorial.color = "transparent";
+                }
+                onEntered: {
+                    parent.border.color = Theme.highlighterColor;
+                }
+                onExited: {
+                    parent.border.color = "#5a5a5a";
                 }
             }
         }
@@ -273,6 +313,11 @@ Rectangle {
                 right: parent.right;
             }
 
+            border {
+                width: 2;
+                color: "#5a5a5a";
+            }
+
             Layout.fillWidth: true;
 
             color: "transparent";
@@ -281,6 +326,9 @@ Rectangle {
 
                 anchors {
                     centerIn: parent;
+
+                    leftMargin: 6;
+                    rightMargin: 12;
                 }
 
                 spacing: 12;
@@ -295,8 +343,10 @@ Rectangle {
                 }
 
                 PSlider {
-                    implicitWidth: 125;
                     height: 17;
+                    onValueChanged: {
+                        console.log("Volume value: " + value)
+                    }
                 }
             }
         }
