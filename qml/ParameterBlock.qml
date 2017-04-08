@@ -65,6 +65,10 @@ Rectangle {
 
     }
 
+    function broadcastJson() {
+        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson() );
+    }
+
 
     ColumnLayout {
         anchors.centerIn: parent;
@@ -124,7 +128,9 @@ Rectangle {
             onPressedChanged: {
                 if ( !pressed ) {
                     parameterValue = value;
-                    bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson() );
+                    textValue.tempString = value.toFixed( 2 );
+                    broadcastJson();
+                    textValue.forceActiveFocus();
                 }
             }
 
@@ -201,15 +207,30 @@ Rectangle {
             Text {
                 id: textValue;
                 anchors { centerIn: parent; }
-                text: ( parameterSlider.value  ).toFixed(3);
+                text: tempString;
                 color: mouseEntered ? "#f1f1f1" : "#919191";
                 font {
                     pixelSize: 14;
                     bold: true;
                 }
 
+                property string tempString: parameterSlider.value.toFixed( 2 );
+                property bool periodUsed: false;
+
                 Keys.onPressed: {
                     switch( event.key ) {
+
+                        case Qt.Key_Period:
+                            if ( !periodUsed ) {
+                                if ( tempString[ 0 ] === "?" ) {
+                                    tempString = "0.";
+                                } else {
+                                    tempString += '.';
+                                }
+                                periodUsed = true;
+                            }
+                            break;
+
                         case Qt.Key_0:
                         case Qt.Key_1:
                         case Qt.Key_2:
@@ -220,61 +241,31 @@ Rectangle {
                         case Qt.Key_7:
                         case Qt.Key_8:
                         case Qt.Key_9:
-                            if ( textValue.text.length < 3 ) {
 
-                                var text = textValue.text;
-//                                if ( text === "0" ) {
-//                                    text = "";
-//                                }
-
-                                if ( textValue.text.length === 1 && text === '0' ) {
-                                    text = "";
-                                }
-
-                                var newText = text + ( event.key - Qt.Key_0 );
-                                var textNum = parseInt( newText );
-                                if ( textNum > 100 ) {
-                                    newText = "100";
-                                }
-
-                                parameterSlider.value = textNum / 100;
-
-                                textValue.text = newText;
+                            if ( tempString[ 0 ] === "?" ) {
+                                tempString = "";
                             }
 
+                            tempString += event.key - Qt.Key_0;
+                            var f = parseFloat( tempString );
+                            if ( f > parameterSlider.to ) {
+                                f = parameterSlider.to
+                                tempString = f.toString();
+                            }
+
+                            parameterValue = f;
+
+                            broadcastJson();
                             break;
+
                         case Qt.Key_Backspace:
-                            if ( textValue.text.length > 1 ) {
-                                textValue.text = textValue.text.slice(0, -1);
-                            } else {
-                                //textValue.text = '0';
-                            }
+                            periodUsed = false;
+                            tempString = "?";
 
-                            textValue.text = '0';
-                            parameterSlider.value = parseInt(textValue.text) / 100;
-
+                            parameterValue = parameterMinValue;
+                            broadcastJson();
                             break;
 
-                        case Qt.Key_Right:
-                            var val = parseInt( textValue.text )
-                            val += parameterSlider.stepSize;
-
-                            if ( val <= 100 ) {
-                                textValue.text = val;
-                                parameterSlider.value = val / 100;
-                            }
-                            break;
-
-                        case Qt.Key_Left:
-                            var val = parseInt( textValue.text )
-                            val -= parameterSlider.stepSize;
-
-                            if ( val >= 0 ) {
-                                textValue.text = val;
-                                parameterSlider.value = val / 100;
-                            }
-
-                            break;
                         default:
                             break;
                     }
