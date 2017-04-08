@@ -20,14 +20,20 @@ class Bridge : public QObject
 {
     Q_OBJECT
 public:
-    Q_PROPERTY(QVariantList inports MEMBER m_inports NOTIFY portsChanged)
-    Q_PROPERTY(QVariantList outports MEMBER m_outports NOTIFY portsChanged)
+    Q_PROPERTY(QVariantList inports MEMBER m_inports NOTIFY inportsChanged)
+    Q_PROPERTY(QVariantList outports MEMBER m_outports NOTIFY outportsChanged)
+    Q_PROPERTY(QString currentIn MEMBER m_curIn NOTIFY curInChanged)
+    Q_PROPERTY(QString currentOut MEMBER m_curOut NOTIFY curOutChanged)
     // Define a basic contructor for a QObject
     explicit Bridge( QObject *parent = nullptr );
 signals:
     void tcpSocketConnected();
     void lostConnection();
-    void portsChanged();
+    void inportsChanged();
+    void outportsChanged();
+    void curInChanged();
+
+    void curOutChanged();
 public slots:
     void beginUDPBroadcast();
     void tcpSend(QByteArray);
@@ -39,5 +45,5 @@ private:
     QUdpSocket *m_udpSocket;
     QAbstractSocket *m_tcpSocket;
     QVariantList m_inports, m_outports;
-    QString inport, outport;
+    QString m_curIn, m_curOut;
 };

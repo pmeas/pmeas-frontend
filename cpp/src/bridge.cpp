@@ -61,6 +61,8 @@ void Bridge::updatePorts() {
     m_outports = outs.toVariantList();
     qDebug() << "in size: " << m_inports.size() << '\n';
     qDebug() << "out size: " << m_outports.size() << '\n';
+    emit(inportsChanged());
+    emit(outportsChanged());
     //disconnect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
 }
 
@@ -69,10 +71,10 @@ void Bridge::getPorts() {
 }
 
 void Bridge::sendPorts() {
-    QByteArray msg = "{\"intent\":\"UPDATEPORT\", \"in\":\"";
-    msg += inport +"\", \"out\":\"";
-    msg += outport+"\"}";
-    tcpSend(msg);
+    QString msg = "{\"intent\":\"UPDATEPORT\", \"in\":\"";
+    msg += m_curIn +"\", \"out\":\"";
+    msg += m_curOut +"\"}";
+    tcpSend(msg.toUtf8());
 }
 
 void Bridge::udpRecvBackendIpAndConnect() {/*
