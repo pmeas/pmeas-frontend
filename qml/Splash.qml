@@ -17,6 +17,10 @@ Window {
     width: splashImage.width;
     height: splashImage.height;
 
+    SettingsWindow {
+        id: settingsWindow;
+    }
+
     Image {
         id: splashImage;
         source: "images/logo.png";
@@ -42,6 +46,7 @@ Window {
         bridge.beginUDPBroadcast();
         bridge.tcpSocketConnected.connect(function () {
             visible = false;
+            settingsWindow.show();
             splashScreen.timeout();
         });
         visible = true;

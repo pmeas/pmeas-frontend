@@ -54,15 +54,18 @@ void Bridge::updatePorts() {
     auto data = m_tcpSocket->readAll();
     qDebug() << "Received: " << data;
     QJsonObject jsobj (QJsonDocument::fromJson(data).object());
-    auto ins = jsobj["input"].toArray();
-    auto outs = jsobj["output"].toArray();
-    m_inports = ins.toVariantList();
-    m_outports = outs.toVariantList();
-    qDebug() << "in size: " << m_inports.size() << '\n';
-    qDebug() << "out size: " << m_outports.size() << '\n';
-    emit(inportsChanged());
-    emit(outportsChanged());
-    //disconnect(m_tcpSocket, SIGNAL(readyRead()), updatePort);
+    if(jsobj.contains("input")) {
+        auto ins = jsobj["input"].toArray();
+        m_inports = ins.toVariantList();
+        qDebug() << "in size: " << m_inports.size() << '\n';
+        emit(inportsChanged());
+    }
+    if(jsobj.contains("output")) {
+        auto outs = jsobj["output"].toArray();
+        m_outports = outs.toVariantList();
+        qDebug() << "out size: " << m_outports.size() << '\n';
+        emit(outportsChanged());
+    }
 }
 
 void Bridge::getPorts() {

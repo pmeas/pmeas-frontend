@@ -56,7 +56,6 @@ ApplicationWindow {
     }
 
     ColumnLayout {
-
         anchors {
             fill: parent;
             margins: 1;
