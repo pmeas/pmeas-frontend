@@ -7,7 +7,7 @@ QtObject {
     readonly property string  highlighterFontColor: "#f1f1f1";
 
     readonly property string  inactiveFontColor: "#ffdcd5";
-    readonly property string  inactiveButtonColor: "#ff755a";
+    readonly property string  inactiveButtonColor: "#444";
 
     readonly property string  enabledButtonColor: "#ff755a";
     readonly property string  enabledFontColor: "#f1f1f1";

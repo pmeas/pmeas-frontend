@@ -24,6 +24,7 @@ Window {
     Image {
         id: splashImage;
         source: "images/logo.png";
+        anchors.centerIn: parent;
     }
 
     Text {
