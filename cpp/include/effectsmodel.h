@@ -63,6 +63,7 @@ public slots:
     bool saveSetlist( QString filePath );
 
     QByteArray toBroadcastJson();
+    QByteArray toBroadcastJson(float);
 
     static QString dialogPath();
 

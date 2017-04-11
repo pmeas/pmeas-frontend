@@ -347,7 +347,7 @@ Rectangle {
                     onValueChanged: {
                         var JSON = '{"volume": ' + value + '}';
                         console.log(JSON);
-                        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson("EFFECT") );
+                        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson(value) );
                     }
                 }
             }
