@@ -252,11 +252,11 @@ ListView {
             MouseArea {
                 id: enabledEffectBackgroundMouseArea;
                 anchors.fill: parent;
-                drag.target: parent;
+//                drag.target: parent;
                 hoverEnabled: true;
 
                 onClicked: {
-                    console.log("Clicked 'Enabled' " + effectName + " button" );
+                    //console.log("Clicked 'Enabled' " + effectName + " button" );
                     enabledEffectItem.checked = true;
 
                     if(tutorialTip.visible && tutorialState === 2) {
@@ -267,21 +267,21 @@ ListView {
                     }
 
                 }
-                drag.onActiveChanged: {
-                    if (drag.active) {
-                        effectsColumn.dragInProgress = true;
-                        enabledEffectsListView.dragItemIndex = index;
-                    } else {
-                        var oldIndex = index;
-                        var oldEffectName = effectName;
+//                drag.onActiveChanged: {
+//                    if (drag.active) {
+//                        effectsColumn.dragInProgress = true;
+//                        enabledEffectsListView.dragItemIndex = index;
+//                    } else {
+//                        var oldIndex = index;
+//                        var oldEffectName = effectName;
 
-                        console.log( oldIndex, oldEffectName)
-                        //enabledEffectsListView.model.remove( oldIndex, 1 );
-                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
-                    }
+//                        console.log( oldIndex, oldEffectName)
+//                        //enabledEffectsListView.model.remove( oldIndex, 1 );
+//                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+//                    }
 
-                    enabledEffectBackground.Drag.drop();
-                }
+//                    enabledEffectBackground.Drag.drop();
+//                }
 
                 onEntered: removeEnableEffectButton.opacity = 1.0;
                 onExited: removeEnableEffectButton.opacity = 0.0;
