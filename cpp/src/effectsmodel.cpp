@@ -170,6 +170,40 @@ QByteArray EffectsModel::toBroadcastJson() {
 
 }
 
+QByteArray EffectsModel::toBroadcastJson(float vol) {
+
+    QByteArray result;
+
+    QJsonObject jsonObject;
+
+    jsonObject["intent"] = "EFFECT";
+    jsonObject["volume"] = vol;
+    int i=0;
+
+    for ( Effect *effect : m_model ) {
+
+        QJsonObject parameterMap;
+
+        parameterMap[ "name" ] = effect->broadcastName();
+
+        for ( int p=0; p < effect->model()->size(); ++p ) {
+
+            const Parameter &parameter = effect->model()->at( p );
+
+            parameterMap[ parameter.broadcastName ] = parameter.value.toDouble();
+
+            qCDebug( effectModel ) << parameter.max << parameter.value;
+
+        }
+
+        jsonObject[ QByteArray::number( i ) ] = parameterMap;
+        ++i;
+    }
+
+    return QJsonDocument( jsonObject ).toJson( QJsonDocument::Compact );
+
+}
+
 QString EffectsModel::dialogPath() {
     return QDir::currentPath() + '/' + "setlists";
 }

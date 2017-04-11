@@ -183,7 +183,7 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
 
         case Effect::Type::Delay:
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
-            m_model.append(Parameter { "Delay Time", "delay", 0, 10, 1}); // Added temporarily.
+            m_model.append(Parameter { "Delay Time", "delay", 0, 5, 1}); // Added temporarily.
             //m_model.append( Parameter{ "Delay Time", "delay", 0, 100, QVariantList{ 0, 0 } } );
             break;
 

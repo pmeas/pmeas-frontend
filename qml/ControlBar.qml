@@ -344,8 +344,11 @@ Rectangle {
 
                 PSlider {
                     height: 17;
+                    value: 100;
                     onValueChanged: {
-                        console.log("Volume value: " + value)
+                        var JSON = '{"volume": ' + value + '}';
+                        console.log(JSON);
+                        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson(value) );
                     }
                 }
             }
