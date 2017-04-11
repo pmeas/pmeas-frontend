@@ -344,6 +344,7 @@ Rectangle {
 
                 PSlider {
                     height: 17;
+                    value: 100;
                     onValueChanged: {
                         var JSON = '{"volume": ' + value + '}';
                         console.log(JSON);
