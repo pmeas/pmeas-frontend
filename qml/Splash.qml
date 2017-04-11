@@ -20,6 +20,7 @@ Window {
     Image {
         id: splashImage;
         source: "images/logo.png";
+        anchors.centerIn: parent;
 
     }
 
@@ -40,13 +41,6 @@ Window {
     }
 
     Component.onCompleted: {
-        bridge.broadcastDatagram();
-        bridge.tcpSocketConnected.connect(function () {
-            visible = false;
-            splashScreen.timeout();
-        });
-
-
         visible = true;
     }
 

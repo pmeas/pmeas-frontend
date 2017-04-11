@@ -26,7 +26,6 @@ Rectangle {
         }
     }
 
-
     border {
         width: 3;
         color: mouseEntered ? Theme.highlighterColor : "#4a4a4a";
@@ -43,8 +42,16 @@ Rectangle {
     MouseArea {
         anchors.fill: parent;
         hoverEnabled: true;
-        onEntered: mouseEntered = true;
-        onExited: mouseEntered = false;
+        onEntered: {
+            mouseEntered = true;
+            textValue.forceActiveFocus();
+        }
+
+        onExited: {
+            mouseEntered = false;
+            textValue.focus = false;
+        }
+
         z: 100;
         propagateComposedEvents: true;
 
@@ -55,6 +62,11 @@ Rectangle {
         onDoubleClicked: mouse.accepted = false;
         onPositionChanged: mouse.accepted = false;
         onPressAndHold: mouse.accepted = false;
+
+    }
+
+    function broadcastJson() {
+        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson() );
     }
 
 
@@ -98,16 +110,27 @@ Rectangle {
             anchors {
                 horizontalCenter: parent.horizontalCenter;
             }
-            stepSize: 1;
+            stepSize: parameterMinValue / parameterMaxValue;
             hoverEnabled: true;
             onHoveredChanged: {
                 console.log(hovered)
             }
 
+            onValueChanged: {
+                if(tutorialTip.visible && tutorialState === 3) {
+                    tutorialText.text = "Very good. Changing the sliders allows you to fine tune\n" +
+                            "how the effect will modulate the audio.";
+                    tutorialTip.width = 400;
+                    tutorialNext.visible = true;
+                }
+            }
+
             onPressedChanged: {
                 if ( !pressed ) {
                     parameterValue = value;
-                    bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson() );
+                    textValue.tempString = value.toFixed( 2 );
+                    broadcastJson();
+                    textValue.forceActiveFocus();
                 }
             }
 
@@ -180,13 +203,72 @@ Rectangle {
             anchors {
                 horizontalCenter: parent.horizontalCenter;
             }
+
             Text {
+                id: textValue;
                 anchors { centerIn: parent; }
-                text: Math.round( parameterSlider.position * 100 );
+                text: tempString;
                 color: mouseEntered ? "#f1f1f1" : "#919191";
                 font {
                     pixelSize: 14;
                     bold: true;
+                }
+
+                property string tempString: parameterSlider.value.toFixed( 2 );
+                property bool periodUsed: false;
+
+                Keys.onPressed: {
+                    switch( event.key ) {
+
+                        case Qt.Key_Period:
+                            if ( !periodUsed ) {
+                                if ( tempString[ 0 ] === "?" ) {
+                                    tempString = "0.";
+                                } else {
+                                    tempString += '.';
+                                }
+                                periodUsed = true;
+                            }
+                            break;
+
+                        case Qt.Key_0:
+                        case Qt.Key_1:
+                        case Qt.Key_2:
+                        case Qt.Key_3:
+                        case Qt.Key_4:
+                        case Qt.Key_5:
+                        case Qt.Key_6:
+                        case Qt.Key_7:
+                        case Qt.Key_8:
+                        case Qt.Key_9:
+
+                            if ( tempString[ 0 ] === "?" ) {
+                                tempString = "";
+                            }
+
+                            tempString += event.key - Qt.Key_0;
+                            var f = parseFloat( tempString );
+                            if ( f > parameterSlider.to ) {
+                                f = parameterSlider.to
+                                tempString = f.toString();
+                            }
+
+                            parameterValue = f;
+
+                            broadcastJson();
+                            break;
+
+                        case Qt.Key_Backspace:
+                            periodUsed = false;
+                            tempString = "?";
+
+                            parameterValue = parameterMinValue;
+                            broadcastJson();
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
 
                 Behavior on color {

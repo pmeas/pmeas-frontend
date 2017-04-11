@@ -1,71 +1,169 @@
-#include <QUdpSocket>
-#include <QNetworkDatagram>
-#include <QTcpSocket>
-
 #include "bridge.h"
+#include "logging.h"
+
+#include <QNetworkDatagram>
+#include <QHostAddress>
 
 // Sets up the TCP and UDP sockets, connecting to every signal that is useful to us.
-Bridge::Bridge(QObject *parent) : QObject(parent),
-    m_udpSocket( new QUdpSocket( this ) ),
-    m_tcpSocket( new QTcpSocket( this ) )
+Bridge::Bridge(QObject *parent) : QObject(parent)
 {
 
-    connect(m_tcpSocket, &QTcpSocket::connected,this, [this] {
-        qDebug() << "has connected";
+    // Connect UDP Socket signals.
+
+    connect( &m_udpSocket, &QUdpSocket::connected, this, [] {
+        qCDebug( bridge ) << "UDP socket has connected to backend.";
+    });
+    connect( &m_udpSocket, &QUdpSocket::disconnected,this, [] {
+        qCDebug( bridge ) << "UDP socket has disconnected from backend.";
     });
 
-    // Connect to signals
-    connect(m_udpSocket, &QUdpSocket::readyRead,this, &Bridge::readDatagram );
-    connect(m_tcpSocket, &QTcpSocket::connected, this, &Bridge::tcpSocketConnected);
-    connect(m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::readTCPResult );
+    connect( &m_udpSocket, &QUdpSocket::readyRead, this, &Bridge::readDatagram );
+    connect( &m_udpSocket, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>( &QUdpSocket::error ), this, &Bridge::handleUDPError);
+
+    connect( &m_udpSocket, &QUdpSocket::stateChanged, this, &Bridge::handleUDPStateChanged );
+
+    // Connect TCP socket signals
+
+    connect( &m_tcpSocket, &QTcpSocket::connected,this, [this] {
+        qCDebug( bridge ) << "TCP socket has connected to backend.";
+    });
+
+    connect( &m_tcpSocket, &QTcpSocket::disconnected, this, [this] {
+        qCDebug( bridge ) << "TCP socket has disconnected from backend.";
+    });
+
+    connect( &m_tcpSocket, &QTcpSocket::readyRead, this, &Bridge::readTCPResult );
+    connect( &m_tcpSocket, &QTcpSocket::stateChanged, this, &Bridge::handleTcpStateChanged );
+
+}
+
+bool Bridge::connected() const {
+    return m_tcpSocket.state() == QTcpSocket::ConnectedState;
+}
+
+// Called like a constructor from QML. We don't need to actually fill this in though.
+void Bridge::classBegin() {
+
+}
+
+// This is equivalent to called 'Component.onCompleted' from QML.
+//
+// We need to broadcast the datagram as soon as this QML component gets loaded.
+void Bridge::componentComplete() {
+    //emit connectedChanged();
+
+    broadcastDatagram();
 }
 
 // Tell the listening backend device that we are hearing them!
 void Bridge::broadcastDatagram() {
 
-
     // TODO: Replace this sample JSON with live effect data + params.
-    /* TODO: See if we _want_ to just broadcast the data or make a TCP
-     * connection after like Younes suggests to send data over reliably. This can be done
-     * of course but before we start work on it we gotta make sure its what we want to do.
-     */
-//    QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
+    // TODO: See if we _want_ to just broadcast the data or make a TCP
+    // connection after like Younes suggests to send data over reliably. This can be done
+    // of course but before we start work on it we gotta make sure its what we want to do.
+
+    // QByteArray datagram = "{\"delay\":{\"delay\": 1,\"feedback\": 0.5}}";
     QByteArray message = "1";
-    m_udpSocket->writeDatagram( message, QHostAddress::Broadcast, 10000);
+    m_udpSocket.writeDatagram( message, QHostAddress::Broadcast, 10000);
 }
 
 //
 void Bridge::sendData(QByteArray message){
 
-    if ( m_tcpSocket->write(message) == -1 ) {
-        qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
-        qDebug() << "Connection with backend interrupted.";
-        emit(lostConnection());
-        return;
+    if  ( m_tcpSocket.state() == QTcpSocket::ConnectedState ) {
+
+        if ( m_tcpSocket.write(message) == -1 ) {
+            qWarning( "There was an error sending the TCP message %s", qPrintable( message ) );
+            qCDebug( bridge ) << "Connection with backend interrupted.";
+            return;
+        }
+
+        m_tcpSocket.flush();
+
+    } else {
+        //emit lostConnection();
     }
 
-    m_tcpSocket->flush();
 }
 
 void Bridge::readTCPResult() {
 
-    QByteArray result = m_tcpSocket->readAll();
-    qDebug() << result;
+    QByteArray result = m_tcpSocket.readAll();
+    qCDebug( bridge ) << result;
+}
+
+void Bridge::handleUDPStateChanged(QAbstractSocket::SocketState t_state) {
+
+    qCDebug( bridge ) << "UDP State changed" << t_state;
+    switch( t_state ) {
+        case QAbstractSocket::UnconnectedState:
+            break;
+        case QAbstractSocket::HostLookupState:
+            break;
+        case QAbstractSocket::ConnectingState:
+            break;
+        case QAbstractSocket::ConnectedState:
+            break;
+        case QAbstractSocket::BoundState:
+            break;
+        case QAbstractSocket::ListeningState:
+            break;
+        case QAbstractSocket::ClosingState:
+            break;
+        default:
+            break;
+    }
+
+}
+
+void Bridge::handleUDPError(QAbstractSocket::SocketError t_error) {
+
+    qCDebug( bridge ) << "Got socket error" << t_error;
+    switch( t_error ) {
+        default:
+            break;
+    }
+}
+
+void Bridge::handleTcpStateChanged(QAbstractSocket::SocketState t_state) {
+
+    qCDebug( bridge ) << "TCP State changed" << t_state;
+    switch( t_state ) {
+        case QAbstractSocket::UnconnectedState:
+            emit connectedChanged();
+            break;
+        case QAbstractSocket::HostLookupState:
+            break;
+        case QAbstractSocket::ConnectingState:
+            break;
+        case QAbstractSocket::ConnectedState:
+            emit connectedChanged();
+            break;
+        case QAbstractSocket::BoundState:
+            break;
+        case QAbstractSocket::ListeningState:
+            break;
+        case QAbstractSocket::ClosingState:
+            break;
+        default:
+            break;
+    }
 }
 
 void Bridge::readDatagram() {
 
-    while(m_udpSocket->hasPendingDatagrams()) {
+    while ( m_udpSocket.hasPendingDatagrams() ) {
 
-        QNetworkDatagram networkDatagram = m_udpSocket->receiveDatagram(1024);
+        QNetworkDatagram networkDatagram = m_udpSocket.receiveDatagram(1024);
         QByteArray receivedData = networkDatagram.data();
 
         QHostAddress address = networkDatagram.senderAddress();
         int port = receivedData.toInt();        
 
-        qDebug() << "Host:" << address << "Port:" << port;
+        qCDebug( bridge ) << "Host:" << address << "Port:" << port;
 
-        m_tcpSocket->connectToHost(address, static_cast<quint16>( port ) );
+        m_tcpSocket.connectToHost(address, static_cast<quint16>( port ) );
 
     }
 
