@@ -52,6 +52,10 @@ ApplicationWindow {
         id: reconnectWindow;
     }
 
+    SettingsWindow {
+        id: settingsWindow;
+    }
+
     // This is defined in the cpp code and is then exposed to this QML enviroment
     Bridge {
         id: bridge;
@@ -63,10 +67,12 @@ ApplicationWindow {
 
                 // We are all connected, so the splashWindow and the reconnectWindow
                 // can be disabled.
-                console.log(splashWindow.visible)
                 if ( splashWindow.visible ) {
+
                     splashWindow.visible = false;
                     splashWindow.timeout();
+
+                    settingsWindow.show();
                 }
 
                 reconnectWindow.close();
@@ -304,7 +310,5 @@ ApplicationWindow {
             }
         }
     }
-    property var splashWindow: Splash {
-        onTimeout: root.visible = true;
-    }
+
 }
