@@ -21,7 +21,6 @@ Window {
         id: splashImage;
         source: "images/logo.png";
         anchors.centerIn: parent;
-
     }
 
     Text {
@@ -43,6 +42,5 @@ Window {
     Component.onCompleted: {
         visible = true;
     }
-
 
 }

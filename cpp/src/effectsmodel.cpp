@@ -116,6 +116,7 @@ QByteArray EffectsModel::toJson( QJsonDocument::JsonFormat t_fmt = QJsonDocument
 
                 QJsonObject parameterMap;
                 parameterMap[ "name" ] = parameter.name;
+                parameterMap[ "broadcastName" ] = parameter.broadcastName;
                 parameterMap[ "min" ] =parameter.min.toFloat();
                 parameterMap[ "max" ] = parameter.max.toFloat();
                 parameterMap[ "value" ] = parameter.value.toFloat(),
@@ -300,7 +301,9 @@ bool EffectsModel::loadSetlist( QString filePath ) {
 
 bool EffectsModel::saveSetlist( QString filePath ) {
 
-    QString outputFilePath = QDir::currentPath();
+    QString outputFilePath = dialogPath();
+
+    QDir( outputFilePath ).mkpath( outputFilePath );
 
     if ( !filePath.isEmpty() ) {
         if ( filePath.endsWith( '/' ) || filePath.endsWith( '\\' ) ) {
@@ -311,7 +314,7 @@ bool EffectsModel::saveSetlist( QString filePath ) {
 
         if ( !m_model.isEmpty() ) {
 
-            QFile jsonFile( filePath );
+            QFile jsonFile( outputFilePath );
             if ( jsonFile.open( QIODevice::WriteOnly ) ) {
 
                 jsonFile.write( toJson( QJsonDocument::Indented ) );

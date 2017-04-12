@@ -78,10 +78,6 @@ Rectangle {
                 }
             }
 
-            SettingsWindow {
-                id: settingsWindow;
-            }
-
             MouseArea {
                 anchors.fill: settingsArea;
                 hoverEnabled: true;
@@ -193,6 +189,7 @@ Rectangle {
                 folder: "file://" + effectsColumnArea.effectsListView.model.dialogPath()
                 onAccepted: {
                     effectsColumnArea.effectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
+                    bridge.tcpSend( effectsColumnArea.effectsListView.model.toBroadcastJson() );
                 }
 
             }
@@ -348,7 +345,7 @@ Rectangle {
                     onValueChanged: {
                         var JSON = '{"volume": ' + value + '}';
                         console.log(JSON);
-                        bridge.sendData( effectsColumnArea.effectsListView.model.toBroadcastJson(value) );
+                        bridge.tcpSend( effectsColumnArea.effectsListView.model.toBroadcastJson(value) );
                     }
                 }
             }
