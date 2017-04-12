@@ -78,10 +78,6 @@ Rectangle {
                 }
             }
 
-            SettingsWindow {
-                id: settingsWindow;
-            }
-
             MouseArea {
                 anchors.fill: settingsArea;
                 hoverEnabled: true;
