@@ -115,6 +115,13 @@ Rectangle {
                 color: "#5a5a5a";
             }
 
+            Behavior on border.color {
+                PropertyAnimation {
+                    duration: 350;
+                    easing.type: Easing.InCubic;
+                }
+            }
+
             SavePresetDialog {
                 id: savePresetDialog;
             }
@@ -143,8 +150,10 @@ Rectangle {
                     }
                     color: "#f1f1f1";
                 }
+            }
                 MouseArea {
-                    anchors.fill: parent;
+                    anchors.fill: savePreset;
+                    hoverEnabled: true;
                     onClicked: {
                         if ( savePresetDialog.visible === true ) {
                             savePresetDialog.close();
@@ -156,10 +165,15 @@ Rectangle {
                         savePreset.color = Theme.enabledButtonColor;
                     }
                     onReleased: {
-                        savePreset.color = Theme.inactiveButtonColor;
+                        savePreset.color = "transparent";
+                    }
+                    onEntered: {
+                        parent.border.color = Theme.highlighterColor;
+                    }
+                    onExited: {
+                        parent.border.color = "#5a5a5a";
                     }
                 }
-            }
         }
 
         Rectangle{
