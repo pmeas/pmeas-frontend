@@ -11,7 +11,7 @@ import Models 1.0
 ListView {
 
     id: enabledEffectsListView;
-    interactive: true;
+    interactive: false;
 
     ScrollBar.vertical: ScrollBar {
         width: 8;
