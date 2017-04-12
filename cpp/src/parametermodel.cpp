@@ -19,6 +19,7 @@ ParameterModel::ParameterModel( const QJsonArray &parameters, QObject *parent)  
 {
     beginInsertRows( QModelIndex(), m_model.size(), m_model.size() + parameters.size() );
 
+    qDebug( )<< "loading params";
     for ( const QJsonValue &val : parameters ) {
         QJsonObject parameterMap = val.toObject();
 

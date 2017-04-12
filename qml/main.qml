@@ -72,7 +72,7 @@ ApplicationWindow {
                     splashWindow.visible = false;
                     splashWindow.timeout();
 
-                    settingsWindow.show();
+//                    settingsWindow.show();
                 }
 
                 reconnectWindow.close();

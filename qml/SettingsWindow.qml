@@ -18,7 +18,6 @@ Window {
 
     onVisibleChanged: {
         if(visible === true) {
-            console.log("Getting ports")
             bridge.getPorts();
         }
     }

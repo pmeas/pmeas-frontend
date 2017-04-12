@@ -73,18 +73,18 @@ void Bridge::tcpSend(QByteArray message)
 
 void Bridge::updatePorts() {
     auto data = m_tcpSocket.readAll();
-    qDebug() << "Received: " << data;
+    //qDebug() << "Received: " << data;
     QJsonObject jsobj (QJsonDocument::fromJson(data).object());
     if(jsobj.contains("input")) {
         auto ins = jsobj["input"].toArray();
         m_inports = ins.toVariantList();
-        qDebug() << "in size: " << m_inports.size() << '\n';
+        //qDebug() << "in size: " << m_inports.size() << '\n';
         emit(inportsChanged());
     }
     if(jsobj.contains("output")) {
         auto outs = jsobj["output"].toArray();
         m_outports = outs.toVariantList();
-        qDebug() << "out size: " << m_outports.size() << '\n';
+        //qDebug() << "out size: " << m_outports.size() << '\n';
         emit(outportsChanged());
     }
 }
