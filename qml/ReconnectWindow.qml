@@ -1,5 +1,6 @@
-import QtQuick 2.3
+import QtQuick 2.7
 import QtQuick.Window 2.0
+import QtQuick.Controls 2.1
 
 Window {
     id: reconnectWindow;
@@ -11,6 +12,11 @@ Window {
 
     modality: Qt.ApplicationModal;
     flags: Qt.Window | Qt.FramelessWindowHint;
+
+    Button {
+        text: "CLOSE APP"
+        onClicked: Qt.quit()
+    }
 
     Text {
         anchors { centerIn: parent; }

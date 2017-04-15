@@ -25,13 +25,15 @@ HEADERS += \
     cpp/include/effect.h \
     cpp/include/effectsmodel.h \
     cpp/include/parameter.h \
-    cpp/include/parametermodel.h
+    cpp/include/parametermodel.h \
+    cpp/include/logging.h
 
 SOURCES += cpp/src/main.cpp \
     cpp/src/bridge.cpp \
     cpp/src/effect.cpp \
     cpp/src/effectsmodel.cpp \
-    cpp/src/parametermodel.cpp
+    cpp/src/parametermodel.cpp \
+    cpp/src/logging.cpp
 
 
 # You can also make your code fail to compile if you use deprecated APIs.

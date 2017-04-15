@@ -5,14 +5,13 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.2
 
 import Models 1.0
 
 ListView {
 
     id: enabledEffectsListView;
-    interactive: true;
+    interactive: false;
 
     ScrollBar.vertical: ScrollBar {
         width: 8;
@@ -61,6 +60,14 @@ ListView {
             bridge.tcpSend(effectsColumnArea.effectsListView.model.toBroadcastJson());
 
             enabledEffectsListView.draggedItemEntered = false;
+
+            if(tutorialTip.visible && tutorialState === 1) {
+                tutorialText.text = "Nice! You just enabled the " + drop.source.text + " effect.\n" +
+                        "Click on the effect to view its parameters.";
+                tutorialTip.x = parameterColumnArea.x;
+                tutorialTip.y = parameterColumnArea.y;
+                tutorialState++;
+            }
         }
 
         //onEntered: enabledEffectsListView.draggedItemEntered = true
@@ -134,56 +141,6 @@ ListView {
                 }
 
             }
-
-            FileDialog {
-                id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-                onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
-                }
-            }
-
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-            }
-
-            Image {
-                visible: false;
-                source: "./icons/document-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    enabled: false;
-                    anchors.fill: parent;
-                    onClicked: {
-                        saveSetlistDialog.open();
-                    }
-                }
-
-            }
-
-            Image {
-                visible: false;
-
-                source: "./icons/data-transfer-upload-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    enabled: false;
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                }
-            }
-
         }
     }
 
@@ -295,29 +252,36 @@ ListView {
             MouseArea {
                 id: enabledEffectBackgroundMouseArea;
                 anchors.fill: parent;
-                drag.target: parent;
+//                drag.target: parent;
                 hoverEnabled: true;
 
                 onClicked: {
-                    console.log("Clicked 'Enabled' " + effectName + " button" );
+                    //console.log("Clicked 'Enabled' " + effectName + " button" );
                     enabledEffectItem.checked = true;
 
-                }
-                drag.onActiveChanged: {
-                    if (drag.active) {
-                        effectsColumn.dragInProgress = true;
-                        enabledEffectsListView.dragItemIndex = index;
-                    } else {
-                        var oldIndex = index;
-                        var oldEffectName = effectName;
-
-                        console.log( oldIndex, oldEffectName)
-                        //enabledEffectsListView.model.remove( oldIndex, 1 );
-                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                    if(tutorialTip.visible && tutorialState === 2) {
+                        tutorialText.text = "Well done. These are the parameters for the " + effectName + " effect.\n" +
+                                "Drag one of the sliders to modify a parameter.";
+                        tutorialTip.width = 450;
+                        tutorialState++;
                     }
 
-                    enabledEffectBackground.Drag.drop();
                 }
+//                drag.onActiveChanged: {
+//                    if (drag.active) {
+//                        effectsColumn.dragInProgress = true;
+//                        enabledEffectsListView.dragItemIndex = index;
+//                    } else {
+//                        var oldIndex = index;
+//                        var oldEffectName = effectName;
+
+//                        console.log( oldIndex, oldEffectName)
+//                        //enabledEffectsListView.model.remove( oldIndex, 1 );
+//                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+//                    }
+
+//                    enabledEffectBackground.Drag.drop();
+//                }
 
                 onEntered: removeEnableEffectButton.opacity = 1.0;
                 onExited: removeEnableEffectButton.opacity = 0.0;
