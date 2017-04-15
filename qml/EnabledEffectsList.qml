@@ -5,16 +5,13 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import QtQuick.Dialogs 1.2
 
 import Models 1.0
 
 ListView {
 
     id: enabledEffectsListView;
-    interactive: true;
-
-
+    interactive: false;
 
     ScrollBar.vertical: ScrollBar {
         width: 8;
@@ -25,10 +22,18 @@ ListView {
         NumberAnimation {
             properties: "x";
             to: -enabledEffectsListView.width;
-            duration: 1200;
-            easing.type: Easing.InOutElastic;
+            duration: 25;
+            easing.type: Easing.Linear;
         }
      }
+
+    removeDisplaced: Transition {
+        NumberAnimation {
+            properties: "y";
+            duration: 300;
+            easing.type: Easing.OutCubic;
+        }
+    }
 
     spacing: 12;
 
@@ -48,13 +53,21 @@ ListView {
                 enabledEffectsListView.model.append( drop.source.type );
             } else if ( drop.source.category === "enabledEffects" ) {
                 console.log("FIX MOVING EFFECT!!!");
-                enabledEffectsListView.model.move( )
+                //enabledEffectsListView.model.move( )
             }
 
             console.log("Item dragged into enabled area");
-            bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
+            bridge.tcpSend(effectsColumnArea.effectsListView.model.toBroadcastJson());
 
             enabledEffectsListView.draggedItemEntered = false;
+
+            if(tutorialTip.visible && tutorialState === 1) {
+                tutorialText.text = "Nice! You just enabled the " + drop.source.text + " effect.\n" +
+                        "Click on the effect to view its parameters.";
+                tutorialTip.x = parameterColumnArea.x;
+                tutorialTip.y = parameterColumnArea.y;
+                tutorialState++;
+            }
         }
 
         //onEntered: enabledEffectsListView.draggedItemEntered = true
@@ -128,51 +141,6 @@ ListView {
                 }
 
             }
-
-            FileDialog {
-                id: loadSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-                onAccepted: {
-                    enabledEffectsListView.model.loadSetlist( fileUrl.toString().replace( "file://", "" ) )
-                }
-            }
-
-            FileDialog {
-                id: saveSetlistDialog;
-                nameFilters: ["JSON files (*.json)"];
-            }
-
-            Image {
-                source: "./icons/document-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        saveSetlistDialog.open();
-                    }
-                }
-
-            }
-
-            Image {
-                source: "./icons/data-transfer-upload-2x.png";
-                sourceSize {
-                    height: 14;
-                    width: height;
-                }
-
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-                        loadSetlistDialog.open();
-                    }
-                }
-            }
-
         }
     }
 
@@ -252,7 +220,7 @@ ListView {
                     anchors.fill: parent;
                     onClicked: {
                         enabledEffectsListView.model.remove( index );
-                        bridge.sendData(effectsColumnArea.effectsListView.model.toBroadcastJson());
+                        bridge.tcpSend(effectsColumnArea.effectsListView.model.toBroadcastJson());
                     }
                 }
             }
@@ -284,29 +252,36 @@ ListView {
             MouseArea {
                 id: enabledEffectBackgroundMouseArea;
                 anchors.fill: parent;
-                drag.target: parent;
+//                drag.target: parent;
                 hoverEnabled: true;
 
                 onClicked: {
-                    console.log("Clicked 'Enabled' " + effectName + " button" );
+                    //console.log("Clicked 'Enabled' " + effectName + " button" );
                     enabledEffectItem.checked = true;
 
-                }
-                drag.onActiveChanged: {
-                    if (drag.active) {
-                        effectsColumn.dragInProgress = true;
-                        enabledEffectsListView.dragItemIndex = index;
-                    } else {
-                        var oldIndex = index;
-                        var oldEffectName = effectName;
-
-                        console.log( oldIndex, oldEffectName)
-                        //enabledEffectsListView.model.remove( oldIndex, 1 );
-                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+                    if(tutorialTip.visible && tutorialState === 2) {
+                        tutorialText.text = "Well done. These are the parameters for the " + effectName + " effect.\n" +
+                                "Drag one of the sliders to modify a parameter.";
+                        tutorialTip.width = 450;
+                        tutorialState++;
                     }
 
-                    enabledEffectBackground.Drag.drop();
                 }
+//                drag.onActiveChanged: {
+//                    if (drag.active) {
+//                        effectsColumn.dragInProgress = true;
+//                        enabledEffectsListView.dragItemIndex = index;
+//                    } else {
+//                        var oldIndex = index;
+//                        var oldEffectName = effectName;
+
+//                        console.log( oldIndex, oldEffectName)
+//                        //enabledEffectsListView.model.remove( oldIndex, 1 );
+//                        //enabledEffectsListView.model.insert( oldIndex, { "effectName": oldEffectName } );
+//                    }
+
+//                    enabledEffectBackground.Drag.drop();
+//                }
 
                 onEntered: removeEnableEffectButton.opacity = 1.0;
                 onExited: removeEnableEffectButton.opacity = 0.0;
