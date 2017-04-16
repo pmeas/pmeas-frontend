@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.1
 
 Window {
     // Responsible for the splash screen upon loading of application.
@@ -16,6 +17,15 @@ Window {
     y: (Screen.height - splashImage.height) / 2;
     width: splashImage.width;
     height: splashImage.height;
+    BusyIndicator {
+        id: networkSpinner
+        running: timer.running
+        anchors {
+            verticalCenter: splashImage.bottom;
+            verticalCenterOffset: -128;
+            horizontalCenter: splashImage.horizontalCenter;
+        }
+    }
 
     Image {
         id: splashImage;
@@ -23,24 +33,42 @@ Window {
         anchors.centerIn: parent;
     }
 
-    Text {
+    MessageDialog {
         id: errorMessage
         visible: false
-        text: "Could not establish connection :( make sure it's all good"
+        title: "Could not establish network connection"
+        icon: StandardIcon.Critical
+        informativeText: "The backend failed to respond within "+durationOfSplash+" ms.\n"+
+                         "Please make sure that the backend has power and a network connection.\n"+
+                         "If the problem persists, try ethernet\n"
+        width: 2000
+        standardButtons: StandardButton.Retry | StandardButton.Close
+        onAccepted: tryConnect()
+        onRejected: Qt.quit()
+    }
+
+    function tryConnect(){
+        timer.start()
+        networkSpinner.running = true;
+        bridge.beginUDPBroadcast();
+        bridge.tcpSocketConnected.connect(function () {
+            visible = false;
+            splashScreen.timeout();
+        });
+        visible = true;
     }
 
     Timer {
         id: timer;
         interval: durationOfSplash;
-        running: true;
         repeat: false;
         onTriggered: {
-            errorMessage.visible = true;
+            networkSpinner.running = false;
+            errorMessage.setWidth(400)
+            errorMessage.open()
         }
     }
 
-    Component.onCompleted: {
-        visible = true;
-    }
+    Component.onCompleted: tryConnect()
 
 }
