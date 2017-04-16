@@ -54,12 +54,17 @@ Window {
         visible = true;
     }
 
+    InitializePortsWindow {
+        id: initializePortsWindow;
+    }
+
     function stop()
     {
         timer.running = false;
         timer.stop();
         visible = false;
         splashScreen.timeout();
+        initializePortsWindow.show();
     }
 
     Timer {

@@ -20,5 +20,6 @@
         <file>ControlBar.qml</file>
         <file>PSlider.qml</file>
         <file>SavePresetDialog.qml</file>
+        <file>InitializePortsWindow.qml</file>
     </qresource>
 </RCC>
