@@ -15,7 +15,7 @@ Window {
     width: 600;
     height: 300;
     modality: Qt.ApplicationModal;
-    flags: Qt.Window;
+    flags: Qt.Dialog;
     color: "#332f2f";
 
     onVisibleChanged: {
@@ -26,7 +26,10 @@ Window {
 
     ColumnLayout {
         id: devicesColumn;
-        anchors.centerIn: parent;
+        anchors {
+            centerIn: parent;
+            verticalCenterOffset: -20;
+        }
         spacing: 12;
 
         Text {
@@ -87,6 +90,7 @@ Window {
                     bridge.currentIn = inputs.currentText;
                     bridge.currentOut = outputs.currentText;
                     bridge.sendPorts();
+                    initPortsWindow.close();
                 }
                 onPressed: {
                     parent.color = Theme.enabledButtonColor;
