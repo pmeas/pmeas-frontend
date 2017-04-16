@@ -13,17 +13,15 @@ ListView {
 
     property ButtonGroup exclusiveGroup;
 
-
     model: EffectsModel {
         Effect { effectType: Effect.Distortion; }
         Effect { effectType: Effect.Delay; }
         Effect { effectType: Effect.Chorus; }
         Effect { effectType: Effect.Flanger; }
-        //Effect { effectType: Effect.FrequencyShift; }
+        Effect { effectType: Effect.FrequencyShift; }
         Effect { effectType: Effect.Harmonizer; }
-        Effect { effectType: Effect.Phaser; }
+        //Effect { effectType: Effect.Phaser; }
         Effect { effectType: Effect.Reverb; }
-
     }
 
     header: Rectangle {
@@ -49,7 +47,7 @@ ListView {
     }
 
     delegate: EffectButton {
-        exclusiveGroup: effectsExclusiveGroup;
+        //exclusiveGroup: effectsExclusiveGroup;
     }
 
     /*

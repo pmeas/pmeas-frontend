@@ -19,14 +19,15 @@ ParameterModel::ParameterModel( const QJsonArray &parameters, QObject *parent)  
 {
     beginInsertRows( QModelIndex(), m_model.size(), m_model.size() + parameters.size() );
 
+    qDebug( )<< "loading params";
     for ( const QJsonValue &val : parameters ) {
         QJsonObject parameterMap = val.toObject();
 
         m_model.append( Parameter{ parameterMap[ "name" ].toString()
                                    , parameterMap[ "broadcastName" ].toString()
-                                   , parameterMap[ "min" ].toInt()
-                                   , parameterMap[ "max" ].toInt()
-                                   , parameterMap[ "value"].toInt() } );
+                                   , parameterMap[ "min" ].toVariant()
+                                   , parameterMap[ "max" ].toVariant()
+                                   , parameterMap[ "value"].toVariant() } );
     }
 
     endInsertRows();
@@ -183,7 +184,7 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
 
         case Effect::Type::Delay:
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.5 } );
-            m_model.append(Parameter { "Delay Time", "delay", 0, 10, 1}); // Added temporarily.
+            m_model.append(Parameter { "Delay Time", "delay", 0, 5, 1}); // Added temporarily.
             //m_model.append( Parameter{ "Delay Time", "delay", 0, 100, QVariantList{ 0, 0 } } );
             break;
 
@@ -217,7 +218,8 @@ void ParameterModel::initializeParameters( Effect::Type t_type ) {
         case Effect::Type::Chorus:
             m_model.append( Parameter{ "Balance", "balance", 0, 1, 0.5 } );
             m_model.append( Parameter{ "Feedback", "feedback", 0, 1, 0.25 } );
-            m_model.append( Parameter{ "Depth", "depth", 0, 5, 1 } );
+            m_model.append( Parameter{ "Depth Minimum", "depth_min", 0, 5, 1 } );
+            m_model.append( Parameter{ "Depth Maximum", "depth_max", 0, 5, 1 } );
             //m_model.append( Parameter{ "Depth", "depth", 0, 5, QVariant{ 0, 0 } } );
             break;
 

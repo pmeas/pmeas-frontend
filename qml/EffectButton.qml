@@ -112,15 +112,15 @@ Item {
 
                     effectsListView.model.remove( oldIndex );
                     effectsListView.model.insert( oldIndex, oldEffectType );
+                    
                     enabledEffectsListView.draggedItemEntered = false;
                 }
 
                 effectButtonBackground.Drag.drop();
             }
 
-            onClicked: {
-                allEffectItem.checked = true;
-            }
+            onPressed: allEffectItem.checked = true;
+            onReleased: allEffectItem.checked = false;
 
         }
 
