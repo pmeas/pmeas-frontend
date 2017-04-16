@@ -64,17 +64,8 @@ ApplicationWindow {
                 // Whenever the bridge is disconnected, it will display the connection window.
                 reconnectWindow.show();
             } else {
-
-                // We are all connected, so the splashWindow and the reconnectWindow
-                // can be disabled.
-                if ( splashWindow.visible ) {
-
-                    splashWindow.visible = false;
-                    splashWindow.timeout();
-
 //                    settingsWindow.show();
-                }
-
+                splashWindow.stop();
                 reconnectWindow.close();
             }
 

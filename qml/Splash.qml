@@ -51,13 +51,16 @@ Window {
         timer.start()
         networkSpinner.running = true;
         bridge.beginUDPBroadcast();
-        bridge.tcpSocketConnected.connect(function () {
-            timer.running = false;
-            timer.stop();
-            visible = false;
-            splashScreen.timeout();
-        });
+        bridge.tcpSocketConnected.connect(stop);
         visible = true;
+    }
+
+    function stop()
+    {
+        timer.running = false;
+        timer.stop();
+        visible = false;
+        splashScreen.timeout();
     }
 
     Timer {
