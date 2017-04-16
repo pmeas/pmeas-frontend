@@ -52,6 +52,7 @@ Window {
         networkSpinner.running = true;
         bridge.beginUDPBroadcast();
         bridge.tcpSocketConnected.connect(function () {
+            timer.stop()
             visible = false;
             splashScreen.timeout();
         });
