@@ -29,7 +29,7 @@ Window {
 
     Image {
         id: splashImage;
-        source: "images/logo.png";
+        source: "images/splash.png";
         anchors.centerIn: parent;
     }
 

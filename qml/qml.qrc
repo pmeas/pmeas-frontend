@@ -6,6 +6,7 @@
         <file>SettingsWindow.qml</file>
         <file>Splash.qml</file>
         <file>images/logo.png</file>
+	<file>images/splash.png</file>
         <file>icons/cog-2x.png</file>
         <file>Theme.qml</file>
         <file>EffectButton.qml</file>
