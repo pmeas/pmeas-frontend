@@ -47,12 +47,15 @@ Window {
         onRejected: Qt.quit()
     }
 
-    function tryConnect(){
+    function tryConnect()
+    {
         timer.start()
         networkSpinner.running = true;
-        bridge.beginUDPBroadcast();
-        bridge.tcpSocketConnected.connect(stop);
         visible = true;
+    }
+
+    InitializePortsWindow {
+        id: initializePortsWindow;
     }
 
     function stop()
@@ -61,6 +64,7 @@ Window {
         timer.stop();
         visible = false;
         splashScreen.timeout();
+        initializePortsWindow.show();
     }
 
     Timer {

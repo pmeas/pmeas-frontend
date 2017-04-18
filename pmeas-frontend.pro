@@ -6,7 +6,7 @@ CONFIG += c++14
 RESOURCES += qml/qml.qrc
 
 INCLUDEPATH += cpp/include
-
+RC_FILE = pmeas.rc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -45,3 +45,6 @@ SOURCES += cpp/src/main.cpp \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    pmeas.rc

@@ -64,7 +64,6 @@ ApplicationWindow {
                 // Whenever the bridge is disconnected, it will display the connection window.
                 reconnectWindow.show();
             } else {
-//                    settingsWindow.show();
                 splashWindow.stop();
                 reconnectWindow.close();
             }
