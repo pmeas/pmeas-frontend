@@ -49,6 +49,7 @@ Window {
 
     function tryConnect()
     {
+        bridge.beginUDPBroadcast();
         timer.start()
         networkSpinner.running = true;
         visible = true;
