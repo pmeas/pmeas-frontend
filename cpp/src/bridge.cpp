@@ -48,7 +48,7 @@ void Bridge::classBegin() {
 void Bridge::componentComplete() {
     //emit connectedChanged();
 
-    beginUDPBroadcast();
+    //beginUDPBroadcast();
 }
 
 // Tell the listening backend device that we are hearing them!
